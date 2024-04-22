@@ -6,12 +6,22 @@ import {
   Td,
   Text,
   Tr,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 
 function TablesTableRow(props) {
-  const { logo, name, email, subdomain, domain, status, date, isLast } = props;
+  const {
+    avatar,
+    name,
+    userName,
+    specialization,
+    qualification,
+    earning,
+    pending,
+    isLast,
+    success,
+  } = props;
   const textColor = useColorModeValue("gray.500", "white");
   const titleColor = useColorModeValue("gray.700", "white");
   const bgStatus = useColorModeValue("gray.400", "navy.900");
@@ -26,7 +36,7 @@ function TablesTableRow(props) {
         borderBottom={isLast ? "none" : null}
       >
         <Flex align="center" py=".8rem" minWidth="100%" flexWrap="nowrap">
-          <Avatar src={logo} w="50px" borderRadius="12px" me="18px" />
+          <Avatar src={avatar} w="50px" borderRadius="12px" me="18px" />
           <Flex direction="column">
             <Text
               fontSize="md"
@@ -37,7 +47,7 @@ function TablesTableRow(props) {
               {name}
             </Text>
             <Text fontSize="sm" color="gray.400" fontWeight="normal">
-              {email}
+              {userName}
             </Text>
           </Flex>
         </Flex>
@@ -46,27 +56,46 @@ function TablesTableRow(props) {
       <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
         <Flex direction="column">
           <Text fontSize="md" color={textColor} fontWeight="bold">
-            {domain}
+            {specialization}
           </Text>
-          <Text fontSize="sm" color="gray.400" fontWeight="normal">
-            {subdomain}
-          </Text>
+          <Flex direction={"row"} gap={2}>
+            {qualification.map((item, index) => {
+              return (
+                <Text
+                  key={index}
+                  fontSize="sm"
+                  color="gray.400"
+                  fontWeight="normal"
+                >
+                  {item}
+                </Text>
+              );
+            })}
+          </Flex>
         </Flex>
       </Td>
       <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
         <Badge
-          bg={status === "Online" ? "green.400" : bgStatus}
-          color={status === "Online" ? "white" : "white"}
+          bg={
+            parseInt(earning) > 1000
+              ? "blue.400"
+              : parseInt(earning) > 500
+              ? "green.400"
+              : parseInt(earning) >= 100
+              ? "yellow.400"
+              : bgStatus
+          }
+          color={earning === "Online" ? "white" : "white"}
           fontSize="16px"
           p="3px 10px"
           borderRadius="8px"
         >
-          {status}
+          {"Rs. " + earning}
         </Badge>
       </Td>
       <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
         <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
-          {date}
+          {pending}
         </Text>
       </Td>
       <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
@@ -77,7 +106,7 @@ function TablesTableRow(props) {
             fontWeight="bold"
             cursor="pointer"
           >
-            Edit
+            {success}
           </Text>
         </Button>
       </Td>

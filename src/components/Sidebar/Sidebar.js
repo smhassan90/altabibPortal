@@ -14,7 +14,7 @@ import {
   Text,
   useColorMode,
   useColorModeValue,
-  useDisclosure
+  useDisclosure,
 } from "@chakra-ui/react";
 import IconBox from "components/Icons/IconBox";
 import {
@@ -23,15 +23,13 @@ import {
   renderTrack,
   renderTrackRTL,
   renderView,
-  renderViewRTL
+  renderViewRTL,
 } from "components/Scrollbar/Scrollbar";
 import { HSeparator } from "components/Separator/Separator";
 import { SidebarHelp } from "components/Sidebar/SidebarHelp";
 import React from "react";
 import { Scrollbars } from "react-custom-scrollbars";
 import { NavLink, useLocation } from "react-router-dom";
-
-
 
 // FUNCTIONS
 
@@ -255,7 +253,6 @@ function Sidebar(props) {
             <Stack direction="column" mb="40px">
               <Box>{links}</Box>
             </Stack>
-            <SidebarHelp sidebarVariant={sidebarVariant} />
           </Scrollbars>
         </Box>
       </Box>
@@ -486,7 +483,6 @@ export function SidebarResponsive(props) {
               <Stack direction="column" mb="40px">
                 <Box>{links}</Box>
               </Stack>
-              <SidebarHelp />
             </Box>
           </DrawerBody>
         </DrawerContent>

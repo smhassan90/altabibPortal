@@ -8,6 +8,24 @@ import avatar7 from "assets/img/avatars/avatar7.png";
 import avatar8 from "assets/img/avatars/avatar8.png";
 import avatar9 from "assets/img/avatars/avatar9.png";
 import avatar10 from "assets/img/avatars/avatar10.png";
+
+//avatars
+
+const dp1 =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMq47UqcDU9G8SbR9WzZUhRzXNWRIp-qCKsyL7bM-N6g&s";
+const dp2 =
+  "https://citilab.org.pk/wp-content/uploads/2018/05/furqan-e1597046240349.png";
+const dp3 =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpUms_cxGowy5470OlkGIbsAC08aR2cNoMh-HrGNwlkA&s";
+const dp4 =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS36lNGwmClfWGZgHJr75JSdYBFjKIJ_qvB-OHFWzwaYQ&s";
+const dp5 =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2jP0PF5oW6bpV29ArHF1X6lYG4di65w0Apa91I9EtJA&s";
+const dp6 =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5IJEHuHuY9OIw9bxPPZkK4MIPj8rSd5xAL6yjPQnhjQ&s";
+const dp7 =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQHT8xKcP5bHgGkREJO-paS7TmToXVXfVKGIwOIv0TygQ&s";
+
 // Custom icons
 import {
   AdobexdLogo,
@@ -28,6 +46,7 @@ import {
   FaShoppingCart,
 } from "react-icons/fa";
 import { SiDropbox } from "react-icons/si";
+import { token } from "stylis";
 
 export const dashboardTableData = [
   {
@@ -196,58 +215,74 @@ export const rtlTimelineData = [
 
 export const tablesTableData = [
   {
-    logo: avatar1,
-    name: "Esthera Jackson",
-    email: "alexa@simmmple.com",
-    subdomain: "Manager",
-    domain: "Organization",
-    status: "Online",
-    date: "14/06/21",
+    avatar: dp1,
+    name: "Furqan Mangrio",
+    userName: "furqan_ahmed.mangrio",
+    specialization: "Dentist",
+    qualification: ["FCPS", "BDS", "DDS"],
+    earning: "0",
+    pending: "18",
+    success: "0",
   },
   {
-    logo: avatar2,
-    name: "Alexa Liras",
-    email: "laurent@simmmple.com",
-    subdomain: "Programmer",
-    domain: "Developer",
-    status: "Offline",
-    date: "12/05/21",
+    avatar: dp2,
+    name: "Syed Faheem Ahmed",
+    userName: "sfaheem5",
+    specialization: "Cardiologist",
+    qualification: ["FCPS", "DM Cardiology"],
+    earning: "450",
+    pending: "4",
+    success: "7",
   },
   {
-    logo: avatar3,
-    name: "Laurent Michael",
-    email: "laurent@simmmple.com",
-    subdomain: "Executive",
-    domain: "Projects",
-    status: "Online",
-    date: "07/06/21",
+    avatar: dp3,
+    name: "Ayesha Khalid",
+    userName: "Ayesha90Khalid",
+    specialization: "Gastroenterologist",
+    qualification: ["DM Gastroenterology"],
+    earning: "650",
+    pending: "6",
+    success: "12",
   },
   {
-    logo: avatar4,
-    name: "Freduardo Hill",
-    email: "freduardo@simmmple.com",
-    subdomain: "Manager",
-    domain: "Organization",
-    status: "Online",
-    date: "14/11/21",
+    avatar: dp4,
+    name: "Umme Qulsoom",
+    userName: "Qulsoom_123",
+    specialization: "Dentist",
+    qualification: ["DM Dentistry"],
+    earning: "1100",
+    pending: "1",
+    success: "14",
+  },
+];
+
+export const patientData = [
+  {
+    patientName: "Ali",
+    token: "01",
+    age: "25",
+    drName: "Dr. Furqan Mangrio",
+    followUp: "2/5/2024",
+    status: "Completed",
+    fees: "500",
   },
   {
-    logo: avatar5,
-    name: "Daniel Thomas",
-    email: "daniel@simmmple.com",
-    subdomain: "Programmer",
-    domain: "Developer",
-    status: "Offline",
-    date: "21/01/21",
+    patientName: "Ahmed",
+    token: "02",
+    age: "37",
+    drName: "Dr. Faheem Ahmed",
+    followUp: "2/5/2024",
+    status: "Completed",
+    fees: "700",
   },
   {
-    logo: avatar7,
-    name: "Mark Wilson",
-    email: "mark@simmmple.com",
-    subdomain: "Designer",
-    domain: "UI/UX Design",
-    status: "Offline",
-    date: "04/09/20",
+    patientName: "Fatima",
+    token: "03",
+    age: "12",
+    drName: "Dr. Umme Qulsoom",
+    followUp: "2/5/2024",
+    status: "Pending",
+    fees: "500",
   },
 ];
 
@@ -395,33 +430,33 @@ export const pageVisits = [
     pageName: "/argon/",
     visitors: "4,569",
     uniqueUsers: 340,
-    bounceRate: "46,53%"
+    bounceRate: "46,53%",
   },
   {
     pageName: "/argon/index.html",
     visitors: "3,985",
     uniqueUsers: 319,
-    bounceRate: "46,53%"
+    bounceRate: "46,53%",
   },
   {
     pageName: "/argon/charts.html",
     visitors: "3,513",
     uniqueUsers: 294,
-    bounceRate: "36,49%"
+    bounceRate: "36,49%",
   },
   {
     pageName: "/argon/tables.html",
     visitors: "2,050",
     uniqueUsers: 147,
-    bounceRate: "50,87%"
+    bounceRate: "50,87%",
   },
   {
     pageName: "/argon/profile.html",
     visitors: "1,795",
     uniqueUsers: 190,
-    bounceRate: "46,53%"
+    bounceRate: "46,53%",
   },
-]
+];
 
 export const socialTraffic = [
   {
@@ -453,5 +488,5 @@ export const socialTraffic = [
     visitors: "2,645",
     percentage: 30,
     color: "orange",
-  }
-]
+  },
+];

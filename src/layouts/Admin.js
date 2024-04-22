@@ -5,6 +5,7 @@ import {
   Stack,
   Box,
   useColorMode,
+  Image,
 } from "@chakra-ui/react";
 import Configurator from "components/Configurator/Configurator";
 import Footer from "components/Footer/Footer.js";
@@ -14,6 +15,7 @@ import {
   ChakraLogoDark,
   ChakraLogoLight,
 } from "components/Icons/Icons";
+import alTabibLogo from "assets/img/alTabibLogo.jpeg";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
@@ -108,43 +110,35 @@ export default function Dashboard(props) {
   return (
     <Box>
       <Box
-        minH='40vh'
-        w='100%'
-        position='absolute'
+        minH="40vh"
+        w="100%"
+        position="absolute"
         bgImage={colorMode === "light" ? bgAdmin : "none"}
         bg={colorMode === "light" ? bgAdmin : "navy.900"}
-        bgSize='cover'
-        top='0'
+        bgSize="cover"
+        top="0"
       />
       <Sidebar
         routes={routes}
         logo={
-          <Stack direction='row' spacing='12px' align='center' justify='center'>
-            {colorMode === "dark" ? (
-              <ArgonLogoLight w='74px' h='27px' />
-            ) : (
-              <ArgonLogoDark w='74px' h='27px' />
-            )}
-            <Box
-              w='1px'
-              h='20px'
-              bg={colorMode === "dark" ? "white" : "gray.700"}
+          <Stack direction="row" spacing="12px" align="center" justify="center">
+            <Image
+              src={alTabibLogo}
+              alt="Al Tabib Logo"
+              width="200"
+              height="100px"
             />
-            {colorMode === "dark" ? (
-              <ChakraLogoLight w='82px' h='21px' />
-            ) : (
-              <ChakraLogoDark w='82px' h='21px' />
-            )}
           </Stack>
         }
-        display='none'
+        display="none"
         {...rest}
       />
       <MainPanel
         w={{
           base: "100%",
           xl: "calc(100% - 275px)",
-        }}>
+        }}
+      >
         <Portal>
           <AdminNavbar
             onOpen={onOpen}
@@ -159,7 +153,7 @@ export default function Dashboard(props) {
             <PanelContainer>
               <Switch>
                 {getRoutes(routes)}
-                <Redirect from='/admin' to='/admin/dashboard' />
+                <Redirect from="/admin" to="/admin/dashboard" />
               </Switch>
             </PanelContainer>
           </PanelContent>

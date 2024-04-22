@@ -7,16 +7,20 @@ import {
   Th,
   Thead,
   Tr,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
-// Custom components
+
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
 import TablesProjectRow from "components/Tables/TablesProjectRow";
 import TablesTableRow from "components/Tables/TablesTableRow";
 import React from "react";
-import { tablesProjectData, tablesTableData } from "variables/general";
+import {
+  tablesProjectData,
+  tablesTableData,
+  patientData,
+} from "variables/general";
 
 function Tables() {
   const textColor = useColorModeValue("gray.700", "white");
@@ -27,19 +31,28 @@ function Tables() {
       <Card overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
         <CardHeader p="6px 0px 22px 0px">
           <Text fontSize="xl" color={textColor} fontWeight="bold">
-            Authors Table
+            Doctors
           </Text>
         </CardHeader>
         <CardBody>
           <Table variant="simple" color={textColor}>
             <Thead>
-              <Tr my=".8rem" pl="0px" color="gray.400" >
-                <Th pl="0px" borderColor={borderColor} color="gray.400" >
-                  Author
+              <Tr my=".8rem" pl="0px" color="gray.400">
+                <Th pl="0px" borderColor={borderColor} color="gray.400">
+                  Name
                 </Th>
-                <Th borderColor={borderColor} color="gray.400" >Function</Th>
-                <Th borderColor={borderColor} color="gray.400" >Status</Th>
-                <Th borderColor={borderColor} color="gray.400" >Employed</Th>
+                <Th borderColor={borderColor} color="gray.400">
+                  specialization
+                </Th>
+                <Th borderColor={borderColor} color="gray.400">
+                  Earnings
+                </Th>
+                <Th borderColor={borderColor} color="gray.400">
+                  Pending
+                </Th>
+                <Th borderColor={borderColor} color="gray.400">
+                  Successfull
+                </Th>
                 <Th borderColor={borderColor}></Th>
               </Tr>
             </Thead>
@@ -48,12 +61,13 @@ function Tables() {
                 return (
                   <TablesTableRow
                     name={row.name}
-                    logo={row.logo}
-                    email={row.email}
-                    subdomain={row.subdomain}
-                    domain={row.domain}
-                    status={row.status}
-                    date={row.date}
+                    avatar={row.avatar}
+                    userName={row.userName}
+                    specialization={row.specialization}
+                    qualification={row.qualification}
+                    earning={row.earning}
+                    pending={row.pending}
+                    success={row.success}
                     isLast={index === arr.length - 1 ? true : false}
                     key={index}
                   />
@@ -63,15 +77,11 @@ function Tables() {
           </Table>
         </CardBody>
       </Card>
-      <Card
-        my="22px"
-        overflowX={{ sm: "scroll", xl: "hidden" }}
-        pb="0px"
-      >
+      <Card my="22px" overflowX={{ sm: "scroll", xl: "hidden" }} pb="0px">
         <CardHeader p="6px 0px 22px 0px">
           <Flex direction="column">
             <Text fontSize="lg" color={textColor} fontWeight="bold" pb=".5rem">
-              Projects Table
+              Appointments
             </Text>
           </Flex>
         </CardHeader>
@@ -80,23 +90,39 @@ function Tables() {
             <Thead>
               <Tr my=".8rem" pl="0px">
                 <Th pl="0px" color="gray.400" borderColor={borderColor}>
-                  Companies
+                  Name
                 </Th>
-                <Th color="gray.400" borderColor={borderColor}>Budget</Th>
-                <Th color="gray.400" borderColor={borderColor}>Status</Th>
-                <Th color="gray.400" borderColor={borderColor}>Completion</Th>
-                <Th></Th>
+                <Th color="gray.400" borderColor={borderColor}>
+                  Token
+                </Th>
+                <Th color="gray.400" borderColor={borderColor}>
+                  Age
+                </Th>
+                <Th color="gray.400" borderColor={borderColor}>
+                  Doctor
+                </Th>
+                <Th color="gray.400" borderColor={borderColor}>
+                  Follow-up
+                </Th>
+                <Th color="gray.400" borderColor={borderColor}>
+                  Status
+                </Th>
+                <Th color="gray.400" borderColor={borderColor}>
+                  Fees
+                </Th>
               </Tr>
             </Thead>
             <Tbody>
-              {tablesProjectData.map((row, index, arr) => {
+              {patientData.map((row, index, arr) => {
                 return (
                   <TablesProjectRow
-                    name={row.name}
-                    logo={row.logo}
+                    patientName={row.patientName}
+                    token={row.token}
+                    age={row.age}
+                    drName={row.drName}
+                    followUp={row.followUp}
                     status={row.status}
-                    budget={row.budget}
-                    progression={row.progression}
+                    fees={row.fees}
                     isLast={index === arr.length - 1 ? true : false}
                     key={index}
                   />
