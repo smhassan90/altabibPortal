@@ -29,13 +29,9 @@ export default function Footer(props) {
         <Text as="span">
           {document.documentElement.dir === "rtl"
             ? "محبت کے ساتھ بنایا گیا"
-            : "Made with ❤️ by "}
+            : "Made by "}
         </Text>
-        <Link
-          color="blue.400"
-          href="https://www.creative-tim.com"
-          target="_blank"
-        >
+        <Link color="blue.400" href="https://www.fynals.com" target="_blank">
           {document.documentElement.dir === "rtl"
             ? " فائنل سولیوشنز"
             : "Fynal Solutions "}

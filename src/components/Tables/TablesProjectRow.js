@@ -76,22 +76,22 @@ function DashboardTableRow(props) {
           </Flex>
         </Td>
         <Td borderColor={borderColor}>
-          <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+          <Text fontSize="md" color={textColor} fontWeight="normal" pb=".5rem">
             {token}
           </Text>
         </Td>
         <Td borderColor={borderColor}>
-          <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+          <Text fontSize="md" color={textColor} fontWeight="normal" pb=".5rem">
             {age}
           </Text>
         </Td>
         <Td borderColor={borderColor}>
-          <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+          <Text fontSize="md" color={textColor} fontWeight="normal" pb=".5rem">
             {drName}
           </Text>
         </Td>
         <Td borderColor={borderColor}>
-          <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+          <Text fontSize="md" color={textColor} fontWeight="normal" pb=".5rem">
             {followUp}
           </Text>
         </Td>
@@ -102,6 +102,7 @@ function DashboardTableRow(props) {
             fontSize="16px"
             p="3px 10px"
             borderRadius="8px"
+            fontWeight={"normal"}
           >
             {status}
           </Badge>

@@ -15,7 +15,7 @@ import {
   ChakraLogoDark,
   ChakraLogoLight,
 } from "components/Icons/Icons";
-import alTabibLogo from "assets/img/alTabibLogo.jpeg";
+import alTabibLogo from "assets/img/alTabibLogo.png";
 // Layout components
 import AdminNavbar from "components/Navbars/AdminNavbar.js";
 import Sidebar from "components/Sidebar/Sidebar.js";
@@ -125,8 +125,8 @@ export default function Dashboard(props) {
             <Image
               src={alTabibLogo}
               alt="Al Tabib Logo"
-              width="200"
-              height="100px"
+              width="200px"
+              height="150px"
             />
           </Stack>
         }

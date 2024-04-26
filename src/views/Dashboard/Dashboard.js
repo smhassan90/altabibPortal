@@ -55,16 +55,18 @@ export default function Dashboard() {
 
   return (
     <Flex gap={5} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
-      <Select
-        fontWeight="bold"
-        bg={"white"}
-        color={"black"}
-        borderColor={"white"}
-        placeholder="Select option"
-      >
-        <option value="option1">Last 30 days</option>
-        <option value="option2">Daily</option>
-      </Select>
+      <Flex flexDirection={"row"} w={"15%"}>
+        <Select
+          fontWeight="normal"
+          bg={"white"}
+          color={"black"}
+          borderColor={"white"}
+          placeholder="Select option"
+        >
+          <option value="option1">Last 30 days</option>
+          <option value="option2">Daily</option>
+        </Select>
+      </Flex>
       <SimpleGrid columns={{ sm: 1, md: 2, xl: 4 }} spacing="24px" mb="20px">
         <Card minH="125px">
           <Flex direction="column">
@@ -82,7 +84,7 @@ export default function Dashboard() {
                   fontWeight="bold"
                   textTransform="uppercase"
                 >
-                  Total OPDs
+                  Total Appointments
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
@@ -124,7 +126,7 @@ export default function Dashboard() {
                   fontWeight="bold"
                   textTransform="uppercase"
                 >
-                  Total Appointments
+                  Successfull OPDs
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
@@ -208,11 +210,11 @@ export default function Dashboard() {
                   fontWeight="bold"
                   textTransform="uppercase"
                 >
-                  Total Sales
+                  Total Earnings
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    $173,000
+                    Rs. 573,000
                   </StatNumber>
                 </Flex>
               </Stat>

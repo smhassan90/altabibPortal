@@ -89,12 +89,13 @@ function TablesTableRow(props) {
           fontSize="16px"
           p="3px 10px"
           borderRadius="8px"
+          fontWeight={"normal"}
         >
           {"Rs. " + earning}
         </Badge>
       </Td>
       <Td borderColor={borderColor} borderBottom={isLast ? "none" : null}>
-        <Text fontSize="md" color={textColor} fontWeight="bold" pb=".5rem">
+        <Text fontSize="md" color={textColor} fontWeight="normal" pb=".5rem">
           {pending}
         </Text>
       </Td>
@@ -103,7 +104,7 @@ function TablesTableRow(props) {
           <Text
             fontSize="md"
             color="gray.400"
-            fontWeight="bold"
+            fontWeight="normal"
             cursor="pointer"
           >
             {success}

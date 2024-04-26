@@ -38,7 +38,7 @@ var dashRoutes = [
   //   layout: "/rtl",
   // },
   {
-    name: "ACCOUNT PAGES",
+    //name: "",
     category: "account",
     rtlName: "صفحات",
     state: "pageCollapse",
@@ -54,7 +54,7 @@ var dashRoutes = [
       },
       {
         path: "/signin",
-        name: "Sign In",
+        name: "Sign Out",
         rtlName: "لوحة القيادة",
         icon: <DocumentIcon color="inherit" />,
         component: SignIn,
