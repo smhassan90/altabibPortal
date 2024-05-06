@@ -80,7 +80,7 @@ export const barChartOptions = {
   ],
 };
 
-export const lineChartData = [
+const lineChartDummyData = [
   {
     name: "Syed Anas Ahmed",
     data: [50, 40, 300, 220, 500, 250, 400, 230, 500],
@@ -107,6 +107,8 @@ export const lineChartOptions = {
     curve: "smooth",
   },
   xaxis: {
+    min: 0,
+    max: 30,
     type: "category",
     categories: [
       "1",

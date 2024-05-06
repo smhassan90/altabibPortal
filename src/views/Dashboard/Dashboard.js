@@ -32,17 +32,82 @@ import {
   GlobeIcon,
   WalletIcon,
 } from "components/Icons/Icons.js";
-import React from "react";
+import React, { useEffect, useState } from "react";
 // Variables
 import {
-  barChartData,
-  barChartOptions,
-  lineChartData,
-  lineChartOptions,
-} from "variables/charts";
-import { pageVisits, socialTraffic } from "variables/general";
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { faker } from "@faker-js/faker";
+import axios from "axios";
+import { localUrl } from "env";
+import { lineChartOptions } from "variables/charts";
+import { homeUrl } from "env";
+
+const labels = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+export const data = {
+  labels,
+  datasets: [
+    {
+      label: "Doctor 1",
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      backgroundColor: "#2E93fA",
+    },
+    {
+      label: "Doctor 2",
+      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+      backgroundColor: "#66DA26",
+    },
+  ],
+};
+export const options = {
+  responsive: true,
+  plugins: {
+    legend: {
+      position: "bottom",
+    },
+    title: {
+      display: true,
+      text: "Yearly Earnings",
+    },
+  },
+};
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export default function Dashboard() {
+  const [totalApps, setTotalApps] = useState(0);
+  const [successfullOPDs, setSuccessfullOPDs] = useState(0);
+  const [newPatients, setNewPatients] = useState(0);
+  const [totalEarnings, setTotalEarnings] = useState(0);
+  const [lineChartData, setLineChartData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   // Chakra Color Mode
   const iconBlue = useColorModeValue("blue.500", "blue.500");
   const iconBoxInside = useColorModeValue("white", "white");
@@ -52,6 +117,80 @@ export default function Dashboard() {
   const textTableColor = useColorModeValue("gray.500", "white");
 
   const { colorMode } = useColorMode();
+
+  useEffect(() => {
+    const date = new Date().toString;
+    console.log("Date:", date.toString);
+    axios
+      .get(
+        "http://192.168.100.10:8083/altabibconnect/viewAppointments?token=1714647935800AIIFWNIONIO1344112&visitDate=2024-06-01&clinicId=0&patientId=0&doctorId=0&appointmentId=0&followupDate"
+      )
+      .then((response) => {
+        console.log(
+          "Response Data of API",
+          JSON.stringify(response.data.data.appointments, null, 2)
+        );
+        var OPDs = 0;
+        var earnings = 0;
+        response.data.data.appointments.forEach((element) => {
+          if (element.status === 1) {
+            OPDs++;
+            earnings += element.charges;
+          }
+        });
+        console.log("Successfull OPDs", successfullOPDs);
+        setTotalApps(response.data.data.appointments.length);
+        setTotalEarnings(earnings);
+        setSuccessfullOPDs(OPDs);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    axios
+      .get(
+        `${homeUrl}getLineGraphOfClinic?token=1714647935800AIIFWNIONIO1344112&startDate=2024-06-01&endDate=2024-06-30`
+      )
+      .then((response) => {
+        console.log(
+          "Chart Data of API",
+          JSON.stringify(response.data.data, null, 2)
+        );
+        const apiData = response.data.data.lineGraphs;
+        const uniqueDoctorNames = [
+          ...new Set(apiData.map((item) => item.doctorName)),
+        ];
+        const startDate = new Date("2024-06-01"); // Start date from the API
+        const endDate = new Date("2024-06-30"); // End date from the API
+        const dateRange = [];
+        for (
+          let date = new Date(startDate);
+          date <= endDate;
+          date.setDate(date.getDate() + 1)
+        ) {
+          dateRange.push(new Date(date));
+        }
+
+        const newLineChartData = uniqueDoctorNames.map((doctorName) => {
+          const data = dateRange.map((date) => {
+            const dateString = date.toISOString().slice(0, 10);
+            const entry = apiData.find(
+              (item) =>
+                item.visitDate === dateString && item.doctorName === doctorName
+            );
+            return entry ? entry.count : 0;
+          });
+          return { name: doctorName, data };
+        });
+
+        console.log("Updated lineChartData:", newLineChartData);
+        setLineChartData(newLineChartData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
     <Flex gap={5} flexDirection="column" pt={{ base: "120px", md: "75px" }}>
@@ -88,7 +227,7 @@ export default function Dashboard() {
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    30
+                    {totalApps}
                   </StatNumber>
                 </Flex>
               </Stat>
@@ -130,7 +269,7 @@ export default function Dashboard() {
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    107
+                    {successfullOPDs}
                   </StatNumber>
                 </Flex>
               </Stat>
@@ -214,7 +353,7 @@ export default function Dashboard() {
                 </StatLabel>
                 <Flex>
                   <StatNumber fontSize="lg" color={textColor} fontWeight="bold">
-                    Rs. 573,000
+                    Rs. {totalEarnings}
                   </StatNumber>
                 </Flex>
               </Stat>
@@ -238,7 +377,7 @@ export default function Dashboard() {
         </Card>
       </SimpleGrid>
       <Grid
-        templateColumns={{ sm: "1fr", lg: "2fr 1fr" }}
+        templateColumns={{ sm: "1fr", lg: "2fr 2fr" }}
         templateRows={{ lg: "repeat(2, auto)" }}
         gap="20px"
       >
@@ -257,10 +396,12 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <LineChart
-              chartData={lineChartData}
-              chartOptions={lineChartOptions}
-            />
+            {loading ? null : (
+              <LineChart
+                chartData={lineChartData}
+                chartOptions={lineChartOptions}
+              />
+            )}
           </Box>
         </Card>
         <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
@@ -273,7 +414,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <BarChart chartData={barChartData} chartOptions={barChartOptions} />
+            <Bar options={options} data={data} />
           </Box>
         </Card>
       </Grid>

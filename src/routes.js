@@ -11,6 +11,7 @@ import {
   PersonIcon,
   DocumentIcon,
 } from "components/Icons/Icons";
+import bookAppointment from "views/Dashboard/bookAppointment";
 
 var dashRoutes = [
   {
@@ -19,6 +20,14 @@ var dashRoutes = [
     rtlName: "لوحة القيادة",
     icon: <HomeIcon color="inherit" />,
     component: Dashboard,
+    layout: "/admin",
+  },
+  {
+    path: "/bookAppointment",
+    name: "Book Appointment",
+    rtlName: "لوحة القيادة",
+    icon: <HomeIcon color="inherit" />,
+    component: bookAppointment,
     layout: "/admin",
   },
   {
