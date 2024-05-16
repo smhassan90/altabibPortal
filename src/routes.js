@@ -12,6 +12,7 @@ import {
   DocumentIcon,
 } from "components/Icons/Icons";
 import bookAppointment from "views/Dashboard/bookAppointment";
+import Patients from "views/Dashboard/Patients";
 
 var dashRoutes = [
   {
@@ -38,14 +39,14 @@ var dashRoutes = [
     component: Tables,
     layout: "/admin",
   },
-  // {
-  //   path: "/rtl-support-page",
-  //   name: "RTL",
-  //   rtlName: "آرتيإل",
-  //   icon: <SupportIcon color="inherit" />,
-  //   component: RTLPage,
-  //   layout: "/rtl",
-  // },
+  {
+    path: "/Patients",
+    name: "Patients",
+    rtlName: "آرتيإل",
+    icon: <HomeIcon color="inherit" />,
+    component: Patients,
+    layout: "/admin",
+  },
   {
     //name: "",
     category: "account",

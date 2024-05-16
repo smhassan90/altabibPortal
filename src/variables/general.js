@@ -490,3 +490,170 @@ export const socialTraffic = [
     color: "orange",
   },
 ];
+
+export const patientDummy = [
+  {
+    name: "Ali Khan",
+    address: "123 Main St",
+    age: 35,
+    gender: "Male",
+    cellNumber: "555-1234",
+    numberOfAppointments: 2,
+  },
+  {
+    name: "Zainab Ahmed",
+    address: "606 Cherry St",
+    age: 30,
+    gender: "Female",
+    cellNumber: "555-6677",
+    numberOfAppointments: 2,
+  },
+  {
+    name: "Usman Khan",
+    address: "707 Spruce St",
+    age: 48,
+    gender: "Male",
+    cellNumber: "555-7788",
+    numberOfAppointments: 5,
+  },
+];
+// export const clinicDoctorPatients = [
+//   {
+//     id: number,
+//     name: string,
+//     patients: [
+//       {
+//         id: number,
+//         name: string,
+//         dob: string,
+//         gender: string,
+//         cellNumber: string,
+//         appointments: [
+//           // SELECT columns from t_appointments WHERE DOCTOR_ID = ... AND PATIENT_ID = ...
+//           {
+//             id: number,
+//             token: number,
+//             visitDate: string,
+//             followUpDate: string,
+//             diagnosis: string,
+//             prescription: string,
+//             charges: string,
+//             bloodPressure: string,
+//             weight: number,
+//           },
+//           {
+//             id: number,
+//             token: number,
+//             visitDate: string,
+//             followUpDate: string,
+//             diagnosis: string,
+//             prescription: string,
+//             charges: number,
+//             bloodPressure: string,
+//             weight: number,
+//           },
+//         ],
+//       },
+//       {
+//         id: number,
+//         name: string,
+//         dob: string,
+//         gender: string,
+//         cellNumber: string,
+//         appointments: [
+//           // SELECT columns from t_appointments WHERE DOCTOR_ID = ... AND PATIENT_ID = ...
+//           {
+//             id: number,
+//             token: number,
+//             visitDate: string,
+//             followUpDate: string,
+//             diagnosis: string,
+//             prescription: string,
+//             charges: number,
+//             bloodPressure: string,
+//             weight: number,
+//           },
+//           {
+//             id: number,
+//             token: number,
+//             visitDate: string,
+//             followUpDate: string,
+//             diagnosis: string,
+//             prescription: string,
+//             charges: number,
+//             bloodPressure: string,
+//             weight: number,
+//           },
+//         ],
+//       },
+//     ],
+//   },
+//   {
+//     id: number,
+//     name: string,
+//     patients: [
+//       {
+//         name: string,
+//         dob: string,
+//         gender: string,
+//         cellNumber: string,
+//         appointments: [
+//           // SELECT columns from t_appointments WHERE DOCTOR_ID = ... AND PATIENT_ID = ...
+//           {
+//             id: number,
+//             token: number,
+//             visitDate: string,
+//             followUpDate: string,
+//             diagnosis: string,
+//             prescription: string,
+//             charges: number,
+//             bloodPressure: string,
+//             weight: number,
+//           },
+//           {
+//             id: number,
+//             token: number,
+//             visitDate: string,
+//             followUpDate: string,
+//             diagnosis: string,
+//             prescription: string,
+//             charges: number,
+//             bloodPressure: string,
+//             weight: number,
+//           },
+//         ],
+//       },
+//       {
+//         name: string,
+//         dob: string,
+//         gender: string,
+//         cellNumber: string,
+//         appointments: [
+//           // SELECT columns from t_appointments WHERE DOCTOR_ID = ... AND PATIENT_ID = ...
+//           {
+//             id: 1,
+//             token: 1,
+//             visitDate: string,
+//             followUpDate: string,
+//             diagnosis: string,
+//             prescription: string,
+//             charges: 500,
+//             bloodPressure: string,
+//             weight: 70,
+//           },
+//           {
+//             id: 2,
+//             token: 1,
+//             visitDate: string,
+//             followUpDate: string,
+//             diagnosis: string,
+//             prescription: string,
+//             charges: 500,
+//             bloodPressure: string,
+//             weight: 70,
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ];

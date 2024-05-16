@@ -50,35 +50,6 @@ import { localUrl } from "env";
 import { lineChartOptions } from "variables/charts";
 import { homeUrl } from "env";
 
-const labels = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-export const data = {
-  labels,
-  datasets: [
-    {
-      label: "Doctor 1",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: "#2E93fA",
-    },
-    {
-      label: "Doctor 2",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
-      backgroundColor: "#66DA26",
-    },
-  ],
-};
 export const options = {
   responsive: true,
   plugins: {
@@ -87,7 +58,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Yearly Earnings",
+      text: "OPDs by Month",
     },
   },
 };
@@ -107,6 +78,11 @@ export default function Dashboard() {
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [lineChartData, setLineChartData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [data, setData] = useState({
+    labels: [],
+    datasets: [],
+  });
+  const [loadBarChart, setLoadBarChart] = useState(true);
 
   // Chakra Color Mode
   const iconBlue = useColorModeValue("blue.500", "blue.500");
@@ -118,12 +94,71 @@ export default function Dashboard() {
 
   const { colorMode } = useColorMode();
 
+  const getBarChartData = () => {
+    axios
+      .get(
+        `${homeUrl}getBarChartOfClinic?token=1715246872549AIIFWNIONIO1344112&numberOfMonths=3`
+      )
+      .then((response) => {
+        const apiData = response.data.data.barCharts;
+        const uniqueMonths = [
+          ...new Set(apiData.map((item) => item.monthYear)),
+        ];
+        const uniqueDoctors = [
+          ...new Set(apiData.map((item) => item.doctorName)),
+        ];
+        const colorPalette = [
+          "#2E93fA",
+          "#66DA26",
+          "#FFA500",
+          "#FF4500",
+          "#9400D3",
+          "#FF69B4",
+          "#00CED1",
+          "#FFD700",
+          "#32CD32",
+          "#8A2BE2",
+        ];
+
+        const datasets = uniqueDoctors.map((doctor, index) => {
+          return {
+            label: doctor,
+            data: uniqueMonths.map(() => 0),
+            backgroundColor: colorPalette[index % colorPalette.length], // Set color based on doctor
+          };
+        });
+
+        apiData.forEach((item) => {
+          const doctorIndex = datasets.findIndex(
+            (dataset) => dataset.label === item.doctorName
+          );
+          if (doctorIndex !== -1) {
+            const monthIndex = uniqueMonths.indexOf(item.monthYear);
+            if (monthIndex !== -1) {
+              datasets[doctorIndex].data[monthIndex] = item.count;
+            }
+          }
+        });
+
+        // Update state with actual data
+        setData({
+          labels: uniqueMonths,
+          datasets: datasets,
+        });
+        console.log("DATA FOR CHART:", data);
+        setLoadBarChart(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching bar chart data:", error);
+      });
+  };
+
   useEffect(() => {
     const date = new Date().toString;
     console.log("Date:", date.toString);
     axios
       .get(
-        "http://192.168.100.10:8083/altabibconnect/viewAppointments?token=1714647935800AIIFWNIONIO1344112&visitDate=2024-06-01&clinicId=0&patientId=0&doctorId=0&appointmentId=0&followupDate"
+        "http://192.168.100.10:8083/altabibconnect/viewAppointments?token=1715246872549AIIFWNIONIO1344112&visitDate=2024-06-01&clinicId=0&patientId=0&doctorId=0&appointmentId=0&followupDate"
       )
       .then((response) => {
         console.log(
@@ -138,7 +173,7 @@ export default function Dashboard() {
             earnings += element.charges;
           }
         });
-        console.log("Successfull OPDs", successfullOPDs);
+        //console.log("Successfull OPDs", successfullOPDs);
         setTotalApps(response.data.data.appointments.length);
         setTotalEarnings(earnings);
         setSuccessfullOPDs(OPDs);
@@ -149,13 +184,13 @@ export default function Dashboard() {
 
     axios
       .get(
-        `${homeUrl}getLineGraphOfClinic?token=1714647935800AIIFWNIONIO1344112&startDate=2024-06-01&endDate=2024-06-30`
+        `${homeUrl}getLineGraphOfClinic?token=1715246872549AIIFWNIONIO1344112&startDate=2024-06-01&endDate=2024-06-30`
       )
       .then((response) => {
-        console.log(
-          "Chart Data of API",
-          JSON.stringify(response.data.data, null, 2)
-        );
+        // console.log(
+        //   "Chart Data of API",
+        //   JSON.stringify(response.data.data, null, 2)
+        // );
         const apiData = response.data.data.lineGraphs;
         const uniqueDoctorNames = [
           ...new Set(apiData.map((item) => item.doctorName)),
@@ -183,13 +218,15 @@ export default function Dashboard() {
           return { name: doctorName, data };
         });
 
-        console.log("Updated lineChartData:", newLineChartData);
+        //console.log("Updated lineChartData:", newLineChartData);
         setLineChartData(newLineChartData);
         setLoading(false);
       })
       .catch((error) => {
         console.log(error);
       });
+
+    getBarChartData();
   }, []);
 
   return (
@@ -388,7 +425,7 @@ export default function Dashboard() {
               : "linear-gradient(81.62deg, #313860 2.25%, #151928 79.87%)"
           }
           p="0px"
-          maxW={{ sm: "320px", md: "100%" }}
+          maxW={{ sm: "100%", md: "100%", lg: "100%" }}
         >
           <Flex direction="column" mb="40px" p="28px 0px 0px 22px">
             <Text color="#fff" fontSize="lg" fontWeight="bold" mb="6px">
@@ -404,7 +441,7 @@ export default function Dashboard() {
             )}
           </Box>
         </Card>
-        <Card p="0px" maxW={{ sm: "320px", md: "100%" }}>
+        <Card p="0px" maxW={{ sm: "100%", md: "100%", lg: "100%" }}>
           <Flex direction="column" mb="40px" p="28px 0px 0px 22px">
             <Text color="gray.400" fontSize="sm" fontWeight="bold" mb="6px">
               Yearly
@@ -414,7 +451,7 @@ export default function Dashboard() {
             </Text>
           </Flex>
           <Box minH="300px">
-            <Bar options={options} data={data} />
+            {loadBarChart ? null : <Bar options={options} data={data} />}
           </Box>
         </Card>
       </Grid>

@@ -116,7 +116,7 @@ function SignIn() {
             history.push("/admin/dashboard");
           }, 2000);
         } else {
-          console.log("LOGIN FAILED");
+          console.log("LOGIN FAILED, Code:", res.data.status);
           setTimeout(() => {
             setIsOpen(false);
           }, 2000);
@@ -125,7 +125,6 @@ function SignIn() {
       .catch((err) => {
         setIsOpen(false);
         console.log("LOGIN ERROR:", err);
-        console.log("TOKEN:", localStorage.getItem("token"));
       });
   };
 
