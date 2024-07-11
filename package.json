@@ -19,6 +19,7 @@
     "axios": "^1.6.8",
     "chart.js": "^4.4.2",
     "classnames": "2.3.1",
+    "dayjs": "^1.11.11",
     "dotenv": "^16.4.5",
     "framer-motion": "4.1.17",
     "match-sorter": "6.3.0",
