@@ -34,7 +34,7 @@ function Tables() {
     console.log(token);
     axios
       .get(
-        `${homeUrl}viewAppointments?token=123456789&visitDate=${date}&clinicId=0&patientId=0&doctorId=0&appointmentId=0&followupDate`
+        `${homeUrl}viewAppointments?token=1720694306070AIIFWNIONIO1344112&visitDate=${date}&clinicId=0&patientId=0&doctorId=0&appointmentId=0&followupDate`
       )
       .then((res) => {
         console.log("RESPONSE VIEW APPS:", JSON.stringify(res, null, 2));

@@ -108,7 +108,9 @@ function Patients() {
 
   useEffect(() => {
     axios
-      .get(`${homeUrl}getClinicPatients?token=123456789&doctorId=0`)
+      .get(
+        `${homeUrl}getClinicPatients?token=1720694306070AIIFWNIONIO1344112&doctorId=0`
+      )
       .then((res) => {
         console.log("Response:", JSON.stringify(res, null, 1));
         setPatientList(filterPatients(res.data.data.clinicAppointments));

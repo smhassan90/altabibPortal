@@ -104,10 +104,7 @@ function SignIn() {
         `${homeUrl}login?username=${userName}&password=${password}&type=4&UUID=AIIFWNIONIO1344112`
       )
       .then((res) => {
-        console.log(
-          "LOGIN RESPONSE:",
-          JSON.stringify(res.data.data.token, null, 2)
-        );
+        console.log("LOGIN RESPONSE:", JSON.stringify(res.data, null, 2));
         if (res.data.status === "200") {
           console.log("LOGIN SUCCESSFUL");
           localStorage.setItem("token", JSON.stringify(res.data.data.token));
