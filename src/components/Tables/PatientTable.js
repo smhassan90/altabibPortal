@@ -24,15 +24,7 @@ import {
 import { FaEllipsisV } from "react-icons/fa";
 
 function PatientTable(props) {
-  const {
-    name,
-    address,
-    age,
-    gender,
-    cellNumber,
-    numberOfAppointments,
-    isLast,
-  } = props;
+  const { name, age, gender, cellNumber, isLast } = props;
   const textColor = useColorModeValue("gray.500", "white");
   const titleColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -84,59 +76,57 @@ function PatientTable(props) {
             {cellNumber}
           </Text>
         </Td>
-        <Td width={"20%"} borderColor={borderColor}>
-          <Button
-            width={"60%"}
-            onClick={handleOpenModal}
-            colorScheme="blue"
-            size="md"
-          >
-            {numberOfAppointments}
-          </Button>
-        </Td>
       </Tr>
 
       <Modal isOpen={isOpen} onClose={handleCloseModal} isCentered>
         <ModalOverlay />
-        <ModalContent minWidth="900px">
+        <ModalContent minWidth="1080px">
           <ModalHeader>Past Appointments</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Table variant="simple">
               <Thead>
                 <Tr>
-                  <Th>Name</Th>
+                  <Th>Age</Th>
                   <Th>Visit Date</Th>
-                  <Th>Doctor</Th>
+                  <Th>Doctor Name</Th>
+                  <Th>Weight (kg)</Th>
                   <Th>Diagnosis</Th>
                   <Th>Prescription</Th>
                   <Th>Follow-up Date</Th>
+                  <Th>Charges (PKR)</Th>
                 </Tr>
               </Thead>
               <Tbody>
                 <ModalTr>
-                  <ModalTd>Syed Anas Ahmed</ModalTd>
-                  <ModalTd>9-05-2024</ModalTd>
+                  <ModalTd>25</ModalTd>
+                  <ModalTd>09-05-2024</ModalTd>
                   <ModalTd>Dr. Furqan</ModalTd>
+                  <ModalTd>62</ModalTd>
                   <ModalTd>Malaria</ModalTd>
                   <ModalTd>Panadol</ModalTd>
                   <ModalTd>15-05-2024</ModalTd>
+                  <ModalTd>500</ModalTd>
                 </ModalTr>
                 <ModalTr>
-                  <ModalTd>Syed Anas Ahmed</ModalTd>
-                  <ModalTd>9-05-2024</ModalTd>
+                  <ModalTd>38</ModalTd>
+                  <ModalTd>09-05-2024</ModalTd>
                   <ModalTd>Dr. Furqan</ModalTd>
+                  <ModalTd>75</ModalTd>
                   <ModalTd>Malaria</ModalTd>
-                  <ModalTd>Panadol</ModalTd>
+                  <ModalTd>Artemether-Lumefantrine</ModalTd>
                   <ModalTd>15-05-2024</ModalTd>
+                  <ModalTd>800</ModalTd>
                 </ModalTr>
                 <ModalTr>
-                  <ModalTd>Syed Anas Ahmed</ModalTd>
-                  <ModalTd>9-05-2024</ModalTd>
+                  <ModalTd>12</ModalTd>
+                  <ModalTd>09-05-2024</ModalTd>
                   <ModalTd>Dr. Furqan</ModalTd>
+                  <ModalTd>40</ModalTd>
                   <ModalTd>Malaria</ModalTd>
-                  <ModalTd>Panadol</ModalTd>
+                  <ModalTd>Paracetamol syrup</ModalTd>
                   <ModalTd>15-05-2024</ModalTd>
+                  <ModalTd>350</ModalTd>
                 </ModalTr>
               </Tbody>
             </Table>

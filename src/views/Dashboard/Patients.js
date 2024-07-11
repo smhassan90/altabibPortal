@@ -1,9 +1,18 @@
 import {
   Box,
+  Button,
   Flex,
+  Input,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
   Select,
   Table,
   Tbody,
+  Td,
   Text,
   Th,
   Thead,
@@ -14,7 +23,6 @@ import {
 import Card from "components/Card/Card";
 import React, { useEffect, useState } from "react";
 import "react-datepicker/dist/react-datepicker.css";
-import dayjs from "dayjs";
 import PatientTable from "components/Tables/PatientTable";
 import CardHeader from "components/Card/CardHeader";
 import CardBody from "components/Card/CardBody";
@@ -29,20 +37,39 @@ function Patients() {
   const [appointments, setAppointmentList] = useState([]);
   const [doctorList, setDoctorList] = useState([]);
   const [patientList, setPatientList] = useState([]);
-  const [selectedDoctor, setSelectedDoctor] = useState("");
+  const [selectedDoctor, setSelectedDoctor] = useState("All");
+  const [searchPatient, setSearchPatient] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
+  const [
+    selectedPatientAppointments,
+    setSelectedPatientAppointments,
+  ] = useState([]);
 
   const filterPatients = () => {
-    if (selectedDoctor === "All") {
-      return appointments.filter((patient, index, arr) => {
-        return (
-          arr.findIndex((p) => p.patientId === patient.patientId) === index
-        );
-      });
-    } else {
-      return appointments.filter(
+    let filteredAppointments = appointments;
+
+    if (selectedDoctor !== "All") {
+      filteredAppointments = filteredAppointments.filter(
         (patient) => patient.doctorName === selectedDoctor
       );
     }
+
+    if (searchPatient) {
+      filteredAppointments = filteredAppointments.filter((patient) =>
+        patient.patientName.toLowerCase().includes(searchPatient.toLowerCase())
+      );
+    }
+
+    // Filter out duplicate patients
+    const uniquePatients = filteredAppointments.filter(
+      (patient, index, arr) => {
+        return (
+          arr.findIndex((p) => p.patientId === patient.patientId) === index
+        );
+      }
+    );
+
+    return uniquePatients;
   };
 
   const countAppointments = (patientId) => {
@@ -58,101 +85,32 @@ function Patients() {
     }
   };
 
-  function convertData(clinicData) {
-    const clinicDoctorPatients = [];
-
-    // Group appointments by doctor
-    const appointmentsByDoctor = clinicData.data.clinicAppointments.reduce(
-      (acc, appointment) => {
-        acc[appointment.doctorId] = acc[appointment.doctorId] || [];
-        acc[appointment.doctorId].push(appointment);
-        return acc;
-      },
-      {}
-    );
-
-    // Iterate through doctors
-    for (const doctorId in appointmentsByDoctor) {
-      const appointments = appointmentsByDoctor[doctorId];
-      const doctor = {
-        id: parseInt(doctorId),
-        name: appointments[0].doctorName,
-        patients: [],
-      };
-
-      // Group appointments by patient
-      const appointmentsByPatient = appointments.reduce((acc, appointment) => {
-        acc[appointment.patientId] = acc[appointment.patientId] || [];
-        acc[appointment.patientId].push(appointment);
-        return acc;
-      }, {});
-
-      // Iterate through patients
-      for (const patientId in appointmentsByPatient) {
-        const patientAppointments = appointmentsByPatient[patientId];
-        const patient = {
-          id: parseInt(patientId),
-          name: patientAppointments[0].patientName,
-          dob: "", // You might need to populate this data
-          gender: patientAppointments[0].patientGender,
-          cellNumber: patientAppointments[0].patientCellNumber,
-          appointments: patientAppointments.map((appointment) => ({
-            id: appointment.appointmentId,
-            token: appointment.appointmentId, // Assuming token is appointmentId
-            visitDate: appointment.visitDate,
-            followUpDate: appointment.followupDate,
-            diagnosis: appointment.diagnosis,
-            prescription: appointment.prescription,
-            charges: appointment.appointmentCharges,
-            bloodPressure: "", // You might need to populate this data
-            weight: appointment.weight,
-          })),
-        };
-        doctor.patients.push(patient);
-      }
-      clinicDoctorPatients.push(doctor);
-    }
-    return clinicDoctorPatients;
-  }
-
-  function getUniquePatients(clinicData) {
-    return clinicData.data.clinicAppointments.reduce((unique, appointment) => {
-      const existingPatient = unique.find(
-        (p) => p.name === appointment.patientName
+  const handleOpenModal = (patient) => {
+    console.log("Patient:", JSON.stringify(patient, null, 1));
+    const patientAppointments = appointments.filter((appointment) => {
+      return (
+        appointment.patientId === patient.patientId &&
+        (selectedDoctor === "All" || appointment.doctorName === selectedDoctor)
       );
-      if (!existingPatient) {
-        unique.push({
-          id: appointment.patientId,
-          name: appointment.patientName,
-          age: appointment.patientAge,
-          gender: appointment.patientGender,
-          cellNumber: appointment.patientCellNumber,
-        });
-      }
-      return unique;
-    }, []);
-  }
+    });
+    setSelectedPatientAppointments(patientAppointments);
+    setIsOpen(true);
+  };
 
-  function getUniqueDoctors(clinicData) {
-    return clinicData.data.clinicAppointments.reduce((unique, appointment) => {
-      const existingDoctor = unique.find(
-        (d) => d.name === appointment.doctorName
-      );
-      if (!existingDoctor) {
-        unique.push({
-          id: appointment.doctorId,
-          name: appointment.doctorName,
-        });
-      }
-      return unique;
-    }, []);
-  }
+  const handleCloseModal = () => {
+    setIsOpen(false);
+    setSelectedPatientAppointments([]);
+  };
+
+  useEffect(() => {
+    setPatientList(filterPatients());
+  }, [selectedDoctor, searchPatient, appointments]);
 
   useEffect(() => {
     axios
       .get(`${homeUrl}getClinicPatients?token=123456789&doctorId=0`)
       .then((res) => {
-        // console.log("Response:", JSON.stringify(res, null, 1));
+        console.log("Response:", JSON.stringify(res, null, 1));
         setPatientList(filterPatients(res.data.data.clinicAppointments));
         setAppointmentList(res.data.data.clinicAppointments);
         const uniqueDoctorNames = Array.from(
@@ -164,16 +122,14 @@ function Patients() {
         setDoctorList(uniqueDoctorNames);
 
         console.log("Doctors:", uniqueDoctorNames);
-        setTimeout(() => {
-          //console.log("Appointments:", JSON.stringify(appointments, null, 1));
-          setLoading(false);
-        }, 2000);
+        //console.log("Appointments:", JSON.stringify(appointments, null, 1));
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
         setLoading(false);
       });
-  }, [selectedDoctor]);
+  }, []);
 
   const token = JSON.parse(localStorage.getItem("token"));
   return (
@@ -190,7 +146,7 @@ function Patients() {
               >
                 Patients
               </Text>
-              <Box fontSize="lg" color={textColor} fontWeight="bold" pb=".5rem">
+              <Flex gap={5} pb=".5rem">
                 <Select
                   fontWeight="bold"
                   onChange={(e) => setSelectedDoctor(e.target.value)}
@@ -205,13 +161,28 @@ function Patients() {
                     );
                   })}
                 </Select>
-              </Box>
+                <Input
+                  borderWidth={3}
+                  borderRadius={10}
+                  variant="outline"
+                  value={searchPatient}
+                  onChange={(e) => {
+                    const inputValue = e.target.value;
+                    const regex = /^[a-zA-Z\s]*$/;
+                    if (regex.test(inputValue) || inputValue === "") {
+                      setSearchPatient(inputValue);
+                    }
+                  }}
+                  type="text"
+                  placeholder="Search Patient"
+                />
+              </Flex>
             </Flex>
           </CardHeader>
           <CardBody>
             <Table variant="simple" color={textColor}>
               <Thead>
-                <Tr my=".8rem" pl="0px">
+                <Tr>
                   <Th pl="0px" color="gray.400" borderColor={borderColor}>
                     Name
                   </Th>
@@ -227,25 +198,138 @@ function Patients() {
                   <Th color="gray.400" borderColor={borderColor}>
                     Appointments
                   </Th>
+                  <Th color="gray.400" borderColor={borderColor}>
+                    History
+                  </Th>
                 </Tr>
               </Thead>
               <Tbody>
                 {patientList.map((patient, patientIndex, arr) => (
-                  <PatientTable
-                    name={patient.patientName}
-                    age={patient.patientAge}
-                    gender={patient.patientGender}
-                    cellNumber={patient.patientCellNumber}
-                    numberOfAppointments={countAppointments(patient.patientId)}
-                    isLast={patientIndex === arr.length - 1 ? true : false}
-                    key={patientIndex}
-                  />
+                  <Tr key={patientIndex}>
+                    <Td pl={0} width="30%" borderColor={borderColor}>
+                      <Text
+                        fontSize="md"
+                        color={textColor}
+                        fontWeight="semibold"
+                        pb=".5rem"
+                      >
+                        {patient.patientName}
+                      </Text>
+                    </Td>
+                    <Td width="10%" borderColor={borderColor}>
+                      <Text
+                        fontSize="md"
+                        color={textColor}
+                        fontWeight="normal"
+                        pb=".5rem"
+                      >
+                        {patient.patientAge}
+                      </Text>
+                    </Td>
+                    <Td width="10%" borderColor={borderColor}>
+                      <Text
+                        fontSize="md"
+                        color={textColor}
+                        fontWeight="normal"
+                        pb=".5rem"
+                      >
+                        {patient.patientGender}
+                      </Text>
+                    </Td>
+                    <Td width="15%" borderColor={borderColor}>
+                      <Text
+                        fontSize="md"
+                        color={textColor}
+                        fontWeight="normal"
+                        pb=".5rem"
+                      >
+                        {patient.patientCellNumber}
+                      </Text>
+                    </Td>
+                    <Td width="10%" borderColor={borderColor}>
+                      <Text
+                        fontSize="md"
+                        color={textColor}
+                        fontWeight="normal"
+                        pb=".5rem"
+                      >
+                        {countAppointments(patient.patientId)}
+                      </Text>
+                    </Td>
+                    <Td width="30%" borderColor={borderColor}>
+                      <Button
+                        width="70%"
+                        onClick={() => handleOpenModal(patient)}
+                        colorScheme="blue"
+                        size="md"
+                      >
+                        View History
+                      </Button>
+                    </Td>
+                  </Tr>
                 ))}
               </Tbody>
             </Table>
           </CardBody>
         </Card>
       )}
+      <Modal isOpen={isOpen} onClose={handleCloseModal} isCentered>
+        <ModalOverlay />
+        <ModalContent minWidth="1080px" maxHeight={"600px"} overflow={"auto"}>
+          <ModalHeader>Past Appointments</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Table variant="simple">
+              <Thead>
+                <Tr>
+                  <Th pl="0px" color="gray.400" borderColor={borderColor}>
+                    S No.
+                  </Th>
+                  <Th pl="0px" color="gray.400" borderColor={borderColor}>
+                    Age
+                  </Th>
+                  <Th pl="0px" color="gray.400" borderColor={borderColor}>
+                    Visit Date
+                  </Th>
+                  <Th pl="0px" color="gray.400" borderColor={borderColor}>
+                    Doctor Name
+                  </Th>
+                  <Th pl="0px" color="gray.400" borderColor={borderColor}>
+                    Weight (kg)
+                  </Th>
+                  <Th pl="0px" color="gray.400" borderColor={borderColor}>
+                    Diagnosis
+                  </Th>
+                  <Th pl="0px" color="gray.400" borderColor={borderColor}>
+                    Prescription
+                  </Th>
+                  <Th pl="0px" color="gray.400" borderColor={borderColor}>
+                    Follow-up Date
+                  </Th>
+                  <Th pl="0px" color="gray.400" borderColor={borderColor}>
+                    Charges (PKR)
+                  </Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {selectedPatientAppointments.map((appointment, index) => (
+                  <Tr key={index}>
+                    <Td pl="0px">{index + 1}</Td>
+                    <Td pl="0px">{appointment.patientAge}</Td>
+                    <Td pl="0px">{appointment.visitDate}</Td>
+                    <Td pl="0px">{appointment.doctorName}</Td>
+                    <Td pl="0px">{appointment.weight}</Td>
+                    <Td pl="0px">{appointment.diagnosis}</Td>
+                    <Td pl="0px">{appointment.prescription}</Td>
+                    <Td pl="0px">{appointment.followupDate}</Td>
+                    <Td>{appointment.appointmentCharges}</Td>
+                  </Tr>
+                ))}
+              </Tbody>
+            </Table>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Flex>
   );
 }

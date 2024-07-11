@@ -1,6 +1,5 @@
 // Chakra imports
 import {
-  Button,
   Flex,
   Table,
   Tbody,
@@ -16,15 +15,10 @@ import dayjs from "dayjs";
 import Card from "components/Card/Card.js";
 import CardBody from "components/Card/CardBody.js";
 import CardHeader from "components/Card/CardHeader.js";
-import TablesProjectRow from "components/Tables/TablesProjectRow";
 import TablesTableRow from "components/Tables/TablesTableRow";
 import { homeUrl } from "env";
 import React, { useEffect, useState } from "react";
-import {
-  tablesProjectData,
-  tablesTableData,
-  patientData,
-} from "variables/general";
+import { tablesTableData } from "variables/general";
 import AppTableRow from "components/Tables/AppointmentsTable";
 
 function Tables() {
@@ -40,7 +34,7 @@ function Tables() {
     console.log(token);
     axios
       .get(
-        `${homeUrl}viewAppointments?token=${token}&visitDate=${date}&clinicId=0&patientId=0&doctorId=0&appointmentId=0&followupDate`
+        `${homeUrl}viewAppointments?token=123456789&visitDate=${date}&clinicId=0&patientId=0&doctorId=0&appointmentId=0&followupDate`
       )
       .then((res) => {
         console.log("RESPONSE VIEW APPS:", JSON.stringify(res, null, 2));
@@ -53,6 +47,7 @@ function Tables() {
       })
       .catch((err) => {
         console.log("ERROR VIEW APPS:", err);
+        setLoading;
       });
   }, []);
 

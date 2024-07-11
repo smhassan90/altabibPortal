@@ -96,9 +96,7 @@ export default function Dashboard() {
 
   const getBarChartData = () => {
     axios
-      .get(
-        `${homeUrl}getBarChartOfClinic?token=1715246872549AIIFWNIONIO1344112&numberOfMonths=3`
-      )
+      .get(`${homeUrl}getBarChartOfClinic?token=123456789&numberOfMonths=3`)
       .then((response) => {
         const apiData = response.data.data.barCharts;
         const uniqueMonths = [
