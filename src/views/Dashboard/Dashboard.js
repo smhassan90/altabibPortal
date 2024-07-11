@@ -1,28 +1,19 @@
 // Chakra imports
 import {
   Box,
-  Button,
   Flex,
   Grid,
-  Progress,
   Select,
   SimpleGrid,
   Stat,
   StatLabel,
   StatNumber,
-  Table,
-  Tbody,
-  Td,
   Text,
-  Th,
-  Thead,
-  Tr,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 // Custom components
 import Card from "components/Card/Card.js";
-import BarChart from "components/Charts/BarChart";
 import LineChart from "components/Charts/LineChart";
 import IconBox from "components/Icons/IconBox";
 // Custom icons
@@ -44,11 +35,10 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { faker } from "@faker-js/faker";
 import axios from "axios";
-import { localUrl } from "env";
 import { lineChartOptions } from "variables/charts";
 import { homeUrl } from "env";
+import dayjs from "dayjs";
 
 export const options = {
   responsive: true,
@@ -84,6 +74,8 @@ export default function Dashboard() {
   });
   const [loadBarChart, setLoadBarChart] = useState(true);
 
+  const token = JSON.parse(localStorage.getItem("token"));
+
   // Chakra Color Mode
   const iconBlue = useColorModeValue("blue.500", "blue.500");
   const iconBoxInside = useColorModeValue("white", "white");
@@ -96,7 +88,7 @@ export default function Dashboard() {
 
   const getBarChartData = () => {
     axios
-      .get(`${homeUrl}getBarChartOfClinic?token=123456789&numberOfMonths=3`)
+      .get(`${homeUrl}getBarChartOfClinic?token=${token}&numberOfMonths=3`)
       .then((response) => {
         const apiData = response.data.data.barCharts;
         const uniqueMonths = [
@@ -143,7 +135,7 @@ export default function Dashboard() {
           labels: uniqueMonths,
           datasets: datasets,
         });
-        console.log("DATA FOR CHART:", data);
+        //console.log("DATA FOR CHART:", data);
         setLoadBarChart(false);
       })
       .catch((error) => {
@@ -152,17 +144,22 @@ export default function Dashboard() {
   };
 
   useEffect(() => {
-    const date = new Date().toString;
-    console.log("Date:", date.toString);
+    const date = dayjs();
+    const currentDate = dayjs().format("YYYY-MM-DD");
+
+    const futureDate = date.add(30, "day");
+
+    const futureDate1 = futureDate.format("YYYY-MM-DD");
+
     axios
       .get(
-        "http://192.168.100.10:8083/altabibconnect/viewAppointments?token=1715246872549AIIFWNIONIO1344112&visitDate=2024-06-01&clinicId=0&patientId=0&doctorId=0&appointmentId=0&followupDate"
+        `${homeUrl}viewAppointments?token=${token}&visitDate=${currentDate}&clinicId=0&patientId=0&doctorId=0&appointmentId=0&followupDate`
       )
       .then((response) => {
-        console.log(
-          "Response Data of API",
-          JSON.stringify(response.data.data.appointments, null, 2)
-        );
+        // console.log(
+        //   "Response Data of API",
+        //   JSON.stringify(response.data.data.appointments, null, 2)
+        // );
         var OPDs = 0;
         var earnings = 0;
         response.data.data.appointments.forEach((element) => {
@@ -182,19 +179,19 @@ export default function Dashboard() {
 
     axios
       .get(
-        `${homeUrl}getLineGraphOfClinic?token=1715246872549AIIFWNIONIO1344112&startDate=2024-06-01&endDate=2024-06-30`
+        `${homeUrl}getLineGraphOfClinic?token=${token}&startDate=${currentDate}&endDate=${futureDate1}`
       )
       .then((response) => {
-        // console.log(
-        //   "Chart Data of API",
-        //   JSON.stringify(response.data.data, null, 2)
-        // );
+        console.log(
+          "Chart Data of API",
+          JSON.stringify(response.data, null, 2)
+        );
         const apiData = response.data.data.lineGraphs;
         const uniqueDoctorNames = [
           ...new Set(apiData.map((item) => item.doctorName)),
         ];
-        const startDate = new Date("2024-06-01"); // Start date from the API
-        const endDate = new Date("2024-06-30"); // End date from the API
+        const startDate = new Date(currentDate); // Start date from the API
+        const endDate = new Date(futureDate1); // End date from the API
         const dateRange = [];
         for (
           let date = new Date(startDate);

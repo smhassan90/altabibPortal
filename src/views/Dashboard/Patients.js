@@ -30,6 +30,8 @@ import axios from "axios";
 import { homeUrl } from "env";
 
 function Patients() {
+  const token = JSON.parse(localStorage.getItem("token"));
+
   const [loading, setLoading] = useState(true);
   const textColor = useColorModeValue("gray.700", "white");
   const borderColor = useColorModeValue("gray.200", "gray.600");
@@ -108,9 +110,7 @@ function Patients() {
 
   useEffect(() => {
     axios
-      .get(
-        `${homeUrl}getClinicPatients?token=1720694306070AIIFWNIONIO1344112&doctorId=0`
-      )
+      .get(`${homeUrl}getClinicPatients?token=${token}&doctorId=0`)
       .then((res) => {
         console.log("Response:", JSON.stringify(res, null, 1));
         setPatientList(filterPatients(res.data.data.clinicAppointments));
@@ -132,8 +132,6 @@ function Patients() {
         setLoading(false);
       });
   }, []);
-
-  const token = JSON.parse(localStorage.getItem("token"));
   return (
     <Flex direction="column" pt={{ base: "120px", md: "75px" }}>
       {loading ? null : (
