@@ -1,7 +1,8 @@
 "use client";
 import React from "react";
 
-const StatCard = ({ icon, title, value, change,bgColor }) => {
+const StatCard = ({ data }) => {
+  const {icon, title, value, change,bgColor} = data
   return (
     <div className={`rounded-2xl p-3  text-white flex items-center ${bgColor}`}>
       <div className="bg-white/20 backdrop-blur-sm p-3 rounded-xl mr-4">
