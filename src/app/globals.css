@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
-:root {
-  --secondary: #0066A1;
-}
-
 @theme {
-  --color-secondary: var(--secondary)
+  --color-secondary: #0066A1;
+  --text-small:14px;
+  --text-medium:16px;
+  --text-large:18px;
 }
