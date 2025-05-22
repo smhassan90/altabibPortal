@@ -6,7 +6,7 @@ const ChildrenBody = ({ children }) => {
     <>
       <Sidebar/>
       <div className="relative md:ml-56 bg-gray-100 min-h-screen">
-        
+        {children}
       </div>
     </>
   );
