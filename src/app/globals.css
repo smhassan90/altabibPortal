@@ -2,7 +2,12 @@
 
 @theme {
   --color-secondary: #0066A1;
+  --color-primary: #304B62;
+  --color-text:#262626;
+  --color-border :#D9D9D9;
+  --radius-medium: 10px;
   --text-small:14px;
   --text-medium:16px;
   --text-large:18px;
+  --text-xLarge:26px;
 }

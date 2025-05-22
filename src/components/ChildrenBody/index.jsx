@@ -1,12 +1,16 @@
 import React from "react";
 import Sidebar from "../SideBar";
+import Navbar from "../Navbar";
 
 const ChildrenBody = ({ children }) => {
   return (
     <>
-      <Sidebar/>
+      <Sidebar />
       <div className="relative md:ml-56 bg-gray-100 min-h-screen">
-        
+        <Navbar />
+        <div className="pt-16">
+          {children}
+        </div>
       </div>
     </>
   );
