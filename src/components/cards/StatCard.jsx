@@ -3,9 +3,9 @@ import React from "react";
 
 const StatCard = ({ icon, title, value, change,bgColor }) => {
   return (
-    <div className={`rounded-2xl p-5 text-white flex items-center ${bgColor}`}>
-      <div className="bg-white/20 backdrop-blur-sm p-4 rounded-xl mr-4">
-        <div className="bg-white rounded-lg p-3 w-14 h-14 flex items-center justify-center">
+    <div className={`rounded-2xl p-3  text-white flex items-center ${bgColor}`}>
+      <div className="bg-white/20 backdrop-blur-sm p-3 rounded-xl mr-4">
+        <div className="bg-white rounded-lg p-4 w-14 h-14 flex items-center justify-center">
           {icon}
         </div>
       </div>
