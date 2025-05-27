@@ -1,11 +1,8 @@
 import ChildrenBody from "@/components/ChildrenBody";
-
-export default function RootLayout({ children }) {
+export default function DashboardLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
-        <ChildrenBody>{children}</ChildrenBody>
-      </body>
-    </html>
+    <div className="dashboard-layout">
+      <ChildrenBody>{children}</ChildrenBody>
+    </div>
   );
 }

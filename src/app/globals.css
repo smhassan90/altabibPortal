@@ -1,15 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 @import "tailwindcss";
-
 @theme {
+  --color-background: #F8F8F8;
   --color-secondary: #0066A1;
   --color-primary: #304B62;
+  --color-Tertiary: #FFA600;
+  --color-gray:#8B8B8B;
   --color-text:#262626;
   --color-border :#D9D9D9;
+  --color-border2 :#C2CBD2;
   --radius-medium: 10px;
+  --radius-large: 20px;
+  --text-xSmall:12px;
   --text-small:14px;
   --text-medium:16px;
   --text-large:18px;
-  --text-xLarge:26px;
+  --text-xLarge:22px;
+  --text-xxLarge:26px;
   --spacing-ratio1:25px;
   --spacing-ratio2:10px;
+  --font-nunito:"Nunito";
+}
+
+::-webkit-scrollbar {
+  width: 3px;
+  height: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #8B8B8B;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+.ant-checkbox-wrapper{
+  padding-right: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-small);
+}
+.custom-checkbox .ant-checkbox-inner {
+  background-color: white;
+  border-color: var(--color-secondary); /* border color */
+}
+
+.custom-checkbox .ant-checkbox-checked .ant-checkbox-inner {
+  background-color: var(--color-secondary); /* checked background */
+  border-color: var(--color-secondary);;
+}
+
+.custom-checkbox .ant-checkbox-checked:hover .ant-checkbox-inner {
+  background-color: var(--color-secondary); /* checked background */
+  border-color: var(--color-secondary);;
+}
+
+.custom-checkbox .ant-checkbox:hover .ant-checkbox-inner {
+  border-color: var(--color-secondary); /* hover effect */
 }
