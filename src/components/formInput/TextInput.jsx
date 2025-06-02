@@ -1,9 +1,11 @@
 "use-client";
 import React, { useMemo, useState } from "react";
-import { Divider, Input, Select } from "antd";
+import { DatePicker, Divider, Input, Select } from "antd";
 import Spinner from "../Spinner/Spinner";
 import { Controller } from "react-hook-form";
-import { Eye, EyeClosed } from "lucide-react";
+import { Eye, EyeClosed, Search } from "lucide-react";
+import AddButton from "@/utils/buttons/AddButton";
+const { TextArea } = Input;
 const TextInput = ({ label, input, type, register, errors, name }) => {
   const [showPassword, setShowPassword] = useState(false);
   return (
@@ -15,28 +17,17 @@ const TextInput = ({ label, input, type, register, errors, name }) => {
         {label}
       </label>
       <input
-        type={
-          name === "password" &&
-          showPassword
-            ? "text"
-            : type
-        }
+        type={name === "password" && showPassword ? "text" : type}
         className="border-0 px-3 py-3 placeholder-blueGray-300 text-gray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
         placeholder={input}
         {...register(name, { required: true })}
       />
       {name === "password" && (
         <span
-          onClick={() =>
-            setShowPassword((prev) => (!prev))
-          }
+          onClick={() => setShowPassword((prev) => !prev)}
           className="cursor-pointer absolute right-3 top-9"
         >
-          {showPassword ? (
-            <Eye size={16} />
-          ) : (
-            <EyeClosed size={16} />
-          )}
+          {showPassword ? <Eye size={16} /> : <EyeClosed size={16} />}
         </span>
       )}
       {errors[name] && (
@@ -55,15 +46,18 @@ const TextInputs = ({
   name,
   control,
   disabled,
+  className,
 }) => {
   return (
-    <div className="relative w-full mb-3">
-      <label
-        className="block text-small mb-2 text-text"
-        htmlFor="grid-password"
-      >
-        {label}
-      </label>
+    <div className={`relative w-full mb-3 ${className}`}>
+      {label && (
+        <label
+          className="block text-small mb-2 text-text"
+          htmlFor="grid-password"
+        >
+          {label}
+        </label>
+      )}
       <Controller
         control={control}
         name={name}
@@ -71,7 +65,45 @@ const TextInputs = ({
           <Input
             type={type}
             placeholder={input}
-            className="!h-[35px]"
+            className="!h-[40px] placeholder:!text-gray"
+            status={errors[name] ? "error" : ""}
+            value={controllerField.value}
+            onChange={controllerField.onChange}
+            disabled={disabled}
+          />
+        )}
+      />
+      {errors[name] && (
+        <span className="text-red-500 text-sm">{errors[name]?.message}</span>
+      )}
+    </div>
+  );
+};
+
+const TextInputsWithUnderLine = ({
+  label,
+  input,
+  type,
+  register,
+  errors,
+  name,
+  control,
+  disabled,
+  className,
+}) => {
+  return (
+    <div className={`relative w-full ${className}`}>
+      <label className="flex-1 text-small 2xl:text-medium text-gray" htmlFor="grid-password">
+        {label}&nbsp;&nbsp;:
+      </label>
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: controllerField }) => (
+          <Input
+            type={type}
+            placeholder={input ? input : ""}
+            className="!h-[35px] w-full flex-1 !bg-transparent !border-0 !rounded-none !border-b !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none"
             status={errors[name] ? "error" : ""}
             value={controllerField.value}
             onChange={controllerField.onChange}
@@ -94,26 +126,65 @@ const SelectInputs = ({
   errors,
   name,
   options,
+  className,
 }) => {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
   };
   return (
-    <div className="relative w-full mb-3">
-      <label
-        className="block text-small mb-2 text-text"
-        htmlFor="grid-password"
-      >
-        {label}
-      </label>
+    <div className={`relative w-full mb-3`}>
+      {label && (
+        <label
+          className="block text-small mb-2 text-text"
+          htmlFor="grid-password"
+        >
+          {label}
+        </label>
+      )}
       <Controller
         control={control}
         name={name}
         render={({ field: controllerField }) => (
           <Select
             options={options}
-            className="!h-[35px] w-full"
+            className={`!h-[40px] placeholder:!text-gray w-full rounded-medium !bg-transparent ${className}`}
             placeholder={input}
+            status={errors[name] ? "error" : ""}
+            value={controllerField.value ? controllerField.value : undefined}
+            onChange={controllerField.onChange}
+          />
+        )}
+      />
+      {errors[name] && (
+        <span className="text-red-500 text-small">{errors[name]?.message}</span>
+      )}
+    </div>
+  );
+};
+
+const SelectInputWithoutLabel = ({
+  label,
+  input,
+  type,
+  control,
+  errors,
+  name,
+  options,
+  className,
+}) => {
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+  return (
+    <div className={`relative w-full ${className}`}>
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: controllerField }) => (
+          <Select
+            placeholder={input}
+            options={options}
+            className={`!h-[35px] w-full rounded-medium !bg-transparent ${className}`}
             status={errors[name] ? "error" : ""}
             value={controllerField.value ? controllerField.value : undefined}
             onChange={controllerField.onChange}
@@ -149,12 +220,14 @@ const MultipleSelectInputs = ({
 
   return (
     <div className="relative w-full mb-3">
-      <label
-        className="block text-small mb-2 text-text"
-        htmlFor="grid-password"
-      >
-        {label}
-      </label>
+      {label && (
+        <label
+          className="block text-small mb-2 text-text"
+          htmlFor="grid-password"
+        >
+          {label}
+        </label>
+      )}
       <Controller
         control={control}
         name={name}
@@ -163,7 +236,7 @@ const MultipleSelectInputs = ({
             <Select
               mode="multiple"
               options={option}
-              className="!h-[40px] w-full"
+              className="!h-[40px] placeholder:!text-gray w-full"
               placeholder={input}
               notFoundContent={loading ? <Spinner /> : "No data found"}
               status={errors[name] ? "error" : ""}
@@ -193,6 +266,8 @@ const SingleSelectInputs = ({
   name,
   options,
   control,
+  className,
+  labelClassName
 }) => {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -205,13 +280,13 @@ const SingleSelectInputs = ({
   }, [options]);
 
   return (
-    <div className="relative w-full mb-3">
-      <label
-        className="block text-small mb-2 text-text"
+    <div className={`relative w-full mb-3 ${className}`}>
+      {label && <label
+        className={`flex-1 text-small 2xl:text-medium text-gray`}
         htmlFor="grid-password"
       >
         {label}
-      </label>
+      </label>}
       <Controller
         control={control}
         name={name}
@@ -219,7 +294,7 @@ const SingleSelectInputs = ({
           return (
             <Select
               options={option}
-              className="!h-[35px] w-full"
+              className="!h-[40px] placeholder:!text-gray w-full flex-2"
               placeholder={input}
               status={errors[name] ? "error" : ""}
               value={controllerField.value ? controllerField.value : undefined}
@@ -238,10 +313,121 @@ const SingleSelectInputs = ({
   );
 };
 
+const SearchInput = ({ placeholder, className }) => {
+  return (
+    <div className={`${className} flex items-center relative`}>
+      <Input placeholder={placeholder} className="!h-[35px]" />
+      <AddButton className="absolute right-0 !bg-transparent">
+        <Search size={16} className="text-text" />
+      </AddButton>
+    </div>
+  );
+};
+
+const TextAreaInput = ({ placeholder, className }) => {
+  return (
+    <div className={`relative flex items-center ${className}`}>
+      <TextArea
+        placeholder={placeholder}
+        autoSize={{ minRows: 2, maxRows: 4 }}
+        className="pr-10"
+      />
+    </div>
+  );
+};
+
+const TextAreaInputWithLabel = ({
+  label,
+  input,
+  type,
+  register,
+  errors,
+  name,
+  control,
+  disabled,
+  className,
+  isCheckup
+}) => {
+  return (
+    <div className={`relative w-full ${className}`}>
+      {label && <label className="flex-1 text-small 2xl:text-medium text-gray" htmlFor="grid-password">
+        {label}:
+      </label>}
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: controllerField }) => (
+          <TextArea
+            type={type}
+            placeholder={input}
+            className={`placeholder:!text-gray w-full ${!isCheckup ? `flex-3` : `flex-6`} !bg-transparent !rounded-medium !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none`}
+            status={errors[name] ? "error" : ""}
+            value={controllerField.value}
+            onChange={controllerField.onChange}
+            disabled={disabled}
+            autoSize={{ minRows: 3, maxRows: 5 }}
+          />
+        )}
+      />
+      {errors[name] && (
+        <span className="text-red-500 text-sm">{errors[name]?.message}</span>
+      )}
+    </div>
+  );
+};
+
+
+const DatePick = ({
+  label,
+  input,
+  type,
+  register,
+  errors,
+  name,
+  control,
+  disabled,
+  className,
+}) => {
+  return (
+    <div className={`relative w-full mb-3 ${className}`}>
+      {label && (
+        <label
+          className="block text-small mb-2 text-text"
+          htmlFor="grid-password"
+        >
+          {label}
+        </label>
+      )}
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: controllerField }) => (
+          <DatePicker
+            placeholder={input}
+            selected={controllerField.value}
+            status={errors[name] ? "error" : ""}
+            onChange={controllerField.onChange}
+            className="!h-[40px] placeholder:!text-gray w-full"
+          />
+        )}
+      />
+      {errors[name] && (
+        <span className="text-red-500 text-sm">{errors[name]?.message}</span>
+      )}
+    </div>
+  );
+};
+
 export {
   TextInput,
   TextInputs,
   SelectInputs,
+  SelectInputWithoutLabel,
   MultipleSelectInputs,
   SingleSelectInputs,
+  SearchInput,
+  TextAreaInput,
+  TextInputsWithUnderLine,
+  TextAreaInputWithLabel,
+  DatePick
 };

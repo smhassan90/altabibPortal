@@ -15,12 +15,14 @@ import {
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { FadeInSection } from "../Animation";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "@/redux/auth";
 
 export default function Sidebar() {
   const pathName = usePathname();
   const path = pathName.split("/")[2];
   const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   console.log(typeof(user?.type));
   const [activeTab, setActiveTab] = useState(
     FormatToUpperCase(path) || "Dashboard"
@@ -73,7 +75,7 @@ export default function Sidebar() {
       show: [5, 4],
     },
     {
-      link: "/qualification",
+      link: "/dashboard/qualification",
       icon: <GraduationCap size={20} />,
       label: "Qualification",
       show: [5],
@@ -99,13 +101,17 @@ export default function Sidebar() {
   ];
 
   const handleMenu = (menu) => {
+    // if(menu.label === "Logout") {
+    //   router.push("/auth/login");
+    //   return;
+    // }
     router.push(menu.link);
   };
   return (
     <>
       <FadeInSection delay={0.2}>
-        <nav className="md:fixed md:top-0 md:bottom-0 items-center justify-between relative md:w-56 z-10 py-2 rounded-2xl">
-          <h2 className="text-secondary text-xxLarge font-semibold text-center border-b border-border pb-2 px-4">
+        <nav className="md:fixed md:top-0 md:bottom-0 items-center justify-between relative md:w-56 z-10 py-2 rounded-2xl shadow-md">
+          <h2 className="text-secondary text-xxLarge font-semibold text-center border-b border-border pb-4 px-4">
             Al-Tabib
           </h2>
           <div className="mt-5 space-y-2 px-4 overflow-y-auto max-h-[calc(100vh-13vh)]">

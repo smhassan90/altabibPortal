@@ -66,3 +66,17 @@
 .custom-checkbox .ant-checkbox:hover .ant-checkbox-inner {
   border-color: var(--color-secondary); /* hover effect */
 }
+
+.treatmentSelector .ant-select-selector{
+  background: transparent !important;
+}
+
+.ant-select-selection-placeholder{
+  color: var(--color-gray) !important;
+}
+.ant-picker-input > input::placeholder{
+  color: var(--color-gray) !important;
+}
+.ant-modal-content{
+  padding: var(--spacing-ratio2) !important;
+}

@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 export const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const TOKEN = useSelector((state) => state?.auth?.user?.token);
+  const user = useSelector((state) => state?.auth?.user);
   console.log(TOKEN, "token");
   const [isLoading, setLoading] = useState(false);
   const [clinics, setClinics] = useState([]);
@@ -219,7 +220,8 @@ const AppProvider = ({ children }) => {
         fetchQSpecializationDropdown,
         fetchDoctorDropdown,
         fetchPatients,
-        resetContext
+        resetContext,
+        user
       }}
     >
       {children}

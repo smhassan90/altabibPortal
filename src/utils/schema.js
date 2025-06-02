@@ -177,8 +177,7 @@ export const addSpecializationSchema = z.object({
 });
 
 export const checkUpSchema = z.object({
-  upperBp: z.string().optional(),
-  lowerBp: z.string().optional(),
+  bloodPressure: z.string().optional(),
   weight: z.coerce.string().min(1, "Weight is required"),
   charges: z.coerce.string().min(1, "Charges is required"),
   prescription: z.string().optional(),

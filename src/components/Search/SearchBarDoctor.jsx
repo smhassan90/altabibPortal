@@ -2,26 +2,25 @@
 import { ChevronDown, Plus, Search } from "lucide-react";
 import React, { useState } from "react";
 import SelectInput from "../Inputs/SelectInput";
+import DateInput from "../Inputs/DateInput";
 import AddButton from "@/utils/buttons/AddButton";
 import FormModal from "../Modals/FormModal";
 import { appointmentFields } from "@/utils/formField/formFIelds";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { addAppointmentSchema, addDoctorSchema, directAppointmentSchema } from "@/utils/schema";
-import { SearchInput, SelectInputWithoutLabel } from "../formInput/TextInput";
-import { DateInput } from "../Inputs/DateInput";
+import { addAppointmentSchema, addDoctorSchema } from "@/utils/schema";
+import { SearchInput, SelectInputs, SelectInputWithoutLabel } from "../formInput/TextInput";
+import { Input } from "antd";
 
-const SearchBarAppointment = ({visitDate,setVisitDate}) => {
+const SearchBarDoctor = () => {
   const [selectedStatus, setSelectedStatus] = useState("All Status");
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState(true);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
-  const [treatments, setTreatments] = useState([
-    {
-      id:1,
-      treatmentName: "",
-      treatmentDescription: "",
-    },
-  ]);
+  const clinic = [
+    { label: "Clinic A", value: "clinic_a" },
+    { label: "Clinic B", value: "clinic_b" },
+    { label: "Clinic C", value: "clinic_c" },
+  ];
   const {
     register,
     handleSubmit,
@@ -31,7 +30,7 @@ const SearchBarAppointment = ({visitDate,setVisitDate}) => {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(newPatientCheck ? directAppointmentSchema : addAppointmentSchema),
+    resolver: zodResolver(addAppointmentSchema),
     defaultValues: {
       patientId: "",
       patientName: "",
@@ -47,19 +46,9 @@ const SearchBarAppointment = ({visitDate,setVisitDate}) => {
       bloodPressure: "",
       prescription: "",
       diagnosis: "",
-      treatments: [
-        {
-          treatmentName: "",
-          treatmentDescription: "",
-        }
-      ],
+      treatments: "",
     },
   });
-  const status = [
-    { label: "All Status", value: "all" },
-    { label: "Successfull", value: "successfull" },
-    { label: "Pending", value: "pending" },
-  ]
   const onSubmit = (data) => {
     console.log(data, "data");
   };
@@ -68,27 +57,22 @@ const SearchBarAppointment = ({visitDate,setVisitDate}) => {
   };
   return (
     <div className="flex gap-2 mt-ratio2">
-      <SearchInput placeholder={"Search"} className="flex-3" />
-      {/* <SelectInputWithoutLabel
-        input={"Select Status"}
+      <SearchInput placeholder={"Select Doctor"} className="flex-3"/>
+      <SelectInputWithoutLabel
+        input={"Select Clinic"}
         type={"select"}
         control={control}
         errors={errors}
         name={"clinicId"}
-        options={status}
+        options={clinic}
         className={"flex-1"}
-      /> */}
+      />
       {/* <SelectInput selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus}/> */}
-      <DateInput visitDate={visitDate} setVisitDate={setVisitDate}/>
       <AddButton onClick={() => setOpenModal(true)}>
         <Plus size={16} className="" />
-        Add New Appointment
+        Add Doctor
       </AddButton>
-      {/* <button className="flex-1 bg-secondary text-white rounded-large flex items-center justify-center gap-2 px-4">
-        <Plus size={16} className=""/>
-        <span className="text-center">Add New Appointment</span>
-      </button> */}
-      {openModal && (
+      {/* {openModal && (
         <FormModal
           open={openModal}
           setOpen={setOpenModal}
@@ -99,13 +83,10 @@ const SearchBarAppointment = ({visitDate,setVisitDate}) => {
           errors={errors}
           onChange={onChange}
           newPatientCheck={newPatientCheck}
-          onSubmit={onSubmit}
-          treatments={treatments}
-          setTreatments={setTreatments}
         />
-      )}
+      )} */}
     </div>
   );
 };
 
-export default SearchBarAppointment;
+export default SearchBarDoctor;

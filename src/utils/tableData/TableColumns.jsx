@@ -4,11 +4,14 @@ import {
   ChevronUp,
   CircleCheck,
   ClockFading,
+  Eye,
   Pencil,
 } from "lucide-react";
 import CustomButom from "../buttons/AddButton";
 import AddButton from "../buttons/AddButton";
 import PendingButton from "../buttons/PendingButton";
+import EditButton from "../buttons/EditButton";
+import ShowMoreButton from "../buttons/ShowMoreButton";
 
 export const AppoitmentColumns = (onExpand, expandedRowId) => [
   {
@@ -74,12 +77,12 @@ export const AppoitmentColumns = (onExpand, expandedRowId) => [
       <div className="flex space-x-2">
         {row?.status !== "Successfull" ? (
           <>
-            <button className="">
-              <Pencil size={16} className="text-Tertiary" />
-            </button>
-            {/* <button className="">
-              <Eye size={16} className="text-Tertiary" />
-            </button> */}
+            <EditButton className={"!px-2 !py-2"}>
+              <Pencil size={20} />
+            </EditButton>
+            <ShowMoreButton className={"!px-2 !py-2"}>
+              <Eye size={20} />
+            </ShowMoreButton>
           </>
         ) : null}
       </div>

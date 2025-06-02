@@ -1,21 +1,11 @@
 import axios from "axios";
-// export const baseURL = "http://192.168.18.21:8080/tabib";
-export const baseURL = "http://66.135.60.203:8080/tabib";
+export const baseURL = "http://192.168.18.21:8080/tabib";
+// export const baseURL = "http://66.135.60.203:8080/tabib";
 
 export const Axios = axios.create({
   baseURL: baseURL,
   //   withCredentials: true,
 });
-// Axios.interceptors.request.use(async (config) => {
-//     const Token = localStorage.getItem('token')
-//     if (Token) {
-//         config.headers.Authorization = `Bearer ${Token}`
-//     }
-//     return config
-// },
-//     (error) => {
-//         return Promise.reject(error)
-//     })
 export const summary = {
   login: {
     url: "/login",
@@ -121,7 +111,7 @@ export const summary = {
     url: "/addOrUpdateDoctor",
     method: "post",
   },
-  getAppointment: {
+  viewAppointment: {
     url: "/viewAppointments",
     method: "get",
   },

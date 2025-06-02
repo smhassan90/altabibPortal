@@ -21,7 +21,7 @@ export const clinicFields = [
     label: "longitude",
     input: "Enter Location",
     type: "text",
-    name: "lng"
+    name: "lng",
   },
 ];
 
@@ -60,7 +60,7 @@ export const doctorFields = [
   {
     label: "Gender",
     type: "select",
-    name: "gender", 
+    name: "gender",
     input: "Select Gender",
     require: true,
     options: [
@@ -71,7 +71,7 @@ export const doctorFields = [
   {
     label: "Specialization",
     type: "selectoption",
-    name: "specialization", 
+    name: "specialization",
     input: "Select Specialization",
     require: true,
     options: [
@@ -82,7 +82,7 @@ export const doctorFields = [
   {
     label: "Qualification",
     type: "selectoption",
-    name: "qualification", 
+    name: "qualification",
     input: "Select Qualification",
     require: true,
     options: [
@@ -91,7 +91,7 @@ export const doctorFields = [
     ],
   },
 ];
- 
+
 export const PatientFields = [
   {
     label: "Patient Name",
@@ -108,7 +108,7 @@ export const PatientFields = [
   {
     label: "Gender",
     type: "select",
-    name: "gender", 
+    name: "gender",
     input: "Enter your Gender",
     require: true,
     options: [
@@ -146,13 +146,13 @@ export const appointmentFields = [
   {
     label: "Contact Number",
     input: "Enter Contact Number",
-    type: "text",
+    type: "number",
     name: "contactNumber",
   },
   {
     label: "Gender",
     type: "select",
-    name: "gender", 
+    name: "gender",
     input: "Select Gender",
     require: true,
     options: [
@@ -171,7 +171,7 @@ export const appointmentFields = [
     input: "Enter Clinic Name",
     type: "text",
     name: "clinicName",
-    disabled:true
+    disabled: true,
   },
   {
     label: "Visit Date",
@@ -192,28 +192,10 @@ export const appointmentFields = [
     name: "charges",
   },
   {
-    label: "Upper BP",
-    input: "Enter Upper BP",
+    label: "Blood Pressure",
+    input: "Enter Blood Pressure",
     type: "text",
-    name: "upperBp",
-  },
-  {
-    label: "Lower BP",
-    input: "Enter Lower BP",
-    type: "text",
-    name: "lowerBp",
-  },
-  {
-    label: "Prescription",
-    input: "Enter Prescription",
-    type: "text",
-    name: "prescription",
-  },
-  {
-    label: "Diagnosis",
-    input: "Enter Diagnosis",
-    type: "text",
-    name: "diagnosis",
+    name: "bloodPressure"
   },
   {
     label: "Follow Up Date",
@@ -222,11 +204,23 @@ export const appointmentFields = [
     name: "followupDate",
   },
   {
-    label: "Treatments",
-    input: "Enter Treatment",
-    type: "text",
-    name: "treatments",
+    label: "Prescription",
+    input: "Enter Prescription",
+    type: "textarea",
+    name: "prescription",
   },
+  {
+    label: "Diagnosis",
+    input: "Enter Diagnosis",
+    type: "textarea",
+    name: "diagnosis",
+  },
+  // {
+  //   label: "Treatments",
+  //   input: "Enter Treatment",
+  //   type: "text",
+  //   name: "treatments",
+  // },
 ];
 
 export const QualificationFields = [
@@ -261,16 +255,10 @@ export const SpecializationFields = [
 
 export const checkUpFields = [
   {
-    label: "Upper BP",
-    input: "Enter Upper BP",
+    label: "Blood Pressure",
+    input: "Enter Blood Pressure",
     type: "text",
-    name: "upperBp",
-  },
-  {
-    label: "Lower BP",
-    input: "Enter Lower BP",
-    type: "text",
-    name: "lowerBp",
+    name: "bloodPressure",
   },
   {
     label: "Weight",
@@ -285,23 +273,27 @@ export const checkUpFields = [
     name: "charges",
   },
   {
-    label: "Prescription",
-    input: "Enter Prescription",
+    label: "Token Number",
+    input: "Enter Token Number",
     type: "text",
-    name: "prescription",
-  },
-  {
-    label: "Diagnosis",
-    input: "Enter Diagnosis",
-    type: "text",
-    name: "diagnosis",
+    name: "tokenNumber",
   },
   {
     label: "Follow Up Date",
     input: "Enter Follow Up Date",
     type: "date",
     name: "followupDate",
-  }
+  },
+  {
+    label: "Prescription",
+    input: "Enter Prescription",
+    type: "textarea",
+    name: "prescription",
+  },
+  {
+    label: "Diagnosis",
+    input: "Enter Diagnosis",
+    type: "textarea",
+    name: "diagnosis",
+  },
 ];
-
- 

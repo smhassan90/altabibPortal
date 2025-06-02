@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/utils/schema";
@@ -8,7 +8,7 @@ import { loginFields } from "@/utils/formField/authFields";
 import { Axios, summary } from "@/config/summaryAPI";
 import { AxiosError } from "@/utils/axiosError";
 import { useDispatch } from "react-redux";
-import { login } from "@/redux/auth";
+import { login, logout } from "@/redux/auth";
 import { redirect } from "next/dist/server/api-utils";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
@@ -30,6 +30,9 @@ const Login = () => {
   const [type,setType] = useState(5)
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(logout())
+  }, [dispatch]);
   const router = useRouter();
   const onSubmit = async (data) => {
     try {
