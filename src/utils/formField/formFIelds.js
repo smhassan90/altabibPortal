@@ -180,16 +180,16 @@ export const appointmentFields = [
     name: "visitDate",
   },
   {
-    label: "Weight",
-    input: "Enter Patient Weight",
-    type: "text",
-    name: "weight",
-  },
-  {
     label: "Charges",
     input: "Enter Doctor Charges",
     type: "text",
     name: "charges",
+  },
+  {
+    label: "Weight",
+    input: "Enter Patient Weight",
+    type: "text",
+    name: "weight",
   },
   {
     label: "Blood Pressure",

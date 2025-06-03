@@ -7,7 +7,7 @@ export function TableHeader({ columns, sortConfig, onSort }) {
         {columns?.map((column) => (
           <th
             key={column.key}
-            className={`px-6 py-3 text-left text-small font-medium text-text tracking-wider ${
+            className={`px-6 py-3 text-left text-small 2xl:text-medium font-medium text-text tracking-wider ${
               column.sortable ? "cursor-pointer hover:bg-gray-100" : ""
             }`}
             onClick={() => column.sortable && onSort(column.key)}

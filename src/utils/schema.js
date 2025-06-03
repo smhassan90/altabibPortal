@@ -4,6 +4,8 @@ const passwordRegex =
 const time12HrRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/i;
 const today = new Date();
 today.setHours(0, 0, 0, 0);
+
+
 export const loginSchema = z.object({
   username: z.string().min(1, "User Name is required"),
   password: z.string().min(1, "Password is required"),
@@ -127,17 +129,15 @@ export const addAppointmentSchema = z.object({
 
 export const directAppointmentSchema = z.object({
   patientName: z.string().min(1, "Patient Name is required"),
-  dob: z
-    .string()
-    .min(1, { message: "Age is Required" })
+  dob: z.coerce
+    .date({
+      required_error: "Age is Required",
+      invalid_type_error: "DOB must be a valid date",
+    })
     .refine(
-      (val) => {
-        const date = new Date(val);
-        const now = new Date();
-        return !isNaN(date.getTime()) && date < now;
-      },
+      (date) => date < today,
       {
-        message: "Date of Birth must be a valid past date",
+        message: "Enter Correct Date of Birth",
       }
     ),
   contactNumber: z.string().min(1, "Contact Number is required"),
@@ -178,7 +178,8 @@ export const addSpecializationSchema = z.object({
 
 export const checkUpSchema = z.object({
   bloodPressure: z.string().optional(),
-  weight: z.coerce.string().min(1, "Weight is required"),
+  tokenNumber: z.coerce.string().optional(),
+  weight: z.coerce.string().optional(),
   charges: z.coerce.string().min(1, "Charges is required"),
   prescription: z.string().optional(),
   diagnosis: z.string().optional(),

@@ -12,6 +12,7 @@ import {
 import { Checkbox } from "antd";
 import AddButton from "@/utils/buttons/AddButton";
 import { Plus } from "lucide-react";
+import Spinner from "../Spinner/Spinner";
 const FormModal = ({
   open,
   setOpen,
@@ -19,20 +20,30 @@ const FormModal = ({
   formFields,
   handleSubmit,
   onSubmit,
+  onNewPatient,
+  setValue,
   control,
   errors,
   onChange,
   newPatientCheck,
   treatments,
   setTreatments,
+  doctors,
+  patients,
+  loader,
+  handleReset
 }) => {
+  const handleClose = () =>{
+    setOpen(false);
+    handleReset()
+  }
   return (
     <Modal
       title=""
       centered
       open={open}
-      onOk={() => setOpen(false)}
-      onCancel={() => setOpen(false)}
+      onOk={handleClose}
+      onCancel={handleClose}
       okText="Add"
       cancelText="Cancel"
       okButtonProps={{
@@ -55,7 +66,7 @@ const FormModal = ({
         <div className="rounded-large overflow-hidden">{node}</div>
       )}
     >
-      <div className="flex items-center justify-between px-ratio2">
+      <div className="flex items-center justify-between px-ratio2 pt-ratio2">
         <h2 className="text-medium">{title}</h2>
         {title === "Add New Appointment" && (
           <Checkbox className="custom-checkbox pr-5" onChange={onChange}>
@@ -64,7 +75,7 @@ const FormModal = ({
         )}
       </div>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit(newPatientCheck ? onNewPatient : onSubmit)}
         className="mt-4 bg-white px-ratio2 max-h-[450px] overflow-auto"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2">
@@ -90,6 +101,8 @@ const FormModal = ({
               if (field.name === "patientId" && newPatientCheck) {
                 return null;
               }
+              const isDoctors = field.name.includes("doctorId");
+              const isPatients = field.name.includes("patientId");
               return (
                 <SingleSelectInputs
                   key={index}
@@ -99,6 +112,8 @@ const FormModal = ({
                   control={control}
                   errors={errors}
                   name={field.name}
+                  setValue={setValue}
+                  options={isDoctors ? doctors : isPatients ? patients : []}
                 />
               );
             }
@@ -138,6 +153,9 @@ const FormModal = ({
               );
             }
             if (field.type === "date") {
+              if ((field.name === "dob") && !newPatientCheck) {
+                return null;
+              }
               return (
                 <DatePick
                   key={index}
@@ -172,7 +190,7 @@ const FormModal = ({
         {title === "Add New Appointment" && (
           <div className="mt-ratio2 border-t border-border">
             {treatments.map((treatment, index) => (
-              <div className="flex items-start gap-ratio2 pt-ratio2">
+              <div key={index} className="flex items-start gap-ratio2 pt-ratio2">
                 <SingleSelectInputs
                   // label={field.label}
                   input={"Treatment"}
@@ -193,7 +211,16 @@ const FormModal = ({
                 />
               </div>
             ))}
-            <AddButton type="button" className="w-full !text-center justify-center mt-2 !bg-transparent !text-secondary font-semibold !text-medium border-2 !border-dashed !border-border !py-2" onClick={() => setTreatments([...treatments, { treatmentName: "", treatmentDescription: "" }])}>
+            <AddButton
+              type="button"
+              className="w-full !text-center justify-center mt-2 !bg-transparent !text-secondary font-semibold !text-medium border-2 !border-dashed !border-border !py-2"
+              onClick={() =>
+                setTreatments([
+                  ...treatments,
+                  { treatmentName: "", treatmentDescription: "" },
+                ])
+              }
+            >
               <Plus size={16} />
               Add More Treatment
             </AddButton>
@@ -201,7 +228,7 @@ const FormModal = ({
         )}
         <div className="flex justify-end gap-2 mt-4">
           <button
-            onClick={() => setOpen(false)}
+            onClick={handleClose}
             className="px-4 !py-1 border border-border rounded-medium"
           >
             Cancel
@@ -210,7 +237,7 @@ const FormModal = ({
             type="submit"
             className="px-4 !py-1 bg-secondary text-white rounded-medium"
           >
-            Confirm
+            {loader ? <Spinner size={16} style={{ color: "white" }} /> : "Confirm" }
           </button>
         </div>
       </form>

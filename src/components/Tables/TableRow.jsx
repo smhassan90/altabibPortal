@@ -15,7 +15,10 @@ import {
 import { checkUpFields } from "@/utils/formField/formFIelds";
 import { DateInput, DateInputWithValidation } from "../Inputs/DateInput";
 import DeleteButton from "@/utils/buttons/DeleteButton";
-import PatientHistory from "../PatientHistory";
+import PatientHistory from "../ExpandRows/Patient/PatientHistory";
+import EditButton from "@/utils/buttons/EditButton";
+import PatientInformation from "../ExpandRows/Patient/PatientInformation";
+import PatientExpandRow from "../ExpandRows/Patient";
 
 export function TableRow({
   data,
@@ -26,9 +29,6 @@ export function TableRow({
   errors,
   control,
 }) {
-  const [treatments, setTreatments] = useState([
-    { id: Date.now().toString(), treatment: "", description: "" },
-  ]);
   const [selectedStatus, setSelectedStatus] = useState("All Status");
   const inputcss = "h-[28px] px-2 border-b-1 border-gray-300 outline-none";
   const Input = ({ label, value }) => {
@@ -57,27 +57,13 @@ export function TableRow({
     { label: "Blood Test", value: "Blood Test" },
     { label: "Follow-up Visit", value: "Follow-up Visit" },
   ];
-  const addTreatment = () => {
-    const newTreatment = {
-      id: Date.now().toString(),
-      treatment: "",
-      description: "",
-    };
-    setTreatments([...treatments, newTreatment]);
-    console.log([...treatments, newTreatment]);
-  };
-  const removeTreatment = (id) => {
-    if (treatments.length > 1) {
-      setTreatments(treatments.filter((t) => t.id !== id));
-    }
-  };
   return (
     <>
       <tr className={`hover:bg-gray-100`}>
         {columns.map((column) => (
           <td
             key={column.key}
-            className="px-6 py-4 whitespace-nowrap text-small text-text"
+            className="px-6 py-4 whitespace-nowrap text-small 2xl:text-medium text-text"
           >
             {column.render
               ? column.render(data[column.key], data)
@@ -85,103 +71,10 @@ export function TableRow({
           </td>
         ))}
       </tr>
-      {!isExpanded && (
+      {isExpanded && (
         <tr className="">
           <td colSpan={columns.length} className="">
-            <div className="mx-ratio2 px-ratio2 py-ratio2 bg-background text-small text-gray-700">
-              <h2 className="text-text text-medium 2xl:text-large font-semibold">
-                Patient Information
-              </h2>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-ratio1 gap-y-ratio2">
-                {checkUpFields.map((field, idx) => {
-                  if (field?.type == "text") {
-                    return (
-                      <TextInputsWithUnderLine
-                        key={idx}
-                        label={field?.label}
-                        // input={field?.input}
-                        type={field?.type}
-                        register={register}
-                        errors={errors}
-                        name={field?.name}
-                        control={control}
-                        className="flex items-end justify-between gap-2 "
-                      />
-                    );
-                  } else if (field?.type == "date") {
-                    return (
-                      <DateInputWithValidation
-                        key={idx}
-                        label={field?.label}
-                        // input={field?.input}
-                        type={field?.type}
-                        register={register}
-                        errors={errors}
-                        name={field?.name}
-                        control={control}
-                        className="flex items-end justify-between gap-2"
-                      />
-                    );
-                  }
-                })}
-              </div>
-              <div className="grid grid-cols-1 xl:grid-cols-2 gap-ratio2 mt-ratio1">
-                {checkUpFields?.slice(-2)?.map((field, idx) => (
-                  <TextAreaInputWithLabel
-                    key={idx}
-                    label={field?.label}
-                    input={field?.input}
-                    type={field?.type}
-                    register={register}
-                    errors={errors}
-                    name={field?.name}
-                    control={control}
-                    className="flex space-y-ratio2"
-                  />
-                ))}
-              </div>
-              <div className="grid grid-cols-1 gap-4 mt-ratio2 border-t pt-ratio2 border-border">
-                {treatments.map((treatment, index) => (
-                  <div key={treatment.id} className="">
-                    <div className="flex justify-between gap-4">
-                      <SingleSelectInputs
-                        label={"Treatment Name"}
-                        input={"Treatment"}
-                        type={"select"}
-                        control={control}
-                        errors={errors}
-                        name={"treatment"}
-                        className="flex !mb-0 flex-6"
-                      />
-                      <TextAreaInputWithLabel
-                        label={"Description"}
-                        input={"Description"}
-                        type={"textarea"}
-                        errors={errors}
-                        name={"treatmentDescription"}
-                        control={control}
-                        className="flex space-y-ratio2 flex-10"
-                        isCheckup={true}
-                      />
-                      <div className="flex items-start justify-end flex-1">
-                        <div className="flex gap-2">
-                          {treatments.length > 1 && (
-                            <DeleteButton
-                              onClick={() => removeTreatment(treatment?.id)}
-                              className={"!rounded-full !px-2 !py-2"}
-                            >
-                              <Trash2 size={16} />
-                            </DeleteButton>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <AddButton onClick={addTreatment}>Add Treatment</AddButton>
-            </div>
-            <PatientHistory/>
+            <PatientExpandRow data={data}/>
           </td>
         </tr>
       )}

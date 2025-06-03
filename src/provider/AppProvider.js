@@ -8,7 +8,6 @@ export const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const TOKEN = useSelector((state) => state?.auth?.user?.token);
   const user = useSelector((state) => state?.auth?.user);
-  console.log(TOKEN, "token");
   const [isLoading, setLoading] = useState(false);
   const [clinics, setClinics] = useState([]);
   const [doctors, setDoctors] = useState([]);
@@ -138,16 +137,16 @@ const AppProvider = ({ children }) => {
       setLoading(false)
     }
   };
-  const fetchDoctorDropdown = async (setIsLoading) => {
+  const fetchDoctorDropdown = async () => {
     try {
-      setIsLoading(true)
+      // setIsLoading(true)
       const { url, method, transformer = (data) => data } = summary.getDoctors;
       const response = await Axios({
         url,
         method,
         params: {
           token: TOKEN,
-          clinicId,
+          clinicId:user?.username,
         },
       });
       const transformed = transformer(response.data.data);
@@ -155,7 +154,7 @@ const AppProvider = ({ children }) => {
     } catch (error) {
       AxiosError(error);
     } finally {
-      setIsLoading(false)
+      // setIsLoading(false)
     }
   };
   const fetchPatients = async () => {
@@ -165,7 +164,7 @@ const AppProvider = ({ children }) => {
         ...summary.getAllPatients,
         params: {
           token: TOKEN,
-          clinicId,
+          clinicId:user?.username,
           doctorId,
         },
       });
@@ -221,7 +220,8 @@ const AppProvider = ({ children }) => {
         fetchDoctorDropdown,
         fetchPatients,
         resetContext,
-        user
+        user,
+        TOKEN
       }}
     >
       {children}

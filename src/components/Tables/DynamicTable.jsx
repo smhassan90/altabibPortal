@@ -3,6 +3,7 @@ import { useState, useMemo } from "react";
 import { TableHeader } from "./TableHeader";
 import { TableRow } from "./TableRow";
 import { TablePagination } from "./TablePagination";
+import DataLoader from "@/utils/loader/DataLoader";
 
 export function DynamicTable({
   data,
@@ -12,7 +13,8 @@ export function DynamicTable({
   expandedRow,
   control,
   register,
-  errors
+  errors,
+  loader
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState(null);
@@ -111,7 +113,9 @@ export function DynamicTable({
         </table>
       </div>
 
-      {paginatedData?.length === 0 && (
+      {loader ? (
+        <DataLoader/>
+      ) : paginatedData?.length === 0 && (
         <div className="text-center py-8 text-gray-500">No data found</div>
       )}
 

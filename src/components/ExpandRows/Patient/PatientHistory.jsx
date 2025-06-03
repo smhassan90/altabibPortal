@@ -5,8 +5,9 @@ import { ChevronDown } from "lucide-react";
 import AccordianButton from "@/utils/buttons/AccordianButton";
 
 const PatientHistory = () => {
-  const [openAccordion, setOpenAccordion] = useState(0);
-
+  const [openAccordion, setOpenAccordion] = useState(null);
+  const title = "text-small 2xl:text-medium text-gray";
+  const text = "text-small 2xl:text-medium text-text";
   const patientRecords = [
     {
       date: "May 03, 25",
@@ -77,10 +78,40 @@ const PatientHistory = () => {
                   : "max-h-0 opacity-0"
               }`}
             >
-              <div className="px-ratio1 py-ratio2">
-                <div className="flex items-center">
-                  <p className="text-small 2xl:text-medium text-gray">Blood Pressure:</p>
-                  <p className="font-medium">{record.bloodPressure}</p>
+              <div className="px-ratio1 py-ratio2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-ratio1 gap-y-ratio2">
+                <div className="flex items-center justify-between">
+                  <h5 className={`${title}`}>Blood Pressure:</h5>
+                  <p className={`${text}`}>{record.bloodPressure}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <h5 className={`${title}`}>Weight:</h5>
+                  <p className={`${text}`}>{record.weight}</p>
+                </div>
+                <div className="flex items-center justify-between">
+                  <h5 className={`${title}`}>FollowUp Date:</h5>
+                  <p className={`${text}`}>{record.followupDate}</p>
+                </div>
+              </div>
+              <div className="px-ratio1 py-ratio2 grid grid-cols-1 sm:grid-cols-2 gap-x-ratio1 gap-y-ratio2">
+                <div className="flex items-start justify-between gap-ratio2">
+                  <h5 className={`${title}`}>Prescription:</h5>
+                  <p className={`${text}`}>{record.bloodPressure}</p>
+                </div>
+                <div className="flex items-start justify-between gap-ratio2">
+                  <h5 className={`${title}`}>Diagnosis:</h5>
+                  <p className={`${text}`}>{record.bloodPressure}</p>
+                </div>
+              </div>
+              <div className="px-ratio1 py-ratio2 grid grid-cols-1 gap-x-ratio1 gap-y-ratio2">
+                <div className="flex items-start gap-ratio2">
+                  <div className="flex flex-1 items-start justify-between gap-ratio2">
+                    <h5 className={`${title}`}>Treatment Name:</h5>
+                    <p className={`${text}`}>{record.bloodPressure}</p>
+                  </div>
+                  <div className="flex flex-2 items-start justify-between gap-ratio2">
+                    <h5 className={`${title}`}>Description:</h5>
+                    <p className={`${text}`}>{record.bloodPressure}</p>
+                  </div>
                 </div>
               </div>
             </div>

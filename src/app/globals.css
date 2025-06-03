@@ -80,3 +80,9 @@
 .ant-modal-content{
   padding: var(--spacing-ratio2) !important;
 }
+.custom-spinner .ant-spin-dot-item {
+  background-color: var(--color-secondary) !important;
+}
+.custom-spinner {
+  transform: scale(1.5);
+}

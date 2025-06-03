@@ -15,14 +15,16 @@ import { checkUpSchema } from "@/utils/schema";
 const page = () => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [visitDate, setVisitDate] = useState(dayjs().format("YYYY-MM-DD"));
-  console.log(visitDate, "visitDate");
+  const [loader, setLoader] = useState(false);
   const handleExpand = (id) => {
     setExpandedRow((prev) => (prev === id ? null : id));
   };
-  const { user, appointment, setAppointment } = useContext(AppContext);
-  console.log(user, "User");
+  const { user, appointment, setAppointment, doctors, fetchDoctorDropdown } =
+    useContext(AppContext);
   const fetchAppointment = async () => {
     try {
+      setAppointment([])
+      setLoader(true);
       const response = await Axios({
         ...summary.viewAppointment,
         params: {
@@ -36,12 +38,12 @@ const page = () => {
         },
       });
       if (response.data.status === "200") {
-        setAppointment(response.data.data);
+        setAppointment(response.data.data.appointments);
       }
-      setAppointment(resp);
     } catch (error) {
-      console.log(error, "error");
       AxiosError(error);
+    }finally{
+      setLoader(false);
     }
   };
   useEffect(() => {
@@ -71,13 +73,14 @@ const page = () => {
       <h2>Appointment Management</h2>
       <SearchBarAppointment visitDate={visitDate} setVisitDate={setVisitDate} />
       <DynamicTable
-        data={appointmentData}
+        data={appointment}
         columns={AppoitmentColumns(handleExpand, expandedRow)}
         initialItemsPerPage={5}
         expandedRow={expandedRow}
         control={control}
         register={register}
         errors={errors}
+        loader={loader}
       />
     </div>
   );

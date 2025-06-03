@@ -2,7 +2,7 @@
 import React, { useMemo, useState } from "react";
 import { DatePicker, Divider, Input, Select } from "antd";
 import Spinner from "../Spinner/Spinner";
-import { Controller } from "react-hook-form";
+import { Controller, set } from "react-hook-form";
 import { Eye, EyeClosed, Search } from "lucide-react";
 import AddButton from "@/utils/buttons/AddButton";
 const { TextArea } = Input;
@@ -267,6 +267,7 @@ const SingleSelectInputs = ({
   options,
   control,
   className,
+  setValue,
   labelClassName
 }) => {
   const handleChange = (value) => {
@@ -298,9 +299,15 @@ const SingleSelectInputs = ({
               placeholder={input}
               status={errors[name] ? "error" : ""}
               value={controllerField.value ? controllerField.value : undefined}
-              // onChange={controllerField.onChange}
               onChange={(value, option) => {
                 controllerField.onChange(value);
+                if (name === "patientId") {
+                  setValue("patientName", option.label);
+                } else if (name === "doctorId") {
+                  setValue("doctorName", option.label);
+                } else if (name === "clinicId") {
+                  setValue("clinicName", option.label);
+                }
               }}
             />
           );

@@ -23,7 +23,6 @@ export default function Sidebar() {
   const path = pathName.split("/")[2];
   const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
-  console.log(typeof(user?.type));
   const [activeTab, setActiveTab] = useState(
     FormatToUpperCase(path) || "Dashboard"
   );

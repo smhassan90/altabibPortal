@@ -1,7 +1,7 @@
 export const appointmentData = [
   {
     id: 1,
-    patient: "Ali Raza",
+    patientName: "Ali Raza",
     age: "30",
     visitDate: "12-01-2025",
     clinic: "Community Medical Center",
