@@ -100,10 +100,13 @@ export default function Sidebar() {
   ];
 
   const handleMenu = (menu) => {
-    // if(menu.label === "Logout") {
-    //   router.push("/auth/login");
-    //   return;
-    // }
+    if(menu.label === "Logout") {
+      router.push("/auth/login");
+      setTimeout(()=>{
+        dispatch(logout());
+      },[5000])
+      return;
+    }
     router.push(menu.link);
   };
   return (

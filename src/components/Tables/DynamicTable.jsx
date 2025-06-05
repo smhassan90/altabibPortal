@@ -23,7 +23,7 @@ export function DynamicTable({
   const [sortConfig, setSortConfig] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(initialItemsPerPage);
-
+  console.log(data, "data in dynamic table");
   // Filter and search data
   const filteredData = useMemo(() => {
     let filtered = data;

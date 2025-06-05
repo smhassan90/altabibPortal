@@ -181,11 +181,12 @@ export const checkUpSchema = z.object({
   charges: z.coerce.string().min(1, "Charges is required"),
   prescription: z.string().optional(),
   diagnosis: z.string().optional(),
-  visitDate: z.coerce
+  followupDate: z.coerce
     .date({
       required_error: "Visit Date is required",
       invalid_type_error: "Visit Date must be a valid date",
     })
-    .min(tomorrow, { message: "Visit Date must be in the future (Not Today)" })
+    .min(today, { message: "FollowUp Date must be in the future" })
+    .min(tomorrow, { message: "FollowUp Date must be in the future (Not Today)" })
     .optional(),
 });

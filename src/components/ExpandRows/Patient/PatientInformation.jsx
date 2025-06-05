@@ -23,6 +23,7 @@ import toast from "react-hot-toast";
 const title = "text-small 2xl:text-medium text-gray";
 const text = "text-small 2xl:text-medium text-text";
 const PatientInformation = ({ data: patient, mode, setExpandedRow, fetchAppointment }) => {
+  console.log(mode, "mode");
   const [checked, setChecked] = useState(false);
   const [loader, setLoader] = useState(false);
   const { doctors, patients, fetchPatients, fetchDoctorDropdown, user, TOKEN } =
@@ -43,7 +44,7 @@ const PatientInformation = ({ data: patient, mode, setExpandedRow, fetchAppointm
       charges: patient?.charges || "",
       prescription: patient?.prescription || "",
       diagnosis: patient?.diagnosis || "",
-      followupDate: patient?.followupDate || "",
+      followupDate: dayjs(patient.followupDate).format("YYYY-MM-DD") || "",
       tokenNumber: patient?.tokenNumber || "",
     },
   });
@@ -74,17 +75,14 @@ const PatientInformation = ({ data: patient, mode, setExpandedRow, fetchAppointm
         patientName: patient.patientName,
         clinicName: patient.clinicName,
         doctorName: patient.doctorName,
-        visitDate: checked
-          ? patient.visitDate
-          : dayjs(data.followupDate).format("YYYY-MM-DD"),
+        visitDate: patient.visitDate,
         tokenNumber: patient.tokenNumber,
         status: checked ? 1 : 0,
         charges: data.charges,
         prescription: data.prescription,
         diagnosis: data.diagnosis,
         weight: data.weight,
-        bloodPressure:
-          `${data.upperBp}/${data.lowerBp}` || patient.bloodPressure,
+        bloodPressure: data.bloodPressure || patient.bloodPressure,
         followupDate: dayjs(data.followupDate).format("YYYY-MM-DD"),
         patientId: patient.patientId,
         clinicId: patient.clinicId,
@@ -215,7 +213,7 @@ const PatientInformation = ({ data: patient, mode, setExpandedRow, fetchAppointm
               </div>
             ))}
           </div>
-          {patient.status == 0 && (
+          {patient?.status == 0 && (
             <div className="flex items-center justify-between mt-ratio2">
               <AddButton type="button" onClick={addTreatment}>
                 Add Treatment

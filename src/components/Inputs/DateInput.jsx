@@ -23,29 +23,36 @@ export const DateInputWithValidation = ({
   type,
   errors,
   className,
-  input
+  input,
 }) => {
   return (
     <div className={`relative w-full ${className}`}>
-      <label className="flex-1 text-small 2xl:text-medium text-gray" htmlFor="grid-password">
+      <label
+        className="flex-1 text-small 2xl:text-medium text-gray"
+        htmlFor="grid-password"
+      >
         {label}&nbsp;:
       </label>
-      <Controller
-        control={control}
-        name={name}
-        render={({ field: controllerField }) => (
-          <DatePicker
-            placeholder={input ? input : ""}
-            value={controllerField.value}
-            onChange={controllerField.onChange}
-            className="!h-[40px] w-full flex-1 !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
-            allowClear={false}
-          />
+      <div className="flex-1">
+        <Controller
+          control={control}
+          name={name}
+          render={({ field: controllerField }) => {
+            return (
+              <DatePicker
+                placeholder={input ? input : ""}
+                value={controllerField.value == "Invalid Date" ? null : dayjs(controllerField.value)}
+                onChange={controllerField.onChange}
+                className="!h-[40px] w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
+                allowClear={false}
+              />
+            );
+          }}
+        />
+        {errors[name] && (
+          <span className="text-red-500 text-sm">{errors[name]?.message}</span>
         )}
-      />
-      {errors[name] && (
-        <span className="text-red-500 text-sm">{errors[name]?.message}</span>
-      )}
+      </div>
     </div>
   );
 };

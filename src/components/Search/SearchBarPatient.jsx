@@ -17,19 +17,20 @@ import {
 import { Input, Select } from "antd";
 import { AppContext } from "@/provider/AppProvider";
 
-const SearchBarDoctor = () => {
-  const {clinics,setClinics,fetchClinicDropdown} = useContext(AppContext);
-  const [selectedClinic, setSelectedClinic] = useState(null);
+const SearchBarPatient = () => {
+  const { doctors, patients, fetchPatients, fetchDoctorDropdown, user, TOKEN } = useContext(AppContext);
+  useEffect(() => {
+    fetchDoctorDropdown();
+    fetchPatients();
+  }, []);
+  console.log(doctors,"doctors")
+  const sortedDoctor = doctors.map((doctor) => ({
+    label: doctor.name,
+    value: doctor.name,
+  }));
+  const [selectedDoctor, setSelectedDoctor] = useState(null);
   const [openModal, setOpenModal] = useState(true);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
-  useEffect(() => {
-    fetchClinicDropdown();
-  }, [selectedClinic]);
-  console.log(clinics,"clinics")
-  const sortedClinic = clinics.map((clinic) => ({
-    label: clinic.name,
-    value: clinic.name,
-  }));
   const clinic = [
     { label: "Clinic A", value: "clinic_a" },
     { label: "Clinic B", value: "clinic_b" },
@@ -73,19 +74,15 @@ const SearchBarDoctor = () => {
     <div className="flex gap-2 mt-ratio2">
       <SearchInput placeholder={"Select Doctor"} className="flex-3" />
       <Select
-        placeholder="Select Clinic"
-        options={sortedClinic}
+        placeholder="Select Doctor"
+        options={sortedDoctor}
         className="!h-[35px] placeholder:!text-gray w-full flex-1"
-        value={selectedClinic}
+        value={selectedDoctor}
         onChange={(value) => {
-          setSelectedClinic(value);
+          setSelectedDoctor(value);
         }}
       />
       {/* <SelectInput selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus}/> */}
-      <AddButton onClick={() => setOpenModal(true)}>
-        <Plus size={16} className="" />
-        Add New Doctor
-      </AddButton>
       {/* {openModal && (
         <FormModal
           open={openModal}
@@ -103,4 +100,4 @@ const SearchBarDoctor = () => {
   );
 };
 
-export default SearchBarDoctor;
+export default SearchBarPatient;

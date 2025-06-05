@@ -13,7 +13,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { checkUpSchema } from "@/utils/schema";
 const page = () => {
-  const { user, appointment, setAppointment, doctors, fetchDoctorDropdown } = useContext(AppContext);
+  const { user, appointment, setAppointment, doctors, fetchDoctorDropdown } =
+    useContext(AppContext);
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [expandedRow, setExpandedRow] = useState(null);
   const [visitDate, setVisitDate] = useState(dayjs().format("YYYY-MM-DD"));
@@ -21,20 +22,18 @@ const page = () => {
   const [mode, setMode] = useState("");
   const [filterAppointment, setFilterAppointment] = useState(appointment);
   const handleExpand = (id, Selectmode) => {
-    if(!mode || mode == Selectmode){
-      setExpandedRow((prev) => (prev === id ? null : id));
-      if(mode == Selectmode){
-        setMode("");
-      }else{
+    if (expandedRow === id) {
+      if (mode !== Selectmode) {
         setMode(Selectmode);
       }
-    }else{
+    } else {
+      setExpandedRow(id);
       setMode(Selectmode);
     }
   };
   const fetchAppointment = async () => {
     try {
-      setAppointment([])
+      setAppointment([]);
       setLoader(true);
       const response = await Axios({
         ...summary.viewAppointment,
@@ -53,22 +52,22 @@ const page = () => {
       }
     } catch (error) {
       AxiosError(error);
-    }finally{
+    } finally {
       setLoader(false);
     }
   };
   useEffect(() => {
     fetchAppointment();
   }, [visitDate]);
-  useEffect(()=>{
-    console.log(selectedStatus,"selectedStatus")
+  useEffect(() => {
+    console.log(selectedStatus, "selectedStatus");
     const filterData = appointment.filter((item) => {
-      if(selectedStatus == "all") return item;
-      if(item.status == selectedStatus) return item;
+      if (selectedStatus == "all") return item;
+      if (item.status == selectedStatus) return item;
     });
-    console.log(filterData,"filterData")
+    console.log(filterData, "filterData");
     setFilterAppointment(filterData);
-  }, [selectedStatus,appointment]);
+  }, [selectedStatus, appointment]);
   const {
     register,
     handleSubmit,
@@ -91,7 +90,12 @@ const page = () => {
   return (
     <div className="mt-ratio2">
       <h2>Appointment Management</h2>
-      <SearchBarAppointment visitDate={visitDate} setVisitDate={setVisitDate} selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus}/>
+      <SearchBarAppointment
+        visitDate={visitDate}
+        setVisitDate={setVisitDate}
+        selectedStatus={selectedStatus}
+        setSelectedStatus={setSelectedStatus}
+      />
       <DynamicTable
         data={filterAppointment}
         columns={AppoitmentColumns(handleExpand, expandedRow)}
