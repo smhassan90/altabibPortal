@@ -21,7 +21,7 @@ export const AppoitmentColumns = (onExpand, expandedRowId) => [
       <div className="flex items-center justify-between">
         <span>{value}</span>
         <button
-          onClick={() => onExpand(row.id)}
+          onClick={() => onExpand(row.id,"readable")}
           className="ml-2 text-primary hover:text-blue-600"
         >
           {expandedRowId === row.id ? (
@@ -76,18 +76,19 @@ export const AppoitmentColumns = (onExpand, expandedRowId) => [
     render: (value,row) => (
       <div className="flex space-x-2">
         {row?.status == 0 ? (
-          <>
-            <EditButton className={"!px-2 !py-2"} onClick={() => onExpand(row.id)}>
-              <Pencil size={20} />
-            </EditButton>
+          <div className="flex items-center space-x-2">
+            {/* <EditButton className={"!px-2 !py-2"} onClick={() => onExpand(row.id)}> */}
+              <Eye size={20} className="text-secondary" onClick={() => onExpand(row.id,"readable")}/>
+              <Pencil size={20} className="text-Tertiary" onClick={() => onExpand(row.id,"editable")}/>
+            {/* </EditButton> */}
             {/* <ShowMoreButton className={"!px-2 !py-2"}>
               <Eye size={20} />
             </ShowMoreButton> */}
-          </>
+          </div>
         ) : (
-          <ShowMoreButton className={"!px-2 !py-2 flex justify-end"}>
-            <Eye size={20} />
-          </ShowMoreButton>
+          <div className="flex items-center space-x-2">
+            <Eye size={20} className="text-secondary" onClick={() => onExpand(row.id,"readable")}/>
+          </div>
         )}
       </div>
     ),

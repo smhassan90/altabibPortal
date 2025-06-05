@@ -28,7 +28,7 @@ export const DateInputWithValidation = ({
   return (
     <div className={`relative w-full ${className}`}>
       <label className="flex-1 text-small 2xl:text-medium text-gray" htmlFor="grid-password">
-        {label}&nbsp;&nbsp;:
+        {label}&nbsp;:
       </label>
       <Controller
         control={control}
@@ -38,7 +38,7 @@ export const DateInputWithValidation = ({
             placeholder={input ? input : ""}
             value={controllerField.value}
             onChange={controllerField.onChange}
-            className="!h-[35px] w-full flex-1 !bg-transparent !border-0 !rounded-none !border-b !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none"
+            className="!h-[40px] w-full flex-1 !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
             allowClear={false}
           />
         )}

@@ -4,10 +4,11 @@ import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import AccordianButton from "@/utils/buttons/AccordianButton";
 
-const PatientHistory = () => {
+const PatientHistory = ({ patientHistory }) => {
   const [openAccordion, setOpenAccordion] = useState(null);
   const title = "text-small 2xl:text-medium text-gray";
   const text = "text-small 2xl:text-medium text-text";
+  console.log(patientHistory, "PatientHistory");
   const patientRecords = [
     {
       date: "May 03, 25",
@@ -52,74 +53,86 @@ const PatientHistory = () => {
   };
 
   return (
-    <div className="mx-ratio2 px-ratio2 py-ratio2 bg-background text-small text-gray-700">
+    <div className="mx-ratio2 px-ratio2 py-ratio2 bg-Bluish text-small text-gray-700">
       <h2 className="text-text text-medium 2xl:text-large font-semibold">
         Patient History
       </h2>
       <div className="space-y-2 mt-ratio2">
-        {patientRecords.map((record, index) => (
-          <div
-            key={index}
-            className="border border-gray-200 rounded-md overflow-hidden"
-          >
-            <AccordianButton onClick={() => toggleAccordion(index)}>
-              <span className="font-medium text-gray-700">{record.date}</span>
-              <ChevronDown
-                size={16}
-                className={`text-gray transition-transform duration-200 ${
-                  openAccordion === index ? "transform rotate-180" : ""
-                }`}
-              />
-            </AccordianButton>
+        {patientHistory?.length > 0 ? patientHistory?.map((record, index) => (
             <div
-              className={`bg-white transition-all duration-300 ease-in-out overflow-hidden ${
-                openAccordion === index
-                  ? "max-h-[500px] opacity-100"
-                  : "max-h-0 opacity-0"
-              }`}
+              key={index}
+              className="border border-gray-200 rounded-md overflow-hidden"
             >
-              <div className="px-ratio1 py-ratio2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-ratio1 gap-y-ratio2">
-                <div className="flex items-center justify-between">
-                  <h5 className={`${title}`}>Blood Pressure:</h5>
-                  <p className={`${text}`}>{record.bloodPressure}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <h5 className={`${title}`}>Weight:</h5>
-                  <p className={`${text}`}>{record.weight}</p>
-                </div>
-                <div className="flex items-center justify-between">
-                  <h5 className={`${title}`}>FollowUp Date:</h5>
-                  <p className={`${text}`}>{record.followupDate}</p>
-                </div>
-              </div>
-              <div className="px-ratio1 py-ratio2 grid grid-cols-1 sm:grid-cols-2 gap-x-ratio1 gap-y-ratio2">
-                <div className="flex items-start justify-between gap-ratio2">
-                  <h5 className={`${title}`}>Prescription:</h5>
-                  <p className={`${text}`}>{record.bloodPressure}</p>
-                </div>
-                <div className="flex items-start justify-between gap-ratio2">
-                  <h5 className={`${title}`}>Diagnosis:</h5>
-                  <p className={`${text}`}>{record.bloodPressure}</p>
-                </div>
-              </div>
-              <div className="px-ratio1 py-ratio2 grid grid-cols-1 gap-x-ratio1 gap-y-ratio2">
-                <div className="flex items-start gap-ratio2">
-                  <div className="flex flex-1 items-start justify-between gap-ratio2">
-                    <h5 className={`${title}`}>Treatment Name:</h5>
-                    <p className={`${text}`}>{record.bloodPressure}</p>
+              <AccordianButton onClick={() => toggleAccordion(index)}>
+                <span className="font-medium text-gray-700">
+                  {record.visitDate}
+                </span>
+                <ChevronDown
+                  size={16}
+                  className={`text-gray transition-transform duration-200 ${
+                    openAccordion === index ? "transform rotate-180" : ""
+                  }`}
+                />
+              </AccordianButton>
+              <div
+                className={`bg-white transition-all duration-300 ease-in-out overflow-hidden ${
+                  openAccordion === index
+                    ? "max-h-[500px] opacity-100"
+                    : "max-h-0 opacity-0"
+                }`}
+              >
+                <div className="px-ratio1 py-ratio2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-ratio1 gap-y-ratio2">
+                  <div className="flex items-center justify-between">
+                    <h5 className={`${title}`}>Blood Pressure:</h5>
+                    <p className={`${text}`}>
+                      {record.bloodPressure || "Not Found"}
+                    </p>
                   </div>
-                  <div className="flex flex-2 items-start justify-between gap-ratio2">
-                    <h5 className={`${title}`}>Description:</h5>
-                    <p className={`${text}`}>{record.bloodPressure}</p>
+                  <div className="flex items-center justify-between">
+                    <h5 className={`${title}`}>Weight:</h5>
+                    <p className={`${text}`}>{record.weight || "Not Found"}</p>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <h5 className={`${title}`}>FollowUp Date:</h5>
+                    <p className={`${text}`}>{record.followupDate}</p>
+                  </div>
+                </div>
+                <div className="px-ratio1 py-ratio2 grid grid-cols-1 sm:grid-cols-2 gap-x-ratio1 gap-y-ratio2">
+                  <div className="flex items-start justify-between gap-ratio2">
+                    <h5 className={`${title}`}>Prescription:</h5>
+                    <p className={`${text}`}>
+                      {record.prescription || "Not Found"}
+                    </p>
+                  </div>
+                  <div className="flex items-start justify-between gap-ratio2">
+                    <h5 className={`${title}`}>Diagnosis:</h5>
+                    <p className={`${text}`}>
+                      {record.diagnosis || "Not Found"}
+                    </p>
+                  </div>
+                </div>
+                <div className="px-ratio1 py-ratio2 grid grid-cols-1 gap-x-ratio1 gap-y-ratio2">
+                  <div className="flex items-start gap-ratio2">
+                    <div className="flex flex-1 items-start justify-between gap-ratio2">
+                      <h5 className={`${title}`}>Treatment Name:</h5>
+                      <p className={`${text}`}>{record.bloodPressure}</p>
+                    </div>
+                    <div className="flex flex-2 items-start justify-between gap-ratio2">
+                      <h5 className={`${title}`}>Description:</h5>
+                      <p className={`${text}`}>{record.bloodPressure}</p>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
+          ))
+        : (
+          <div className="text-small 2xl:text-medium text-text text-center">
+            No patient history available.
           </div>
-        ))}
+        )}
       </div>
     </div>
   );
 };
-
 export default PatientHistory;

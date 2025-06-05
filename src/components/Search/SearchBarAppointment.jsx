@@ -20,8 +20,8 @@ import toast from "react-hot-toast";
 import { AxiosError } from "@/utils/axiosError";
 import dayjs from "dayjs";
 import qs from "qs";
-const SearchBarAppointment = ({ visitDate, setVisitDate }) => {
-  const [selectedStatus, setSelectedStatus] = useState("All Status");
+import { Select } from "antd";
+const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSelectedStatus }) => {
   const [openModal, setOpenModal] = useState(false);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -96,8 +96,8 @@ const SearchBarAppointment = ({ visitDate, setVisitDate }) => {
 
   const status = [
     { label: "All Status", value: "all" },
-    { label: "Successfull", value: "successfull" },
-    { label: "Pending", value: "pending" },
+    { label: "Successfull", value: "1" },
+    { label: "Pending", value: "0" },
   ];
 
   const onSubmit = async (data) => {
@@ -147,12 +147,12 @@ const SearchBarAppointment = ({ visitDate, setVisitDate }) => {
       AxiosError(error);
     } finally {
       setLoader(false);
-      setOpenModal(false)
+      setOpenModal(false);
     }
   };
 
   const onNewPatient = async (data) => {
-    console.log(data,"data")
+    console.log(data, "data");
     try {
       setLoader(true);
       const visiteDate = dayjs(data.visitDate).format("YYYY-MM-DD");
@@ -197,7 +197,7 @@ const SearchBarAppointment = ({ visitDate, setVisitDate }) => {
       if (response?.data?.status == 200) {
         toast.success("Appointment Add Successfully");
         reset({});
-      }else {
+      } else {
         toast.error(`Failed ${response?.data?.status}`);
       }
     } catch (error) {
@@ -205,11 +205,11 @@ const SearchBarAppointment = ({ visitDate, setVisitDate }) => {
       AxiosError(error);
     } finally {
       setLoader(false);
-      setOpenModal(false)
+      setOpenModal(false);
     }
   };
 
-  const handleReset = () =>{
+  const handleReset = () => {
     reset({
       patientId: "",
       patientName: "",
@@ -239,6 +239,14 @@ const SearchBarAppointment = ({ visitDate, setVisitDate }) => {
   return (
     <div className="flex gap-2 mt-ratio2">
       <SearchInput placeholder={"Search"} className="flex-3" />
+      <Select
+        options={status}
+        className="!h-[35px] placeholder:!text-gray w-full flex-1"
+        value={selectedStatus}
+        onChange={(value) => {
+          setSelectedStatus(value);
+        }}
+      />
       <DateInput visitDate={visitDate} setVisitDate={setVisitDate} />
       <AddButton onClick={() => setOpenModal(true)}>
         <Plus size={16} className="" />

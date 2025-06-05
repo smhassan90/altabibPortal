@@ -20,7 +20,9 @@ import { Axios, summary } from "@/config/summaryAPI";
 import { AxiosError } from "@/utils/axiosError";
 import qs from "qs";
 import toast from "react-hot-toast";
-const PatientInformation = ({ data: patient }) => {
+const title = "text-small 2xl:text-medium text-gray";
+const text = "text-small 2xl:text-medium text-text";
+const PatientInformation = ({ data: patient, mode, setExpandedRow, fetchAppointment }) => {
   const [checked, setChecked] = useState(false);
   const [loader, setLoader] = useState(false);
   const { doctors, patients, fetchPatients, fetchDoctorDropdown, user, TOKEN } =
@@ -101,8 +103,10 @@ const PatientInformation = ({ data: patient }) => {
       });
       if (response?.data?.status == 200) {
         toast.success("Checkup Successfully");
+        setExpandedRow("")
+        fetchAppointment()
         reset({});
-      }else{
+      } else {
         toast.error(`Failed ${response?.data?.status}`);
       }
     } catch (error) {
@@ -121,112 +125,169 @@ const PatientInformation = ({ data: patient }) => {
       <h2 className="text-text text-medium 2xl:text-large font-semibold">
         Patient Information
       </h2>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-ratio1 gap-y-ratio2">
-          {checkUpFields.map((field, idx) => {
-            if (field?.type == "text") {
-              return (
-                <TextInputsWithUnderLine
-                  key={idx}
-                  label={field?.label}
-                  // input={field?.input}
-                  type={field?.type}
-                  register={register}
-                  errors={errors}
-                  name={field?.name}
-                  control={control}
-                  className="flex items-end justify-between gap-2"
-                />
-              );
-            } else if (field?.type == "date") {
-              return (
-                <DateInputWithValidation
-                  key={idx}
-                  label={field?.label}
-                  // input={field?.input}
-                  type={field?.type}
-                  register={register}
-                  errors={errors}
-                  name={field?.name}
-                  control={control}
-                  className="flex items-end justify-between gap-2"
-                />
-              );
-            }
-          })}
-        </div>
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-ratio2 mt-ratio1">
-          {checkUpFields?.slice(-2)?.map((field, idx) => (
-            <TextAreaInputWithLabel
-              key={idx}
-              label={field?.label}
-              input={field?.input}
-              type={field?.type}
-              register={register}
-              errors={errors}
-              name={field?.name}
-              control={control}
-              className="flex space-y-ratio2"
-            />
-          ))}
-        </div>
-        <div className="grid grid-cols-1 gap-4 mt-ratio2 border-t pt-ratio2 border-border">
-          {treatments.map((treatment, index) => (
-            <div key={treatment.id} className="">
-              <div className="flex justify-between gap-4">
-                <SingleSelectInputs
-                  label={"Treatment Name"}
-                  input={"Treatment"}
-                  type={"select"}
-                  control={control}
-                  errors={errors}
-                  name={"treatment"}
-                  className="flex !mb-0 flex-6 treatmentSelector"
-                />
-                <TextAreaInputWithLabel
-                  label={"Description"}
-                  input={"Description"}
-                  type={"textarea"}
-                  errors={errors}
-                  name={"treatmentDescription"}
-                  control={control}
-                  className="flex space-y-ratio2 flex-10"
-                  isCheckup={true}
-                />
-                <div className="flex items-start justify-end flex-1">
-                  <div className="flex gap-2">
-                    {treatments.length > 1 && (
-                      <DeleteButton
-                        type="button"
-                        onClick={() => removeTreatment(treatment?.id)}
-                        className={"!rounded-full !px-2 !py-2"}
-                      >
-                        <Trash2 size={16} />
-                      </DeleteButton>
-                    )}
+      {mode == "editable" ? (
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-ratio1 gap-y-ratio2 mt-ratio2">
+            {checkUpFields.map((field, idx) => {
+              if (field?.type == "text") {
+                return (
+                  <TextInputsWithUnderLine
+                    key={idx}
+                    label={field?.label}
+                    // input={field?.input}
+                    type={field?.type}
+                    register={register}
+                    errors={errors}
+                    name={field?.name}
+                    control={control}
+                    className="flex items-center justify-between gap-ratio2"
+                  />
+                );
+              } else if (field?.type == "date") {
+                return (
+                  <DateInputWithValidation
+                    key={idx}
+                    label={field?.label}
+                    // input={field?.input}
+                    type={field?.type}
+                    register={register}
+                    errors={errors}
+                    name={field?.name}
+                    control={control}
+                    className="flex items-center justify-between gap-ratio2"
+                  />
+                );
+              }
+            })}
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-ratio1 gap-y-ratio2 mt-3">
+            {checkUpFields?.slice(-2)?.map((field, idx) => (
+              <TextAreaInputWithLabel
+                key={idx}
+                label={field?.label}
+                input={field?.input}
+                type={field?.type}
+                register={register}
+                errors={errors}
+                name={field?.name}
+                control={control}
+                className="flex justify-between gap-ratio2"
+              />
+            ))}
+          </div>
+          <div className="grid grid-cols-1 gap-4 mt-ratio1 pt-ratio1 border-t pt-ratio2 border-border">
+            {treatments.map((treatment, index) => (
+              <div key={treatment.id} className="">
+                <div className="flex justify-between gap-4">
+                  <SingleSelectInputs
+                    label={"Treatment Name"}
+                    input={"Treatment"}
+                    type={"select"}
+                    control={control}
+                    errors={errors}
+                    name={"treatment"}
+                    className="flex !mb-0 flex-6 treatmentSelector"
+                  />
+                  <TextAreaInputWithLabel
+                    label={"Description"}
+                    input={"Description"}
+                    type={"textarea"}
+                    errors={errors}
+                    name={"treatmentDescription"}
+                    control={control}
+                    className="flex justify-between gap-ratio2 flex-10"
+                    isCheckup={true}
+                  />
+                  <div className="flex items-start justify-end flex-1">
+                    <div className="flex gap-2">
+                      {treatments.length > 0 && (
+                        <DeleteButton
+                          type="button"
+                          onClick={() => removeTreatment(treatment?.id)}
+                          className={"!rounded-full !px-2 !py-2"}
+                        >
+                          <Trash2 size={16} />
+                        </DeleteButton>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
+            ))}
+          </div>
+          {patient.status == 0 && (
+            <div className="flex items-center justify-between mt-ratio2">
+              <AddButton type="button" onClick={addTreatment}>
+                Add Treatment
+              </AddButton>
+              <div className="flex items-center gap-4">
+                <Checkbox
+                  className="custom-checkbox pr-5 !text-small 2xl:!text-medium"
+                  onChange={onChange}
+                >
+                  Check Up Completed
+                </Checkbox>
+                <AddButton>
+                  {loader ? (
+                    <Spinner size={20} style={{ color: "white" }} />
+                  ) : (
+                    "Check Up"
+                  )}
+                </AddButton>
+              </div>
             </div>
-          ))}
-        </div>
-        {patient.status == 0 && (
-          <div className="flex items-center justify-between mt-ratio2">
-            <AddButton type="button" onClick={addTreatment}>
-              Add Treatment
-            </AddButton>
-            <div className="flex items-center gap-4">
-              <Checkbox
-                className="custom-checkbox pr-5 !text-small 2xl:!text-medium"
-                onChange={onChange}
-              >
-                Check Up Completed
-              </Checkbox>
-              <AddButton>{loader ? <Spinner size={20} style={{ color: "white" }} /> : "Check Up"}</AddButton>
+          )}
+        </form>
+      ) : (
+        <>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-ratio1 gap-y-ratio2 mt-ratio2">
+            <div className="flex items-center justify-start gap-ratio1">
+              <h5 className={`${title}`}>Blood Pressure:</h5>
+              <p className={`${text}`}>
+                {patient.bloodPressure || "Not Found"}
+              </p>
+            </div>
+            <div className="flex items-start justify-start gap-ratio1">
+              <h5 className={`${title}`}>Weight:</h5>
+              <p className={`${text}`}>{patient.weight || "Not Found"}</p>
+            </div>
+            <div className="flex items-start justify-start gap-ratio1">
+              <h5 className={`${title}`}>FollowUp Date:</h5>
+              <p className={`${text}`}>{patient.followupDate || "Not Found"}</p>
+            </div>
+            <div className="flex items-start justify-start gap-ratio1">
+              <h5 className={`${title}`}>Token Number:</h5>
+              <p className={`${text}`}>{patient.tokenNumber || "Not Found"}</p>
             </div>
           </div>
-        )}
-      </form>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-ratio1 gap-y-ratio2 mt-ratio1">
+            <div className="flex items-start justify-start gap-ratio1">
+              <h5 className={`${title}`}>Prescription:</h5>
+              <p className={`${text}`}>{patient.prescription || "Not Found"}</p>
+            </div>
+            <div className="flex items-start justify-start gap-ratio1">
+              <h5 className={`${title}`}>Diagnosis:</h5>
+              <p className={`${text}`}>{patient.diagnosis || "Not Found"}</p>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 gap-x-ratio1 gap-y-ratio2 border-t border-border mt-ratio1 pt-ratio1">
+            {patient?.treatments?.length > 0 ? patient?.treatments?.map((record, index) => (
+                <div className="flex items-start gap-ratio2">
+                  <div className="flex-1 flex items-start justify-start gap-ratio1">
+                    <h5 className={`${title}`}>Treatment Name:</h5>
+                    <p className={`${text}`}>{record.treatment || "Not Found"}</p>
+                  </div>
+                  <div className="flex-2 flex items-start justify-start gap-ratio1">
+                    <h5 className={`${title}`}>Description:</h5>
+                    <p className={`${text}`}>{record.description || "Not Found"}</p>
+                  </div>
+                </div>
+              )) : (
+              <p className={`${text} text-center`}>No Treatments Available</p>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

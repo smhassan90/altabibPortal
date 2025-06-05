@@ -13,14 +13,25 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { checkUpSchema } from "@/utils/schema";
 const page = () => {
+  const { user, appointment, setAppointment, doctors, fetchDoctorDropdown } = useContext(AppContext);
+  const [selectedStatus, setSelectedStatus] = useState("all");
   const [expandedRow, setExpandedRow] = useState(null);
   const [visitDate, setVisitDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [loader, setLoader] = useState(false);
-  const handleExpand = (id) => {
-    setExpandedRow((prev) => (prev === id ? null : id));
+  const [mode, setMode] = useState("");
+  const [filterAppointment, setFilterAppointment] = useState(appointment);
+  const handleExpand = (id, Selectmode) => {
+    if(!mode || mode == Selectmode){
+      setExpandedRow((prev) => (prev === id ? null : id));
+      if(mode == Selectmode){
+        setMode("");
+      }else{
+        setMode(Selectmode);
+      }
+    }else{
+      setMode(Selectmode);
+    }
   };
-  const { user, appointment, setAppointment, doctors, fetchDoctorDropdown } =
-    useContext(AppContext);
   const fetchAppointment = async () => {
     try {
       setAppointment([])
@@ -49,6 +60,15 @@ const page = () => {
   useEffect(() => {
     fetchAppointment();
   }, [visitDate]);
+  useEffect(()=>{
+    console.log(selectedStatus,"selectedStatus")
+    const filterData = appointment.filter((item) => {
+      if(selectedStatus == "all") return item;
+      if(item.status == selectedStatus) return item;
+    });
+    console.log(filterData,"filterData")
+    setFilterAppointment(filterData);
+  }, [selectedStatus,appointment]);
   const {
     register,
     handleSubmit,
@@ -71,16 +91,19 @@ const page = () => {
   return (
     <div className="mt-ratio2">
       <h2>Appointment Management</h2>
-      <SearchBarAppointment visitDate={visitDate} setVisitDate={setVisitDate} />
+      <SearchBarAppointment visitDate={visitDate} setVisitDate={setVisitDate} selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus}/>
       <DynamicTable
-        data={appointment}
+        data={filterAppointment}
         columns={AppoitmentColumns(handleExpand, expandedRow)}
         initialItemsPerPage={5}
         expandedRow={expandedRow}
+        setExpandedRow={setExpandedRow}
+        fetchAppointment={fetchAppointment}
         control={control}
         register={register}
         errors={errors}
         loader={loader}
+        mode={mode}
       />
     </div>
   );

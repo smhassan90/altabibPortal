@@ -93,27 +93,29 @@ const TextInputsWithUnderLine = ({
 }) => {
   return (
     <div className={`relative w-full ${className}`}>
-      <label className="flex-1 text-small 2xl:text-medium text-gray" htmlFor="grid-password">
-        {label}&nbsp;&nbsp;:
+      <label className="text-small 2xl:text-medium text-gray" htmlFor="grid-password">
+        {label}&nbsp;:
       </label>
-      <Controller
-        control={control}
-        name={name}
-        render={({ field: controllerField }) => (
-          <Input
-            type={type}
-            placeholder={input ? input : ""}
-            className="!h-[35px] w-full flex-1 !bg-transparent !border-0 !rounded-none !border-b !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none"
-            status={errors[name] ? "error" : ""}
-            value={controllerField.value}
-            onChange={controllerField.onChange}
-            disabled={disabled}
-          />
+      <div>
+        <Controller
+          control={control}
+          name={name}
+          render={({ field: controllerField }) => (
+            <Input
+              type={type}
+              placeholder={input ? input : ""}
+              className="!h-[40px] !w-full flex-1 !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
+              status={errors[name] ? "error" : ""}
+              value={controllerField.value}
+              onChange={controllerField.onChange}
+              disabled={disabled}
+            />
+          )}
+        />
+        {errors[name] && (
+          <span className="text-red-500 text-small 2xl:text-medium">{errors[name]?.message}</span>
         )}
-      />
-      {errors[name] && (
-        <span className="text-red-500 text-sm">{errors[name]?.message}</span>
-      )}
+      </div>
     </div>
   );
 };
@@ -286,7 +288,7 @@ const SingleSelectInputs = ({
         className={`flex-1 text-small 2xl:text-medium text-gray`}
         htmlFor="grid-password"
       >
-        {label}
+        {label}&nbsp;:
       </label>}
       <Controller
         control={control}
@@ -357,8 +359,8 @@ const TextAreaInputWithLabel = ({
 }) => {
   return (
     <div className={`relative w-full ${className}`}>
-      {label && <label className="flex-1 text-small 2xl:text-medium text-gray" htmlFor="grid-password">
-        {label}:
+      {label && <label className="text-small 2xl:text-medium text-gray" htmlFor="grid-password">
+        {label}&nbsp;:
       </label>}
       <Controller
         control={control}
@@ -367,7 +369,7 @@ const TextAreaInputWithLabel = ({
           <TextArea
             type={type}
             placeholder={input}
-            className={`placeholder:!text-gray w-full ${!isCheckup ? `flex-3` : `flex-6`} !bg-transparent !rounded-medium !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none`}
+            className={`placeholder:!text-gray w-full !bg-transparent !rounded-medium !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none`}
             status={errors[name] ? "error" : ""}
             value={controllerField.value}
             onChange={controllerField.onChange}

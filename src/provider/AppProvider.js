@@ -175,6 +175,7 @@ const AppProvider = ({ children }) => {
       setLoading(false)
     }
   };
+  
   // useEffect(() => {
   //   fetchAllSummaryData();
   //   fetchClinicDropdown();

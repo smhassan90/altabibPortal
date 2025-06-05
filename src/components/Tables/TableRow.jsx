@@ -25,9 +25,12 @@ export function TableRow({
   columns,
   index,
   isExpanded,
+  setExpandedRow,
+  fetchAppointment,
   register,
   errors,
   control,
+  mode
 }) {
   const [selectedStatus, setSelectedStatus] = useState("All Status");
   const inputcss = "h-[28px] px-2 border-b-1 border-gray-300 outline-none";
@@ -74,7 +77,7 @@ export function TableRow({
       {isExpanded && (
         <tr className="">
           <td colSpan={columns.length} className="">
-            <PatientExpandRow data={data}/>
+            <PatientExpandRow data={data} mode={mode} setExpandedRow={setExpandedRow} fetchAppointment={fetchAppointment}/>
           </td>
         </tr>
       )}

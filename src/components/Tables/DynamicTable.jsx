@@ -11,10 +11,13 @@ export function DynamicTable({
   initialItemsPerPage = 10,
   className = "",
   expandedRow,
+  setExpandedRow,
+  fetchAppointment,
   control,
   register,
   errors,
-  loader
+  loader,
+  mode,
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState(null);
@@ -103,9 +106,12 @@ export function DynamicTable({
                   columns={columns}
                   index={index}
                   isExpanded={expandedRow === row.id}
+                  setExpandedRow={setExpandedRow}
+                  fetchAppointment={fetchAppointment}
                   control={control}
                   register={register}
                   errors={errors}
+                  mode={mode}
                 />
               </>
             ))}

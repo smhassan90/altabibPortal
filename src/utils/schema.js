@@ -4,7 +4,8 @@ const passwordRegex =
 const time12HrRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/i;
 const today = new Date();
 today.setHours(0, 0, 0, 0);
-
+const tomorrow = new Date(today);
+tomorrow.setDate(tomorrow.getDate() + 1);
 
 export const loginSchema = z.object({
   username: z.string().min(1, "User Name is required"),
@@ -134,12 +135,9 @@ export const directAppointmentSchema = z.object({
       required_error: "Age is Required",
       invalid_type_error: "DOB must be a valid date",
     })
-    .refine(
-      (date) => date < today,
-      {
-        message: "Enter Correct Date of Birth",
-      }
-    ),
+    .refine((date) => date < today, {
+      message: "Enter Correct Date of Birth",
+    }),
   contactNumber: z.string().min(1, "Contact Number is required"),
   gender: z
     .string()
@@ -183,11 +181,11 @@ export const checkUpSchema = z.object({
   charges: z.coerce.string().min(1, "Charges is required"),
   prescription: z.string().optional(),
   diagnosis: z.string().optional(),
-  followupDate: z
-    .string()
-    .optional()
-    .transform((val) => (val && val.trim() !== "" ? new Date(val) : ""))
-    .refine((date) => !date || date >= today, {
-      message: "Visit Date must be in the future",
-    }),
+  visitDate: z.coerce
+    .date({
+      required_error: "Visit Date is required",
+      invalid_type_error: "Visit Date must be a valid date",
+    })
+    .min(tomorrow, { message: "Visit Date must be in the future (Not Today)" })
+    .optional(),
 });

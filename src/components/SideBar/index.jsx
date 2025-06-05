@@ -127,7 +127,7 @@ export default function Sidebar() {
                     onClick={() => handleMenu(menu)}
                   >
                     <span>{menu.icon}</span>
-                    <p className="font-normal text-small">{menu.label}</p>
+                    <p className="font-normal text-small 2xl:text-medium">{menu.label}</p>
                   </div>
                 );
               }
