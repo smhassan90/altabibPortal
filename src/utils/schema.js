@@ -29,11 +29,11 @@ export const addDoctorSchema = z.object({
   password: z
     .string()
     .min(1, { message: "Password is Required" })
-    .min(6, { message: "Password must be at least 6 characters" })
-    .regex(passwordRegex, {
-      message: "Password must contain at least one uppercase letter, one lowercase letter, and one symbol",
-    }),
-  age: z
+    .min(6, { message: "Password must be at least 6 characters" }),
+    // .regex(passwordRegex, {
+    //   message: "Password must contain at least one uppercase letter, one lowercase letter, and one symbol",
+    // }),
+  age: z.coerce
     .string()
     .min(1, { message: "Age is Required" })
     .refine((val) => {
@@ -58,7 +58,7 @@ export const addDoctorSchema = z.object({
   qualification: z
     .array(z.number())
     .min(1, { message: "Qualification is required" }),
-  doctorClinics: z.array(
+  doctorClinic: z.array(
       z.object({
         clinicId: z.coerce
           .string()

@@ -1,6 +1,7 @@
 import AddButton from "@/utils/buttons/AddButton";
 import { Input, Select, TimePicker } from "antd";
-import { Plus } from "lucide-react";
+import dayjs from "dayjs";
+import { Plus, Trash2 } from "lucide-react";
 import React, { useEffect } from "react";
 import { Controller, useFieldArray } from "react-hook-form";
 
@@ -13,10 +14,8 @@ const AddDoctorClinic = ({
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "doctorClinics",
+    name: "doctorClinic",
   });
-
-  console.log(fields, "fields");
 
   useEffect(() => {
     if (fields.length === 0) {
@@ -27,147 +26,147 @@ const AddDoctorClinic = ({
   const addMoreClinics = () => {
     setDoctorClinics([
       ...doctorClinics,
-      { clinicId: "", startTime: "", endTime: "", charges: "" },
+      { id: doctorClinics.length + 1, clinicId: "", startTime: "", endTime: "", charges: "" },
     ]);
     append({ clinicId: "", charges: "", startTime: "", endTime: "" });
+  };
+
+  const removeClinics = (clinic) => {
+    if (doctorClinics.length > 1) {
+      setDoctorClinics(doctorClinics.filter((item) => item.id !== clinic?.id));
+      remove(clinic.clinicId)
+    }
   };
   return (
     <div className="mt-ratio2">
       {doctorClinics.map((clinic, index) => (
-        <div>
-          <div
-            key={index}
-            className="grid grid-cols-1 sm:grid-cols-2 gap-ratio2 pt-ratio2 pb-ratio1 border-t border-border"
-          >
-            <div className={`relative w-full`}>
-              <label
-                className={`block text-small 2xl:text-medium mb-2 text-text`}
-                htmlFor="grid-password"
-              >
-                Clinic Name&nbsp;:
-              </label>
-              <Controller
-                control={control}
-                name={name}
-                render={({ field: controllerField }) => {
-                  return (
-                    <Select
-                      options={clinics}
-                      className="!h-[40px] placeholder:!text-gray w-full flex-2"
-                      placeholder="Select Clinic"
-                      status={errors[name] ? "error" : ""}
-                      value={
-                        controllerField.value
-                          ? controllerField.value
-                          : undefined
-                      }
-                      onChange={(value, option) => {
-                        controllerField.onChange(value);
-                      }}
-                    />
-                  );
-                }}
-              />
-              {errors?.doctorClinics?.[index]?.clinicId && (
-                <span className="text-red-500 text-xs mt-1">
-                  {errors?.doctorClinics?.[index]?.clinicId?.message}
-                </span>
-              )}
-              {errors[name] && (
-                <span className="text-red-500 text-sm">
-                  {errors[name]?.message}
-                </span>
-              )}
-            </div>
-            <div className="relative w-full">
-              <label
-                className="block text-small 2xl:text-medium mb-2 text-text"
-                htmlFor="grid-password"
-              >
-                Charges&nbsp;:
-              </label>
-              <Controller
-                control={control}
-                name={`${name}.${index}.charges`}
-                render={({ field: controllerField }) => (
-                  <Input
-                    type="number"
-                    placeholder="Enter Doctor Charges"
-                    className="!h-[40px] placeholder:!text-gray"
-                    status={errors[name] ? "error" : ""}
-                    value={controllerField.value}
-                    onChange={controllerField.onChange}
+        <div
+          key={index}
+          className="grid grid-cols-1 sm:grid-cols-2 gap-ratio2 pt-ratio2 pb-ratio1 border-t border-border relative"
+        >
+          <div className={`relative w-full`}>
+            <label
+              className={`block text-small 2xl:text-medium mb-2 text-text`}
+              htmlFor="grid-password"
+            >
+              Clinic Name&nbsp;:
+            </label>
+            <Controller
+              control={control}
+              name={`doctorClinic.${index}.clinicId`}
+              render={({ field: controllerField }) => {
+                return (
+                  <Select
+                    options={clinics}
+                    className="!h-[40px] placeholder:!text-gray w-full flex-2"
+                    placeholder="Select Clinic"
+                    status={errors?.doctorClinic?.[index]?.clinicId ? "error" : "" }
+                    value={
+                      controllerField.value ? controllerField.value : undefined
+                    }
+                    onChange={(value, option) => {
+                      controllerField.onChange(value);
+                    }}
                   />
-                )}
-              />
-              {errors?.doctorClinics?.[index]?.charges && (
-                <span className="text-red-500 text-xs mt-1">
-                  {errors?.doctorClinics?.[index]?.charges?.message}
-                </span>
-              )}
-            </div>
-            <div className={`relative w-full`}>
-              <label className="block text-small 2xl:text-medium mb-2 text-text">
-                Start Time&nbsp;:
-              </label>
-              <Controller
-                control={control}
-                name={`${name}.${index}.startTime`}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    <TimePicker
-                      use12Hours={false}
-                      format="HH:mm"
-                      className="!h-[40px] placeholder:!text-gray w-full"
-                      minuteStep={15}
-                      value={value ? dayjs(value, "HH:mm") : null}
-                      onChange={(time, timeString) => {
-                        const timeStr = time?.format("HH:mm");
-                        console.log(timeStr);
-                        onChange(timeStr);
-                      }}
-                    />
-                    {errors?.doctorClinics?.[index]?.startTime && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.doctorClinics[index].startTime.message}
-                      </p>
-                    )}
-                  </>
-                )}
-              />
-            </div>
-            <div className={`relative w-full`}>
-              <label className="block text-small 2xl:text-medium mb-2 text-text">
-                End Time&nbsp;:
-              </label>
-              <Controller
-                control={control}
-                name={`${name}.${index}.startTime`}
-                render={({ field: { onChange, value } }) => (
-                  <>
-                    <TimePicker
-                      use12Hours={false}
-                      format="HH:mm"
-                      className="!h-[40px] placeholder:!text-gray w-full"
-                      minuteStep={15}
-                      value={value ? dayjs(value, "HH:mm") : null}
-                      onChange={(time, timeString) => {
-                        const timeStr = time?.format("HH:mm");
-                        console.log(timeStr);
-                        onChange(timeStr);
-                      }}
-                    />
-                    {errors?.doctorClinics?.[index]?.endTime && (
-                      <p className="text-red-500 text-xs mt-1">
-                        {errors.doctorClinics[index].endTime.message}
-                      </p>
-                    )}
-                  </>
-                )}
-              />
-            </div>
+                );
+              }}
+            />
+            {errors?.doctorClinic?.[index]?.clinicId && (
+              <span className="text-red-500 text-xs mt-1">
+                {errors?.doctorClinic?.[index]?.clinicId?.message}
+              </span>
+            )}
           </div>
-          
+          <div className="relative w-full">
+            <label
+              className="block text-small 2xl:text-medium mb-2 text-text"
+              htmlFor="grid-password"
+            >
+              Charges&nbsp;:
+            </label>
+            <Controller
+              control={control}
+              name={`doctorClinic.${index}.charges`}
+              render={({ field: controllerField }) => (
+                <Input
+                  type="number"
+                  placeholder="Enter Doctor Charges"
+                  className="!h-[40px] placeholder:!text-gray"
+                  status={errors?.doctorClinic?.[index]?.charges ? "error" : "" }
+                  value={controllerField.value}
+                  onChange={controllerField.onChange}
+                />
+              )}
+            />
+            {errors?.doctorClinic?.[index]?.charges && (
+              <span className="text-red-500 text-xs mt-1">
+                {errors?.doctorClinic?.[index]?.charges?.message}
+              </span>
+            )}
+          </div>
+          <div className={`relative w-full`}>
+            <label className="block text-small 2xl:text-medium mb-2 text-text">
+              Start Time&nbsp;:
+            </label>
+            <Controller
+              control={control}
+              name={`doctorClinic.${index}.startTime`}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <TimePicker
+                    use12Hours={false}
+                    format="HH:mm"
+                    className="!h-[40px] placeholder:!text-gray w-full"
+                    minuteStep={15}
+                    status={errors?.doctorClinic?.[index]?.startTime ? "error" : "" }
+                    value={value ? dayjs(value, "HH:mm") : null}
+                    onChange={(time, timeString) => {
+                      const timeStr = time?.format("HH:mm");
+                      onChange(timeStr);
+                    }}
+                  />
+                  {errors?.doctorClinic?.[index]?.startTime && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.doctorClinic[index].startTime.message}
+                    </p>
+                  )}
+                </>
+              )}
+            />
+          </div>
+          <div className={`relative w-full`}>
+            <label className="block text-small 2xl:text-medium mb-2 text-text">
+              End Time&nbsp;:
+            </label>
+            <Controller
+              control={control}
+              name={`doctorClinic.${index}.endTime`}
+              render={({ field: { onChange, value } }) => (
+                <>
+                  <TimePicker
+                    use12Hours={false}
+                    format="HH:mm"
+                    className="!h-[40px] placeholder:!text-gray w-full"
+                    minuteStep={15}
+                    status={errors?.doctorClinic?.[index]?.endTime ? "error" : "" }
+                    value={value ? dayjs(value, "HH:mm") : null}
+                    onChange={(time, timeString) => {
+                      const timeStr = time?.format("HH:mm");
+                      onChange(timeStr);
+                    }}
+                  />
+                  {errors?.doctorClinic?.[index]?.endTime && (
+                    <p className="text-red-500 text-xs mt-1">
+                      {errors.doctorClinic[index].endTime.message}
+                    </p>
+                  )}
+                </>
+              )}
+            />
+          </div>
+          {doctorClinics.length > 1 && (
+            <Trash2 onClick={()=>removeClinics(clinic)} size={20} className="text-red-500 absolute top-3 right-2" />
+          )}
         </div>
       ))}
       <AddButton

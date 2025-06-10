@@ -20,6 +20,7 @@ const FormModal = ({
   open,
   setOpen,
   title,
+  confirmButton,
   formFields,
   handleSubmit,
   onSubmit,
@@ -288,7 +289,7 @@ const FormModal = ({
             {loader ? (
               <Spinner size={16} style={{ color: "white" }} />
             ) : (
-              "Confirm"
+              confirmButton
             )}
           </button>
         </div>
