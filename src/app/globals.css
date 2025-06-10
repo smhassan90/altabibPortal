@@ -87,3 +87,6 @@
 .custom-spinner {
   transform: scale(1.5);
 }
+.ant-select-selector {
+  min-height: 40px !important;
+}

@@ -14,8 +14,11 @@ const page = () => {
   const { user, TOKEN } = useContext(AppContext);
   const [expandedRow, setExpandedRow] = useState(null);
   const [loader, setLoader] = useState(false);
+  const [selectedDoctor, setSelectedDoctor] = useState();
   const [patient, setPatient] = useState([]);
-  const [filterPatient, setFilterPatient] = useState(patient);
+  // const [filterPatient, setFilterPatient] = useState(patient);
+
+  console.log(selectedDoctor,"selectedDoctor")
 
   const {
     register,
@@ -51,13 +54,14 @@ const page = () => {
   useEffect(() => {
     const fetchPatients = async () => {
       try {
+        setPatient([]);
         setLoader(true);
         const response = await Axios({
           ...summary.getAllPatients,
           params: {
             token: TOKEN,
             clinicId: user?.username,
-            doctorId:0,
+            doctorId:selectedDoctor ? selectedDoctor : 0,
           },
         });
         setPatient(response.data.data);
@@ -68,18 +72,18 @@ const page = () => {
       }
     };
     fetchPatients();
-  }, []);
+  }, [selectedDoctor]);
 
-  useEffect(() => {
-    setFilterPatient(patient);
-  }, [patient]);
+  // useEffect(() => {
+  //   setFilterPatient(patient);
+  // }, [patient]);
   
   return (
     <div className="mt-ratio2">
       <h2>Patient Management</h2>
-      <SearchBarPatient />
+      <SearchBarPatient selectedDoctor={selectedDoctor} setSelectedDoctor={setSelectedDoctor}/>
       <DynamicTable
-        data={filterPatient}
+        data={patient}
         columns={patientColumns(handleExpand, expandedRow)}
         initialItemsPerPage={5}
         expandedRow={expandedRow}

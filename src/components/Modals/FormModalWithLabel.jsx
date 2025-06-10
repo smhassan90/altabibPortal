@@ -1,4 +1,4 @@
-import { DatePicker, Modal, Select, TimePicker } from "antd";
+import { DatePicker, Modal } from "antd";
 import React from "react";
 import {
   DatePick,
@@ -14,9 +14,7 @@ import { Checkbox } from "antd";
 import AddButton from "@/utils/buttons/AddButton";
 import { Plus } from "lucide-react";
 import Spinner from "../Spinner/Spinner";
-import { Controller } from "react-hook-form";
-import AddDoctorClinic from "../Accordians/AddDoctorClinic";
-const FormModal = ({
+const FormModalWithLabel = ({
   open,
   setOpen,
   title,
@@ -34,17 +32,12 @@ const FormModal = ({
   doctors,
   patients,
   loader,
-  handleReset,
-  doctorClinics,
-  setDoctorClinics,
-  clinics,
-  qualification,
-  specialization,
+  handleReset
 }) => {
-  const handleClose = () => {
+  const handleClose = () =>{
     setOpen(false);
-    handleReset();
-  };
+    handleReset()
+  }
   return (
     <Modal
       title=""
@@ -75,7 +68,7 @@ const FormModal = ({
       )}
     >
       <div className="flex items-center justify-between px-ratio2 pt-ratio2">
-        <h2 className="text-medium">{title}</h2>
+        <h2 className="text-medium 2xl:text-large font-medium">{title}</h2>
         {title === "Add New Appointment" && (
           <Checkbox className="custom-checkbox pr-5" onChange={onChange}>
             You Are New Patient
@@ -89,18 +82,14 @@ const FormModal = ({
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-2">
           {formFields?.map((field, index) => {
             if (field.type === "select") {
-              if (
-                field.name === "gender" &&
-                !newPatientCheck &&
-                title === "Add New Appointment"
-              ) {
+              if (field.name === "gender" && !newPatientCheck && title === "Add New Appointment") {
                 return null;
               }
               return (
                 <SelectInputs
                   key={index}
                   label={field.label}
-                  input={field.input}
+                //   input={field.input}
                   type={field.type}
                   control={control}
                   errors={errors}
@@ -109,33 +98,27 @@ const FormModal = ({
                 />
               );
             }
-            if (field.type === "singleSelect") {
-              if (field.name === "patientId" && newPatientCheck) {
-                return null;
-              }
-              const isDoctors = field.name.includes("doctorId");
-              const isPatients = field.name.includes("patientId");
-              return (
-                <SingleSelectInputs
-                  key={index}
-                  label={field.label}
-                  input={field.input}
-                  type={field.type}
-                  control={control}
-                  errors={errors}
-                  name={field.name}
-                  setValue={setValue}
-                  options={isDoctors ? doctors : isPatients ? patients : []}
-                />
-              );
-            }
+            // if (field.type === "singleSelect") {
+            //   if (field.name === "patientId" && newPatientCheck) {
+            //     return null;
+            //   }
+            //   const isDoctors = field.name.includes("doctorId");
+            //   const isPatients = field.name.includes("patientId");
+            //   return (
+            //     <SingleSelectInputs
+            //       key={index}
+            //       // label={field.label}
+            //       input={field.input}
+            //       type={field.type}
+            //       control={control}
+            //       errors={errors}
+            //       name={field.name}
+            //       setValue={setValue}
+            //       options={isDoctors ? doctors : isPatients ? patients : []}
+            //     />
+            //   );
+            // }
             if (field.type === "selectoption") {
-              const isQualification = field.name
-                .toLowerCase()
-                .includes("qualification");
-              const isSpecialization = field.name
-                .toLowerCase()
-                .includes("specialization");
               return (
                 <MultipleSelectInputs
                   key={index}
@@ -145,11 +128,7 @@ const FormModal = ({
                   control={control}
                   errors={errors}
                   name={field.name}
-                  options={isQualification 
-                    ? qualification : 
-                    isSpecialization ? 
-                    specialization : []
-                  }
+                  options={[]}
                 />
               );
             }
@@ -166,7 +145,7 @@ const FormModal = ({
                 <TextInputs
                   key={index}
                   label={field.label}
-                  input={field.input}
+                //   input={field.input}
                   type={field.type}
                   control={control}
                   errors={errors}
@@ -179,7 +158,7 @@ const FormModal = ({
                 <PasswordInputs
                   key={index}
                   label={field.label}
-                  input={field.input}
+                //   input={field.input}
                   type={field.type}
                   control={control}
                   errors={errors}
@@ -188,14 +167,14 @@ const FormModal = ({
               );
             }
             if (field.type === "date") {
-              if (field.name === "dob" && !newPatientCheck) {
+              if ((field.name === "dob") && !newPatientCheck) {
                 return null;
               }
               return (
                 <DatePick
                   label={field.label}
                   key={index}
-                  input={field.input}
+                //   input={field.input}
                   control={control}
                   errors={errors}
                   name={field.name}
@@ -205,7 +184,7 @@ const FormModal = ({
             }
           })}
         </div>
-        <div className="grid grid-cols-1 gap-ratio2">
+        {/* <div className="grid grid-cols-1 gap-ratio2">
           {formFields.slice(-2)?.map((field, index) => {
             if (field.type === "textarea") {
               return (
@@ -222,14 +201,11 @@ const FormModal = ({
               );
             }
           })}
-        </div>
+        </div> */}
         {title === "Add New Appointment" && (
           <div className="mt-ratio2 border-t border-border">
             {treatments.map((treatment, index) => (
-              <div
-                key={index}
-                className="flex items-start gap-ratio2 pt-ratio2"
-              >
+              <div key={index} className="flex items-start gap-ratio2 pt-ratio2">
                 <SingleSelectInputs
                   // label={field.label}
                   input={"Treatment"}
@@ -266,13 +242,43 @@ const FormModal = ({
           </div>
         )}
         {title === "Add New Doctor" && (
-          <AddDoctorClinic
-            doctorClinics={doctorClinics}
-            setDoctorClinics={setDoctorClinics}
-            control={control}
-            errors={errors}
-            clinics={clinics}
-          />
+          <div className="mt-ratio2 border-t border-border">
+            {treatments.map((treatment, index) => (
+              <div key={index} className="flex items-start gap-ratio2 pt-ratio2">
+                <SingleSelectInputs
+                  // label={field.label}
+                  input={"Treatment"}
+                  type={"select"}
+                  control={control}
+                  errors={errors}
+                  name={"treatment"}
+                  className="flex-1 !mb-0"
+                />
+                <TextAreaInputWithLabel
+                  // label={field?.label}
+                  input={"Description"}
+                  type={"textarea"}
+                  errors={errors}
+                  name={"treatmentDescription"}
+                  control={control}
+                  className="flex flex-col space-y-ratio2 flex-2"
+                />
+              </div>
+            ))}
+            <AddButton
+              type="button"
+              className="w-full !text-center justify-center mt-2 !bg-transparent !text-secondary font-semibold !text-medium border-2 !border-dashed !border-border !py-2"
+              onClick={() =>
+                setTreatments([
+                  ...treatments,
+                  { treatmentName: "", treatmentDescription: "" },
+                ])
+              }
+            >
+              <Plus size={16} />
+              Add More Clinics
+            </AddButton>
+          </div>
         )}
         <div className="flex justify-end gap-2 mt-4">
           <button
@@ -285,11 +291,7 @@ const FormModal = ({
             type="submit"
             className="px-4 !py-1 bg-secondary text-white rounded-medium"
           >
-            {loader ? (
-              <Spinner size={16} style={{ color: "white" }} />
-            ) : (
-              "Confirm"
-            )}
+            {loader ? <Spinner size={16} style={{ color: "white" }} /> : "Confirm" }
           </button>
         </div>
       </form>
@@ -297,4 +299,4 @@ const FormModal = ({
   );
 };
 
-export default FormModal;
+export default FormModalWithLabel;

@@ -5,7 +5,7 @@ import SelectInput from "../Inputs/SelectInput";
 import DateInput from "../Inputs/DateInput";
 import AddButton from "@/utils/buttons/AddButton";
 import FormModal from "../Modals/FormModal";
-import { appointmentFields } from "@/utils/formField/formFIelds";
+import { appointmentFields, doctorFields } from "@/utils/formField/formFIelds";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addAppointmentSchema, addDoctorSchema } from "@/utils/schema";
@@ -16,25 +16,40 @@ import {
 } from "../formInput/TextInput";
 import { Input, Select } from "antd";
 import { AppContext } from "@/provider/AppProvider";
+import FormModalWithLabel from "../Modals/FormModalWithLabel";
+import dayjs from "dayjs";
 
 const SearchBarDoctor = () => {
-  const {clinics,setClinics,fetchClinicDropdown} = useContext(AppContext);
+  const {
+    clinics,
+    setClinics,
+    fetchClinicDropdown,
+    fetchQualificationDropdown,
+    fetchQSpecializationDropdown,
+    qualification,
+    specialization,
+  } = useContext(AppContext);
   const [selectedClinic, setSelectedClinic] = useState(null);
   const [openModal, setOpenModal] = useState(true);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   useEffect(() => {
     fetchClinicDropdown();
+    fetchQualificationDropdown();
+    fetchQSpecializationDropdown();
   }, [selectedClinic]);
-  console.log(clinics,"clinics")
   const sortedClinic = clinics.map((clinic) => ({
     label: clinic.name,
-    value: clinic.name,
+    value: clinic.id,
   }));
-  const clinic = [
-    { label: "Clinic A", value: "clinic_a" },
-    { label: "Clinic B", value: "clinic_b" },
-    { label: "Clinic C", value: "clinic_c" },
-  ];
+  const [doctorClinics, setDoctorClinics] = useState([
+    {
+      id: 1,
+      clinicId: "",
+      startTime: "",
+      endTime: "",
+      charges: "",
+    },
+  ]);
   const {
     register,
     handleSubmit,
@@ -44,23 +59,25 @@ const SearchBarDoctor = () => {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(addAppointmentSchema),
+    resolver: zodResolver(addDoctorSchema),
     defaultValues: {
-      patientId: "",
-      patientName: "",
-      dob: "",
-      contactNumber: "",
+      doctorName: "",
+      userName: "",
+      password: "",
+      age: "",
       gender: "",
-      doctorId: "",
-      clinicId: "",
-      clinicName: "",
-      visitDate: "",
-      charges: "",
-      weight: "",
-      bloodPressure: "",
-      prescription: "",
-      diagnosis: "",
-      treatments: "",
+      address: "",
+      specialization: [],
+      qualification: [],
+      doctorClinics: [
+        {
+          clinicId: "",
+          charges: "",
+          startTime: "",
+          endTime: "",
+          updateDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+        },
+      ],
     },
   });
   const onSubmit = (data) => {
@@ -86,19 +103,24 @@ const SearchBarDoctor = () => {
         <Plus size={16} className="" />
         Add New Doctor
       </AddButton>
-      {/* {openModal && (
+      {openModal && (
         <FormModal
           open={openModal}
           setOpen={setOpenModal}
-          title={"Add New Appointment"}
-          formFields={appointmentFields}
+          title={"Add New Doctor"}
+          formFields={doctorFields}
           handleSubmit={handleSubmit}
           control={control}
           errors={errors}
           onChange={onChange}
           newPatientCheck={newPatientCheck}
+          doctorClinics={doctorClinics}
+          setDoctorClinics={setDoctorClinics}
+          clinics={sortedClinic}
+          qualification={qualification}
+          specialization={specialization}
         />
-      )} */}
+      )}
     </div>
   );
 };

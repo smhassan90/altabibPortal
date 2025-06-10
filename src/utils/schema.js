@@ -20,28 +20,28 @@ export const addClinicSchema = z.object({
 });
 
 export const addDoctorSchema = z.object({
-  doctorName: z.string().min(1, { message: "Doctor Name is required" }),
-  userName: z.string().min(1, { message: "User Name is required" }),
+  doctorName: z
+    .string()
+    .min(1, { message: "Doctor Name is required" }),
+  userName: z.
+    string()
+    .min(1, { message: "User Name is required" }),
   password: z
     .string()
     .min(1, { message: "Password is Required" })
     .min(6, { message: "Password must be at least 6 characters" })
     .regex(passwordRegex, {
-      message:
-        "Password must contain at least one uppercase letter, one lowercase letter, and one symbol",
+      message: "Password must contain at least one uppercase letter, one lowercase letter, and one symbol",
     }),
   age: z
     .string()
     .min(1, { message: "Age is Required" })
-    .refine(
-      (val) => {
+    .refine((val) => {
         const date = new Date(val);
-        const now = new Date();
-        return !isNaN(date.getTime()) && date < now;
-      },
-      {
-        message: "Date of Birth must be a valid past date",
-      }
+        const today = new Date();
+        return !isNaN(date.getTime()) && date < today;
+    },
+    {message: "Date of Birth must be a valid past date"}
     ),
   gender: z
     .string()
@@ -49,22 +49,29 @@ export const addDoctorSchema = z.object({
     .refine((val) => ["male", "female"].includes(val), {
       message: "Gender must be either 'male' or 'female'",
     }),
-  address: z.string().min(1, { message: "Address is required" }),
+  address: z
+    .string()
+    .min(1, { message: "Address is required" }),
   specialization: z
     .array(z.number())
     .min(1, { message: "Specialization is required" }),
   qualification: z
     .array(z.number())
     .min(1, { message: "Qualification is required" }),
-  doctorClinic: z
-    .array(
+  doctorClinics: z.array(
       z.object({
         clinicId: z.coerce
           .string()
           .min(1, { message: "Clinic Name is required" }),
-        charges: z.coerce.string().min(1, { message: "Charges is required" }),
-        startTime: z.string().min(1, { message: "Start Time is required" }),
-        endTime: z.string().min(1, { message: "End Time is required" }),
+        charges: z.coerce
+          .string()
+          .min(1, { message: "Charges is required" }),
+        startTime: z
+          .string()
+          .min(1, { message: "Start Time is required" }),
+        endTime: z
+          .string()
+          .min(1, { message: "End Time is required" }),
       })
     )
     .min(1, { message: "Doctor Clinic is required" }),

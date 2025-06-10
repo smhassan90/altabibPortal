@@ -17,7 +17,7 @@ import {
 import { Input, Select } from "antd";
 import { AppContext } from "@/provider/AppProvider";
 
-const SearchBarPatient = () => {
+const SearchBarPatient = ({selectedDoctor, setSelectedDoctor}) => {
   const { doctors, patients, fetchPatients, fetchDoctorDropdown, user, TOKEN } = useContext(AppContext);
   useEffect(() => {
     fetchDoctorDropdown();
@@ -26,9 +26,9 @@ const SearchBarPatient = () => {
   console.log(doctors,"doctors")
   const sortedDoctor = doctors.map((doctor) => ({
     label: doctor.name,
-    value: doctor.name,
+    value: doctor.id,
   }));
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
+
   const [openModal, setOpenModal] = useState(true);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   const clinic = [
