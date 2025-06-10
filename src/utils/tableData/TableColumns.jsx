@@ -108,6 +108,79 @@ export const AppoitmentColumns = (onExpand, expandedRowId) => [
   },
 ];
 
+export const clinicColumns = (onExpand, expandedRowId) => [
+  {
+    key: "id",
+    label: "ID",
+    render: (value, row) => (
+      <div className="flex items-center justify-between">
+        <span>{value}</span>
+        <button
+          onClick={() => onExpand(row.id, "readable")}
+          className="ml-2 text-primary hover:text-blue-600"
+        >
+          {expandedRowId === row.id ? (
+            <ChevronDown size={16} />
+          ) : (
+            <ChevronUp size={16} />
+          )}
+        </button>
+      </div>
+    ),
+  },
+  { key: "name", label: "Clinic Name" },
+  { key: "address", label: "Address" },
+  { key : "LatLong", label: "Latitude",
+    render: (value, row) => (
+      <div>
+        {value.split(",")[0]}
+      </div>
+    )
+   },
+  {key: "LatLong", label: "Longitude",
+    render: (value, row) => (
+      <div>
+        {value.split(",")[1]}
+      </div>
+    )
+   },
+  {
+    key: "actions",
+    label: "Actions",
+    render: (value, row) => (
+      <div className="flex space-x-2">
+        {row?.status == 0 ? (
+          <div className="flex items-center space-x-2">
+            {/* <EditButton className={"!px-2 !py-2"} onClick={() => onExpand(row.id)}> */}
+            <Eye
+              size={20}
+              className="text-secondary"
+              onClick={() => onExpand(row.id, "readable")}
+            />
+            <Pencil
+              size={20}
+              className="text-Tertiary"
+              onClick={() => onExpand(row.id, "editable")}
+            />
+            {/* </EditButton> */}
+            {/* <ShowMoreButton className={"!px-2 !py-2"}>
+              <Eye size={20} />
+            </ShowMoreButton> */}
+          </div>
+        ) : (
+          <div className="flex items-center space-x-2">
+            <Eye
+              size={20}
+              className="text-secondary"
+              onClick={() => onExpand(row.id, "readable")}
+            />
+          </div>
+        )}
+      </div>
+    ),
+  },
+];
+
 export const doctorColumns = (onExpand, expandedRowId) => [
   {
     key: "id",

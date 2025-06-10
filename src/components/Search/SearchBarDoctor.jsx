@@ -19,6 +19,10 @@ import { AppContext } from "@/provider/AppProvider";
 import FormModalWithLabel from "../Modals/FormModalWithLabel";
 import dayjs from "dayjs";
 
+/*************  ✨ Windsurf Command ⭐  *************/
+/**
+
+/*******  7bb4bf12-7535-4632-a9cc-cf8481a92aea  *******/
 const SearchBarDoctor = () => {
   const {
     clinics,

@@ -76,9 +76,9 @@ export function TableRow({
       </tr>
       {isExpanded && (
         <tr className="">
-          <td colSpan={columns.length} className="">
+          {<td colSpan={columns.length} className="">
             <PatientExpandRow data={data} mode={mode} setExpandedRow={setExpandedRow} fetchAppointment={fetchAppointment}/>
-          </td>
+          </td>}
         </tr>
       )}
     </>
