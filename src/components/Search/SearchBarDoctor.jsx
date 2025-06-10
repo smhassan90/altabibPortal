@@ -18,6 +18,9 @@ import { Input, Select } from "antd";
 import { AppContext } from "@/provider/AppProvider";
 import FormModalWithLabel from "../Modals/FormModalWithLabel";
 import dayjs from "dayjs";
+import { Axios, summary } from "@/config/summaryAPI";
+import toast from "react-hot-toast";
+import { AxiosError } from "@/utils/axiosError";
 
 const SearchBarDoctor = () => {
   const {
@@ -28,10 +31,13 @@ const SearchBarDoctor = () => {
     fetchQSpecializationDropdown,
     qualification,
     specialization,
+    TOKEN,
   } = useContext(AppContext);
   const [selectedClinic, setSelectedClinic] = useState(null);
   const [openModal, setOpenModal] = useState(true);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
+  const [loader, setLoader] = useState(false);
+
   useEffect(() => {
     fetchClinicDropdown();
     fetchQualificationDropdown();
@@ -69,7 +75,7 @@ const SearchBarDoctor = () => {
       address: "",
       specialization: [],
       qualification: [],
-      doctorClinics: [
+      doctorClinic: [
         {
           clinicId: "",
           charges: "",
@@ -80,9 +86,74 @@ const SearchBarDoctor = () => {
       ],
     },
   });
-  const onSubmit = (data) => {
-    console.log(data, "data");
+  const onSubmit = async (data) => {
+    try {
+      setLoader(true);
+      const age = dayjs().diff(dayjs(data.age), "year");
+      const clinicIds = data.doctorClinic.map((clinic) => {
+        return clinic.clinicId;
+      });
+      const payload = {
+        name: data.doctorName,
+        address: data.address,
+        age: age,
+        gender: data.gender,
+        priority: 1,
+        username: data.userName,
+        password: data.password,
+        type: 3,
+        updateDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+        clinicIds: clinicIds,
+        qualificationIds: data.qualification,
+        specializationIds: data.specialization,
+        doctorClinics: data.doctorClinic,
+      };
+
+      const response = await Axios({
+        ...summary.addOrUpdateDoctor,
+        data: payload,
+        params: {
+          token: TOKEN,
+        },
+      });
+
+      if (response.data.status == 200) {
+        toast.success("Doctor Add Successfully");
+        // const newDoctor = [...doctors];
+        // newDoctor.push(response?.data?.data);
+        // setDoctors(newDoctor);
+        setOpenModal(false);
+        reset({});
+      }
+    } catch (error) {
+      console.log(error);
+      AxiosError(error);
+    } finally {
+      setLoader(false);
+    }
   };
+
+  const handleReset = () => {
+    reset({
+      doctorName: "",
+      userName: "",
+      password: "",
+      age: "",
+      gender: "",
+      address: "",
+      specialization: [],
+      qualification: [],
+      doctorClinic: [
+        {
+          clinicId: "",
+          charges: "",
+          startTime: "",
+          endTime: "",
+        },
+      ],
+    });
+  };
+
   const onChange = (e) => {
     setNewPatientCheck(e.target.checked);
   };
@@ -108,8 +179,10 @@ const SearchBarDoctor = () => {
           open={openModal}
           setOpen={setOpenModal}
           title={"Add New Doctor"}
+          confirmButton="Add Doctor"
           formFields={doctorFields}
           handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
           control={control}
           errors={errors}
           onChange={onChange}
@@ -119,6 +192,8 @@ const SearchBarDoctor = () => {
           clinics={sortedClinic}
           qualification={qualification}
           specialization={specialization}
+          loader={loader}
+          handleReset={handleReset}
         />
       )}
     </div>

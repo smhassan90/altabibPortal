@@ -257,6 +257,7 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
           open={openModal}
           setOpen={setOpenModal}
           title={"Add New Appointment"}
+          confirmButton="Confirm"
           formFields={appointmentFields}
           handleSubmit={handleSubmit}
           setValue={setValue}
