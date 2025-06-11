@@ -223,6 +223,7 @@ export const appointmentFields = [
   // },
 ];
 
+
 export const QualificationFields = [
   {
     label: "Qualification Name",
