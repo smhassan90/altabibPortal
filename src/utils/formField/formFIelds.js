@@ -4,24 +4,28 @@ export const clinicFields = [
     input: "Enter Clinic Your",
     type: "text",
     name: "name",
+    require: true,
   },
   {
     label: "Address",
     input: "Enter Clinic Address",
     type: "text",
     name: "address",
+    require: true,
   },
   {
     label: "latitude",
     input: "Enter Location",
     type: "text",
     name: "lat",
+    require: true,
   },
   {
     label: "longitude",
     input: "Enter Location",
     type: "text",
     name: "lng",
+    require: true,
   },
 ];
 
@@ -222,6 +226,7 @@ export const appointmentFields = [
   //   name: "treatments",
   // },
 ];
+
 
 export const QualificationFields = [
   {
