@@ -1,5 +1,6 @@
 "use client";
-import SearchBarPatient from "@/components/Search/SearchBarPatient";
+// import SearchBarClinic from "@/components/Search/searchBarClinic";
+import SearchBarClinic from "@/components/Search/SearchBarClinic";
 import { DynamicTable } from "@/components/Tables/DynamicTable";
 import { Axios, summary } from "@/config/summaryAPI";
 import { AppContext } from "@/provider/AppProvider";
@@ -78,7 +79,7 @@ const page = () => {
   return (
     <div className="mt-ratio2">
       <h2>Clinic Management</h2>
-      {/* <SearchBarClinic selectedDoctor={selectedDoctor} setSelectedDoctor={setSelectedDoctor}/> */}
+      <SearchBarClinic selectedDoctor={selectedDoctor} setSelectedDoctor={setSelectedDoctor}/>
       <DynamicTable
         data={clinics}
         columns={clinicColumns(handleExpand, expandedRow)}
