@@ -108,6 +108,7 @@ const page = () => {
         errors={errors}
         loader={loader}
         mode={mode}
+        tableName="Appointment"
       />
     </div>
   );

@@ -368,7 +368,7 @@ const SingleSelectInputs = ({
 const SearchInput = ({ placeholder, className }) => {
   return (
     <div className={`${className} flex items-center relative`}>
-      <Input placeholder={placeholder} className="!h-[35px]" />
+      <Input placeholder={placeholder} className="!h-[40px]" />
       <AddButton className="absolute right-0 !bg-transparent">
         <Search size={16} className="text-text" />
       </AddButton>

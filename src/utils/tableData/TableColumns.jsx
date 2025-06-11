@@ -7,6 +7,7 @@ import {
   Delete,
   Eye,
   Pencil,
+  Trash2,
 } from "lucide-react";
 import CustomButom from "../buttons/AddButton";
 import AddButton from "../buttons/AddButton";
@@ -130,52 +131,38 @@ export const clinicColumns = (onExpand, expandedRowId) => [
   },
   { key: "name", label: "Clinic Name" },
   { key: "address", label: "Address" },
-  { key : "LatLong", label: "Latitude",
-    render: (value, row) => (
-      <div>
-        {value.split(",")[0]}
-      </div>
-    )
-   },
-  {key: "LatLong", label: "Longitude",
-    render: (value, row) => (
-      <div>
-        {value.split(",")[1]}
-      </div>
-    )
-   },
+  {
+    key: "LatLong",
+    label: "Latitude",
+    render: (value, row) => <div>{value.split(",")[0]}</div>,
+  },
+  {
+    key: "LatLong",
+    label: "Longitude",
+    render: (value, row) => <div>{value.split(",")[1]}</div>,
+  },
   {
     key: "actions",
     label: "Actions",
     render: (value, row) => (
       <div className="flex space-x-2">
-        {row?.status == 0 ? (
-          <div className="flex items-center space-x-2">
-            {/* <EditButton className={"!px-2 !py-2"} onClick={() => onExpand(row.id)}> */}
-            <Eye
-              size={20}
-              className="text-secondary"
-              onClick={() => onExpand(row.id, "readable")}
-            />
-            <Pencil
-              size={20}
-              className="text-Tertiary"
-              onClick={() => onExpand(row.id, "editable")}
-            />
-            {/* </EditButton> */}
-            {/* <ShowMoreButton className={"!px-2 !py-2"}>
-              <Eye size={20} />
-            </ShowMoreButton> */}
-          </div>
-        ) : (
-          <div className="flex items-center space-x-2">
-            <Eye
-              size={20}
-              className="text-secondary"
-              onClick={() => onExpand(row.id, "readable")}
-            />
-          </div>
-        )}
+        <div className="flex items-center space-x-2">
+          <Eye
+            size={20}
+            className="text-secondary"
+            onClick={() => onExpand(row.id, "readable")}
+          />
+          <Pencil
+            size={20}
+            className="text-Tertiary"
+            onClick={() => onExpand(row.id, "editable")}
+          />
+          <Trash2 
+            size={20}
+            className="text-red-500"
+            onClick={() => onExpand(row.id, "deletable")}
+          />
+        </div>
       </div>
     ),
   },
@@ -237,13 +224,16 @@ export const patientColumns = (onExpand, expandedRowId) => [
     ),
   },
   { key: "name", label: "Patient" },
-  { key: "gender", label: "Gender", sortable: true,
+  {
+    key: "gender",
+    label: "Gender",
+    sortable: true,
     render: (value) => (
       <div className="flex items-center justify-between capitalize">
         <span>{value}</span>
       </div>
     ),
-   },
+  },
   { key: "cellNumber", label: "Cell Number" },
   { key: "dob", label: "DOB" },
   {

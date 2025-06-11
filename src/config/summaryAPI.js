@@ -32,13 +32,6 @@ export const summary = {
   getClinics: {
     url: "/getAllClinics",
     method: "get",
-    transformer: (data) =>
-      data.clinics.map((item, index) => ({
-        id: item.id || index + 1,
-        name: item.name,
-        address: item.address,
-        LatLong: item.LatLong,
-      })),
   },
   getDoctorClinics: {
     url: "/getClinics",

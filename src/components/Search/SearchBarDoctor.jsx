@@ -38,7 +38,7 @@ const SearchBarDoctor = () => {
     TOKEN,
   } = useContext(AppContext);
   const [selectedClinic, setSelectedClinic] = useState(null);
-  const [openModal, setOpenModal] = useState(true);
+  const [openModal, setOpenModal] = useState(false);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   const [loader, setLoader] = useState(false);
 
