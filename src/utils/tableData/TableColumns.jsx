@@ -35,8 +35,15 @@ export const AppoitmentColumns = (onExpand, expandedRowId) => [
       </div>
     ),
   },
-  { key: "patientName", label: "Patient" },
-  { key: "age", label: "Age", sortable: true },
+  { 
+    key: "patientName", 
+    label: "Patient" 
+  },
+  { 
+    key: "age",
+    label: "Age", 
+    sortable: true 
+  },
   {
     key: "visitDate",
     label: "Visit Date",
@@ -47,8 +54,14 @@ export const AppoitmentColumns = (onExpand, expandedRowId) => [
       </div>
     ),
   },
-  { key: "clinicName", label: "Clinic" },
-  { key: "doctorName", label: "Doctor" },
+  { 
+    key: "clinicName", 
+    label: "Clinic" 
+  },
+  { 
+    key: "doctorName",
+    label: "Doctor" 
+  },
   {
     key: "status",
     label: "App.Status",
@@ -113,24 +126,15 @@ export const clinicColumns = (onExpand, expandedRowId) => [
   {
     key: "id",
     label: "ID",
-    render: (value, row) => (
-      <div className="flex items-center justify-between">
-        <span>{value}</span>
-        <button
-          onClick={() => onExpand(row.id, "readable")}
-          className="ml-2 text-primary hover:text-blue-600"
-        >
-          {expandedRowId === row.id ? (
-            <ChevronDown size={16} />
-          ) : (
-            <ChevronUp size={16} />
-          )}
-        </button>
-      </div>
-    ),
   },
-  { key: "name", label: "Clinic Name" },
-  { key: "address", label: "Address" },
+  { 
+    key: "name", 
+    label: "Clinic Name" 
+  },
+  { 
+    key: "address",
+    label: "Address" 
+  },
   {
     key: "LatLong",
     label: "Latitude",
@@ -147,11 +151,6 @@ export const clinicColumns = (onExpand, expandedRowId) => [
     render: (value, row) => (
       <div className="flex space-x-2">
         <div className="flex items-center space-x-2">
-          <Eye
-            size={20}
-            className="text-secondary"
-            onClick={() => onExpand(row.id, "readable")}
-          />
           <Pencil
             size={20}
             className="text-Tertiary"

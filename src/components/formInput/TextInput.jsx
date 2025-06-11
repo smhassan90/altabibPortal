@@ -147,7 +147,7 @@ const TextInputsWithUnderLine = ({
             <Input
               type={type}
               placeholder={input ? input : ""}
-              className="!h-[40px] !w-full flex-1 !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
+              className="!h-[40px] !w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
               status={errors[name] ? "error" : ""}
               value={controllerField.value}
               onChange={controllerField.onChange}
@@ -156,7 +156,7 @@ const TextInputsWithUnderLine = ({
           )}
         />
         {errors[name] && (
-          <span className="text-red-500 text-small 2xl:text-medium">{errors[name]?.message}</span>
+          <span className="text-red-500 text-xs">{errors[name]?.message}</span>
         )}
       </div>
     </div>

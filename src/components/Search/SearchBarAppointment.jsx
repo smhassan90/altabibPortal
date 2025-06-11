@@ -101,6 +101,7 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
   ];
 
   const onSubmit = async (data) => {
+    console.log(data,"data")
     try {
       setLoader(true);
       const visiteDate = dayjs(data.visitDate).format("YYYY-MM-DD");
@@ -117,7 +118,7 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
         prescription: data.prescription || "",
         diagnosis: data.diagnosis || "",
         age: 0,
-        weight: data.weight || "",
+        weight: data.weight || 0,
         bloodPressure: data.bloodPressure || "",
         followupDate: data.followupDate || "",
         patientId: data.patientId || 0,

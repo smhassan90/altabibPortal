@@ -1,23 +1,33 @@
 import { z } from "zod";
-const passwordRegex =
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_\-+=~`[\]{}|\\:;"'<>,.?/]).{6,}$/;
+const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_\-+=~`[\]{}|\\:;"'<>,.?/]).{6,}$/;
 const time12HrRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/i;
 const today = new Date();
 today.setHours(0, 0, 0, 0);
 const tomorrow = new Date(today);
 tomorrow.setDate(tomorrow.getDate() + 1);
 
+
 export const loginSchema = z.object({
   username: z.string().min(1, "User Name is required"),
   password: z.string().min(1, "Password is required"),
 });
 
+
 export const addClinicSchema = z.object({
-  name: z.string().min(1, "Clinic Name is required"),
-  address: z.string().min(1, "Address is required"),
-  lat: z.string().min(1, "Location is required"),
-  lng: z.string().min(1, "Location is required"),
+  name: z
+    .string()
+    .min(1, "Clinic Name is required"),
+  address: z
+    .string()
+    .min(1, "Address is required"),
+  lat: z
+    .string()
+    .min(1, "Location is required"),
+  lng: z
+    .string()
+    .min(1, "Location is required"),
 });
+
 
 export const addDoctorSchema = z.object({
   doctorName: z
@@ -77,6 +87,7 @@ export const addDoctorSchema = z.object({
     .min(1, { message: "Doctor Clinic is required" }),
 });
 
+
 export const editDoctorSchema = z.object({
   doctorName: z.string().min(1, { message: "Doctor Name is required" }),
   userName: z.string().min(1, { message: "User Name is required" }),
@@ -107,12 +118,14 @@ export const editDoctorSchema = z.object({
     .min(1, { message: "Doctor Clinic is required" }),
 });
 
+
 export const addPatientSchema = z.object({
   name: z.string().min(1, "Patient Name is required"),
   age: z.string().min(1, "Age is required"),
   gender: z.string().min(1, "Gender is required"),
   contactNumber: z.string().min(1, "Contact Number is required"),
 });
+
 
 export const addAppointmentSchema = z.object({
   patientId: z.coerce.string().min(1, "Patient Name is required"),
@@ -134,6 +147,7 @@ export const addAppointmentSchema = z.object({
   diagnosis: z.coerce.string().optional(),
   treatments: z.coerce.string().optional(),
 });
+
 
 export const directAppointmentSchema = z.object({
   patientName: z.string().min(1, "Patient Name is required"),
@@ -171,15 +185,18 @@ export const directAppointmentSchema = z.object({
   treatments: z.coerce.string().optional(),
 });
 
+
 export const addQualificationSchema = z.object({
   qualification: z.string().min(1, "Qualification Name is required"),
   color: z.string().min(1, "Qualification Color is required"),
 });
 
+
 export const addSpecializationSchema = z.object({
   specialization: z.string().min(1, "Specialization Name is required"),
   color: z.string().min(1, "Specialization Color is required"),
 });
+
 
 export const checkUpSchema = z.object({
   bloodPressure: z.string().optional(),

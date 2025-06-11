@@ -22,9 +22,16 @@ const page = () => {
   const [mode, setMode] = useState("");
   const [filterAppointment, setFilterAppointment] = useState(appointment);
   const handleExpand = (id, Selectmode) => {
+    console.log(id,"id")
+    console.log(Selectmode,"Selectmode")
+    console.log(expandedRow,"expandedRow")
     if (expandedRow === id) {
       if (mode !== Selectmode) {
         setMode(Selectmode);
+      }
+      else {
+        setExpandedRow(null);
+        setMode("");
       }
     } else {
       setExpandedRow(id);
@@ -60,12 +67,10 @@ const page = () => {
     fetchAppointment();
   }, [visitDate]);
   useEffect(() => {
-    console.log(selectedStatus, "selectedStatus");
     const filterData = appointment.filter((item) => {
       if (selectedStatus == "all") return item;
       if (item.status == selectedStatus) return item;
     });
-    console.log(filterData, "filterData");
     setFilterAppointment(filterData);
   }, [selectedStatus, appointment]);
   const {
