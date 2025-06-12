@@ -13,7 +13,7 @@ export const loginSchema = z.object({
 });
 
 export const addClinicSchema = z.object({
-  name: z.string().min(1, "Clinic Name is required"),
+  name: z.coerce.string().min(1, "Clinic Name is required"),
   address: z.string().min(1, "Address is required"),
   lat: z.string().min(1, "Location is required"),
   lng: z.string().min(1, "Location is required"),
