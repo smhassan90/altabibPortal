@@ -1,10 +1,12 @@
 "use client"
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import UserDropdown from "../DropDowns/UserDropDown";
+import { AppContext } from "@/provider/AppProvider";
 
 function Navbar() {
+  const {user} = useContext(AppContext)
   return (
     <>
       <nav className="fixed top-0 right-0 z-10 w-[calc(100%-14rem)] md:flex-row md:flex-nowrap md:justify-start flex items-center py-3 bg-white">
@@ -14,11 +16,11 @@ function Navbar() {
             href="#pablo"
             // onClick={(e) => e.preventDefault()}
           >
-            Hi, Dr. Sameer Ahmed
+            Hi, {user?.name}
           </Link>
           {/* User */}
           <ul className="flex-col md:flex-row list-none items-center hidden md:flex">
-            <UserDropdown/>
+            <UserDropdown user={user}/>
           </ul>
         </div>
       </nav>

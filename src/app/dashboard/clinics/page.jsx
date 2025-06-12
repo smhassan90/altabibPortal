@@ -81,7 +81,10 @@ const page = () => {
   return (
     <div className="mt-ratio2">
       <h2>Clinic Management</h2>
-      <SearchBarClinic selectedDoctor={selectedDoctor} setSelectedDoctor={setSelectedDoctor}/>
+      <SearchBarClinic 
+        clinics={clinics}
+        setClinics={setClinics}
+      />
       <DynamicTable
         data={clinics}
         columns={clinicColumns(handleExpand, expandedRow)}

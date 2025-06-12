@@ -18,13 +18,18 @@ import { Input, Select } from "antd";
 import { AppContext } from "@/provider/AppProvider";
 
 const SearchBarPatient = ({selectedDoctor, setSelectedDoctor}) => {
-  const { doctors, patients, fetchPatients, fetchDoctorDropdown, user, TOKEN } = useContext(AppContext);
+  const { doctors, clinics, patients, fetchPatients, fetchDoctorDropdown, fetchClinicDropdown, user, TOKEN } = useContext(AppContext);
   useEffect(() => {
+    fetchClinicDropdown()
     fetchDoctorDropdown();
     fetchPatients();
   }, []);
   console.log(doctors,"doctors")
   const sortedDoctor = doctors.map((doctor) => ({
+    label: doctor.name,
+    value: doctor.id,
+  }));
+  const sortedClinics = clinics.map((doctor) => ({
     label: doctor.name,
     value: doctor.id,
   }));
@@ -82,6 +87,15 @@ const SearchBarPatient = ({selectedDoctor, setSelectedDoctor}) => {
           setSelectedDoctor(value);
         }}
       />
+      {user.type == 5 && <Select
+        placeholder="Select Clinic"
+        options={sortedClinics}
+        className="!h-[35px] placeholder:!text-gray w-full flex-1"
+        value={selectedDoctor}
+        onChange={(value) => {
+          setSelectedDoctor(value);
+        }}
+      />}
       {/* <SelectInput selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus}/> */}
       {/* {openModal && (
         <FormModal

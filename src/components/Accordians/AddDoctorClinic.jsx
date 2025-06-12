@@ -11,6 +11,7 @@ const AddDoctorClinic = ({
   control,
   errors,
   clinics,
+  isEdit=false
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
@@ -18,8 +19,10 @@ const AddDoctorClinic = ({
   });
 
   useEffect(() => {
-    if (fields.length === 0) {
-      append({ clinicId: "", charges: "", startTime: "", endTime: "" });
+    if(!isEdit){
+      if (fields.length === 0) {
+        append({ clinicId: "", charges: "", startTime: "", endTime: "" });
+      }
     }
   }, [fields.length, append]);
 
@@ -55,6 +58,7 @@ const AddDoctorClinic = ({
               control={control}
               name={`doctorClinic.${index}.clinicId`}
               render={({ field: controllerField }) => {
+                console.log(controllerField)
                 return (
                   <Select
                     options={clinics}

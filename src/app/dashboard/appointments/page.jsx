@@ -47,7 +47,7 @@ const page = () => {
         params: {
           token: user?.token,
           visitDate: visitDate,
-          clinicId: user?.username,
+          clinicId: user.type == 5 ? 0 : user?.username,
           doctorId: 0,
           patientId: 0,
           appointmentId: 0,

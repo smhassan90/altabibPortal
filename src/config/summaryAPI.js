@@ -27,6 +27,7 @@ export const summary = {
         gender: item.gender,
         clinic: item.doctorClinicDALS,
         age: item.age,
+        type: item.type
       })),
   },
   getClinics: {

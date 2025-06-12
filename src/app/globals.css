@@ -72,6 +72,10 @@
   background: transparent !important;
 }
 
+.selection .ant-select-selector{
+  background: transparent !important;
+}
+
 .ant-select-selection-placeholder{
   color: var(--color-gray) !important;
 }

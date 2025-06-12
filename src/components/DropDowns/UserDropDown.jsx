@@ -5,7 +5,7 @@ import Image from "next/image"
 import profileImage from "@/assets/img/avatar9.png"
 import { ChevronDown } from 'lucide-react';
 import { useRouter } from "next/navigation"
-export default function UserDropdown() {
+export default function UserDropdown({ user }) {
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const triggerRef = useRef(null)
   const dropdownRef = useRef(null)
@@ -98,7 +98,7 @@ export default function UserDropdown() {
         aria-labelledby="user-menu-button"
       >
         {/* User name */}
-        <div className="px-4 py-1 text-[16px] font-medium text-gray-700 capitalize border-b">Osama</div>
+        <div className="px-4 py-1 text-[16px] font-medium text-gray-700 capitalize border-b">{user?.name}</div>
         {/* <div className="my-1 h-px bg-gray-200"></div> */}
         {menuItems.map((item, index) => (
           <React.Fragment key={index}>

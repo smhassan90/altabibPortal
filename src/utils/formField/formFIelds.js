@@ -58,7 +58,7 @@ export const doctorFields = [
   {
     label: "Age",
     input: "Enter your Age",
-    type: "date",
+    type: "number",
     name: "age",
   },
   {
@@ -70,6 +70,16 @@ export const doctorFields = [
     options: [
       { label: "Male", value: "male" },
       { label: "Female", value: "female" },
+    ],
+  },
+  {
+    label: "Doctor Type",
+    type: "select",
+    name: "type",
+    input: "Select Type",
+    options: [
+      { label: "Physician", value: 1 },
+      { label: "Dentist", value: 2 },
     ],
   },
   {

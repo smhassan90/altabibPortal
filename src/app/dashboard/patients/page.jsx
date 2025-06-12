@@ -17,7 +17,7 @@ const page = () => {
   const [selectedDoctor, setSelectedDoctor] = useState();
   const [patient, setPatient] = useState([]);
   // const [filterPatient, setFilterPatient] = useState(patient);
-
+  console.log(user,"user")
   console.log(selectedDoctor,"selectedDoctor")
 
   const {
@@ -60,8 +60,8 @@ const page = () => {
           ...summary.getAllPatients,
           params: {
             token: TOKEN,
-            clinicId: user?.username,
-            doctorId:selectedDoctor ? selectedDoctor : 0,
+            clinicId: user?.type == 5 ? 0 : user?.username,
+            doctorId: selectedDoctor ? selectedDoctor : 0,
           },
         });
         setPatient(response.data.data);
@@ -71,7 +71,7 @@ const page = () => {
         setLoader(false);
       }
     };
-    fetchPatients();
+      fetchPatients();
   }, [selectedDoctor]);
 
   // useEffect(() => {

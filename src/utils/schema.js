@@ -45,20 +45,23 @@ export const addDoctorSchema = z.object({
     // }),
   age: z.coerce
     .string()
-    .min(1, { message: "Age is Required" })
-    .refine((val) => {
-        const date = new Date(val);
-        const today = new Date();
-        return !isNaN(date.getTime()) && date < today;
-    },
-    {message: "Date of Birth must be a valid past date"}
-    ),
+    .min(1, { message: "Age is Required" }),
+    // .refine((val) => {
+    //     const date = new Date(val);
+    //     const today = new Date();
+    //     return !isNaN(date.getTime()) && date < today;
+    // },
+    // {message: "Date of Birth must be a valid past date"}
+    // ),
   gender: z
     .string()
     .min(1, { message: "Gender is Required" })
     .refine((val) => ["male", "female"].includes(val), {
       message: "Gender must be either 'male' or 'female'",
     }),
+  type: z.coerce
+    .string()
+    .min(1, { message: "Doctor Type is Required" }),
   address: z
     .string()
     .min(1, { message: "Address is required" }),
@@ -187,14 +190,22 @@ export const directAppointmentSchema = z.object({
 
 
 export const addQualificationSchema = z.object({
-  qualification: z.string().min(1, "Qualification Name is required"),
-  color: z.string().min(1, "Qualification Color is required"),
+  qualification: z
+    .string()
+    .min(1, "Qualification Name is required"),
+  color: z.coerce
+    .string()
+    .min(1, "Color Code is required"),
 });
 
 
 export const addSpecializationSchema = z.object({
-  specialization: z.string().min(1, "Specialization Name is required"),
-  color: z.string().min(1, "Specialization Color is required"),
+  specialization: z
+    .string()
+    .min(1, "Specialization Name is required"),
+  color: z.coerce
+    .string()
+    .min(1, "Color Code is required"),
 });
 
 

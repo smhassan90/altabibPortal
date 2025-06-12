@@ -20,6 +20,7 @@ import EditButton from "@/utils/buttons/EditButton";
 import PatientInformation from "../ExpandRows/Patient/PatientInformation";
 import PatientExpandRow from "../ExpandRows/Patient";
 import ClinicExpandRow from "../ExpandRows/Clinic";
+import DoctorExpandRow from "../ExpandRows/Doctor";
 
 export function TableRow({
   data,
@@ -91,6 +92,15 @@ export function TableRow({
           {tableName === "Clinic" && (
           <td colSpan={columns.length} className="">
             <ClinicExpandRow
+              data={data} 
+              mode={mode} 
+              setExpandedRow={setExpandedRow} 
+            />
+          </td>
+          )}
+          {tableName === "Doctor" && (
+          <td colSpan={columns.length} className="">
+            <DoctorExpandRow
               data={data} 
               mode={mode} 
               setExpandedRow={setExpandedRow} 

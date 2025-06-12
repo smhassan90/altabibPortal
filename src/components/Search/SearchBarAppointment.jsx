@@ -249,10 +249,10 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
         }}
       />
       <DateInput visitDate={visitDate} setVisitDate={setVisitDate} />
-      <AddButton onClick={() => setOpenModal(true)}>
+      {user?.type == 4 && <AddButton onClick={() => setOpenModal(true)}>
         <Plus size={16} className="" />
         Add New Appointment
-      </AddButton>
+      </AddButton>}
       {openModal && (
         <FormModal
           open={openModal}

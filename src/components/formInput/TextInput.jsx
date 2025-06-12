@@ -31,7 +31,9 @@ const TextInput = ({ label, input, type, register, errors, name }) => {
         </span>
       )}
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -74,7 +76,9 @@ const TextInputs = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -117,7 +121,9 @@ const PasswordInputs = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -136,7 +142,10 @@ const TextInputsWithUnderLine = ({
 }) => {
   return (
     <div className={`relative w-full ${className}`}>
-      <label className="text-small 2xl:text-medium text-gray" htmlFor="grid-password">
+      <label
+        className="text-small 2xl:text-medium text-gray"
+        htmlFor="grid-password"
+      >
         {label}&nbsp;:
       </label>
       <div>
@@ -159,6 +168,166 @@ const TextInputsWithUnderLine = ({
           <span className="text-red-500 text-xs">{errors[name]?.message}</span>
         )}
       </div>
+    </div>
+  );
+};
+
+const PasswordInputsWithUnderLine = ({
+  label,
+  input,
+  type,
+  register,
+  errors,
+  name,
+  control,
+  disabled,
+  className,
+}) => {
+  return (
+    <div className={`relative w-full ${className}`}>
+      <label
+        className="text-small 2xl:text-medium text-gray"
+        htmlFor="grid-password"
+      >
+        {label}&nbsp;:
+      </label>
+      <div>
+        <Controller
+          control={control}
+          name={name}
+          render={({ field: controllerField }) => (
+            <Input.Password
+              type={type}
+              placeholder={input}
+              className="!h-[40px] !w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
+              status={errors[name] ? "error" : ""}
+              value={controllerField.value}
+              onChange={controllerField.onChange}
+              disabled={disabled}
+            />
+          )}
+        />
+      </div>
+      {errors[name] && (
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
+      )}
+    </div>
+  );
+};
+
+const MultipleSelectInputsWithUnderLine = ({
+  label,
+  input,
+  type,
+  register,
+  errors,
+  name,
+  options,
+  control,
+  className,
+}) => {
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+  const option = useMemo(() => {
+    return options?.map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
+  }, [options]);
+
+  return (
+    <div className={`relative w-full ${className}`}>
+      {label && (
+        <label
+          className="text-small 2xl:text-medium text-gray"
+          htmlFor="grid-password"
+        >
+          {label}&nbsp;:
+        </label>
+      )}
+      {/* <div> */}
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: controllerField }) => {
+          console.log(controllerField)
+          return (
+            <Select
+              mode="multiple"
+              options={option}
+              className="!min-h-[40px] !w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
+              placeholder={input}
+              // notFoundContent={loading ? <Spinner /> : "No data found"}
+              status={errors[name] ? "error" : ""}
+              value={
+                Array.isArray(controllerField.value)
+                  ? controllerField.value
+                  : []
+              }
+              onChange={controllerField.onChange}
+            />
+          );
+        }}
+      />
+      {/* </div> */}
+      {errors[name] && (
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
+      )}
+    </div>
+  );
+};
+
+const SelectInputsWithUnderLine = ({
+  label,
+  input,
+  type,
+  control,
+  errors,
+  name,
+  options,
+  className,
+}) => {
+  return (
+    <div className={`relative w-full ${className}`}>
+      {label && (
+        <label
+          className="text-small 2xl:text-medium text-gray"
+          htmlFor="grid-password"
+        >
+          {label}&nbsp;:
+        </label>
+      )}
+      <div>
+        <Controller
+          control={control}
+          name={name}
+          render={({ field: controllerField }) => {
+            console.log(controllerField)
+            return(
+            <Select
+              options={options}
+              className={`!h-[40px] !w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none`}
+              placeholder={input}
+              status={errors[name] ? "error" : ""}
+              value={controllerField.value ? controllerField.value : undefined}
+              onChange={(value, option) => {
+                  controllerField.onChange(value);
+              }}
+            />
+          )
+          }}
+        />
+      </div>
+      {errors[name] && (
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
+      )}
     </div>
   );
 };
@@ -201,7 +370,9 @@ const SelectInputs = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -237,7 +408,9 @@ const SelectInputWithoutLabel = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -296,7 +469,9 @@ const MultipleSelectInputs = ({
         }}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -313,7 +488,7 @@ const SingleSelectInputs = ({
   control,
   className,
   setValue,
-  labelClassName
+  labelClassName,
 }) => {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -327,12 +502,14 @@ const SingleSelectInputs = ({
 
   return (
     <div className={`relative w-full mb-3 ${className}`}>
-      {label && <label
-        className={`block text-small 2xl:text-medium mb-2 text-text`}
-        htmlFor="grid-password"
-      >
-        {label}&nbsp;:
-      </label>}
+      {label && (
+        <label
+          className={`block text-small 2xl:text-medium mb-2 text-text`}
+          htmlFor="grid-password"
+        >
+          {label}&nbsp;:
+        </label>
+      )}
       <Controller
         control={control}
         name={name}
@@ -359,7 +536,9 @@ const SingleSelectInputs = ({
         }}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -398,13 +577,18 @@ const TextAreaInputWithLabel = ({
   control,
   disabled,
   className,
-  isCheckup
+  isCheckup,
 }) => {
   return (
     <div className={`relative w-full ${className}`}>
-      {label && <label className="text-small 2xl:text-medium text-gray" htmlFor="grid-password">
-        {label}&nbsp;:
-      </label>}
+      {label && (
+        <label
+          className="text-small 2xl:text-medium text-gray"
+          htmlFor="grid-password"
+        >
+          {label}&nbsp;:
+        </label>
+      )}
       <Controller
         control={control}
         name={name}
@@ -422,12 +606,13 @@ const TextAreaInputWithLabel = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
 };
-
 
 const DatePick = ({
   label,
@@ -464,7 +649,9 @@ const DatePick = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -505,7 +692,9 @@ const TimePick = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -523,5 +712,8 @@ export {
   TextInputsWithUnderLine,
   TextAreaInputWithLabel,
   DatePick,
-  PasswordInputs
+  PasswordInputs,
+  PasswordInputsWithUnderLine,
+  MultipleSelectInputsWithUnderLine,
+  SelectInputsWithUnderLine
 };
