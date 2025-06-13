@@ -82,7 +82,7 @@ export function TableRow({
           {tableName === "Appointment" && (
           <td colSpan={columns.length} className="">
             <PatientExpandRow 
-              data={data} 
+              data={data}   
               mode={mode} 
               setExpandedRow={setExpandedRow} 
               fetchAppointment={fetchAppointment}

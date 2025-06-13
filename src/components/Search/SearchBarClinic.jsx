@@ -108,6 +108,7 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
           confirmButton="Add Clinic"
           formFields={clinicFields}
           handleSubmit={handleSubmit}
+          onSubmit={onSubmit}
           setValue={setValue}
           control={control}
           errors={errors}
