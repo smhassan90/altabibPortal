@@ -67,6 +67,7 @@ const page = () => {
   useEffect(() => {
     fetchAppointment();
   }, [visitDate]);
+  
   useEffect(() => {
     const filterData = appointment.filter((item) => {
       if (selectedStatus == "all") return item;

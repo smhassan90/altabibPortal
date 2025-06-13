@@ -113,7 +113,6 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
           control={control}
           errors={errors}
           onChange={onChange}
-          onSubmit={onSubmit}
           loader={loader}
           handleReset={handleReset}
         />

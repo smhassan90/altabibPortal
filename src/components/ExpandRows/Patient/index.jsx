@@ -10,7 +10,7 @@ import Spinner from "@/components/Spinner/Spinner";
 const PatientExpandRow = ({ data, mode, setExpandedRow, fetchAppointment }) => {
   const [patientHistory, setPatientHistory] = useState(null);
   const [loader, setLoader] = useState(false);
-  const { TOKEN } = useContext(AppContext);
+  const { TOKEN, treatments, fetchTreatmentDropdown } = useContext(AppContext);
   const { patientId } = data;
   const fetchPatientHistory = async (id) => {
     try {
@@ -33,11 +33,17 @@ const PatientExpandRow = ({ data, mode, setExpandedRow, fetchAppointment }) => {
       setLoader(false);
     }
   };
+  
   console.log(patientHistory, "patientHistory");
   return (
     <>
       <div className="mx-ratio2 px-ratio2 py-ratio2 bg-Bluish text-small text-gray-700">
-        <PatientInformation data={data} mode={mode} setExpandedRow={setExpandedRow} fetchAppointment={fetchAppointment}/>
+        <PatientInformation 
+          data={data} 
+          mode={mode} 
+          setExpandedRow={setExpandedRow} 
+          fetchAppointment={fetchAppointment}
+        />
         <EditButton
           onClick={() => fetchPatientHistory(patientId)}
           className={"mt-ratio2"}

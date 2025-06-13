@@ -229,11 +229,11 @@ const TextInputsWithUnderLine = ({
   className,
 }) => {
   return (
-   <div className={`w-full mb-4 ${className}`}>
+   <div className={`w-full ${className}`}>
   {label && (
     <label
       htmlFor={name}
-      className="block text-sm font-medium text-gray-700 mb-1"
+      className="block text-sm 2xl:text-medium text-text mb-1"
     >
       {label}
     </label>
@@ -249,7 +249,7 @@ const TextInputsWithUnderLine = ({
         type={type}
         placeholder={input || ""}
         disabled={disabled}
-        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:outline-none text-sm"
+        className="w-full !h-[35px] border border-gray-300 rounded-large shadow-sm focus:border-blue-500 focus:outline-none !text-small 2xl:!text-medium"
         status={errors[name] ? "error" : ""}
       />
     )}
@@ -824,7 +824,7 @@ const TextAreaInputWithLabel = ({
   return (
     <div className={`w-full ${className}`}>
       {label && (
-        <label className="block text-sm font-semibold text-gray-700 mb-1">
+        <label className="block text-small 2xl:text-medium text-text mb-1">
           {label}
         </label>
       )}
@@ -834,7 +834,7 @@ const TextAreaInputWithLabel = ({
         render={({ field }) => (
           <TextArea
             placeholder={input || ""}
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm focus:border-blue-500 focus:outline-none transition-all duration-200"
+            className="w-full border border-gray-300 rounded-md shadow-sm !text-small 2xl:!text-medium focus:border-blue-500 focus:outline-none transition-all duration-200"
             value={field.value}
             onChange={field.onChange}
             disabled={disabled}

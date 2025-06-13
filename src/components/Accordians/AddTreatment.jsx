@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import { Plus, Trash2 } from "lucide-react";
 import React, { useEffect } from "react";
 import { Controller, useFieldArray } from "react-hook-form";
+import { TextAreaInputWithLabel } from "../formInput/TextInput";
 
 const AddTreatment = ({
   treatments,
@@ -12,7 +13,7 @@ const AddTreatment = ({
   control,
   errors,
   treatmentName,
-  isEdit=false
+  isEdit = false,
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
@@ -20,7 +21,7 @@ const AddTreatment = ({
   });
 
   useEffect(() => {
-    if(!isEdit){
+    if (!isEdit) {
       if (fields.length === 0) {
         append({ treatmentName: "", treatmentDescription: "" });
       }
@@ -30,7 +31,11 @@ const AddTreatment = ({
   const addMoreTreatment = () => {
     setTreatments([
       ...treatments,
-      { id: treatments.length + 1, treatmentName: "", treatmentDescription: "" },
+      {
+        id: treatments.length + 1,
+        treatmentName: "",
+        treatmentDescription: "",
+      },
     ]);
     append({ treatmentName: "", treatmentDescription: "" });
   };
@@ -38,79 +43,73 @@ const AddTreatment = ({
   const removeTreatment = (treatment) => {
     if (treatments.length > 1) {
       setTreatments(treatments.filter((item) => item.id !== treatment?.id));
-      remove(treatment.treatmentName)
+      remove(treatment.treatmentName);
     }
   };
   return (
     <div className="mt-ratio2">
       {treatments.map((treatment, index) => (
-        <div
-          key={index}
-          className="grid grid-cols-1 sm:grid-cols-2 gap-ratio2 pt-ratio2 pb-ratio1 border-t border-border relative"
-        >
-          <div className={`relative w-full`}>
-            <label
-              className={`block text-small 2xl:text-medium mb-2 text-text`}
-              htmlFor="grid-password"
-            >
-              Treatment Name&nbsp;:
-            </label>
-            <Controller
-              control={control}
-              name={`treatments.${index}.treatmentName`}
-              render={({ field: controllerField }) => {
-                console.log(controllerField)
-                return (
-                  <Select
-                    options={treatmentName}
-                    className="!h-[40px] placeholder:!text-gray w-full flex-2 !rounded-medium !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none"
-                    placeholder="Select Treatment"
-                    status={errors?.treatments?.[index]?.treatmentName ? "error" : "" }
-                    value={
-                      controllerField.value ? controllerField.value : undefined
-                    }
-                    onChange={(value, option) => {
-                      controllerField.onChange(value);
-                    }}
-                  />
-                );
-              }}
-            />
-            {errors?.treatments?.[index]?.treatmentName && (
-              <span className="text-red-500 text-xs mt-1">
-                {errors?.treatments?.[index]?.treatmentName?.message}
-              </span>
-            )}
-          </div>
-          <div className="relative w-full">
-            <label
-              className="block text-small 2xl:text-medium mb-2 text-text"
-              htmlFor="grid-password"
-            >
-              Description&nbsp;:
-            </label>
-            <Controller
-              control={control}
-              name={`doctorClinic.${index}.treatmentDescription`}
-              render={({ field: controllerField }) => (
-                <TextArea
-                  type="textarea"
-                  placeholder="Enter Description"
-                  className={`placeholder:!text-gray w-full !bg-transparent`}
-                  status={errors?.treatments?.[index]?.treatmentDescription ? "error" : "" }
-                  value={controllerField.value}
-                  onChange={controllerField.onChange}
-                />
+        <div className="flex justify-between gap-ratio2">
+          <div
+            key={index}
+            className="w-full grid grid-cols-1 sm:grid-cols-2 gap-ratio2 pt-ratio2 pb-ratio1 border-t border-border"
+          >
+            <div className={`relative w-full`}>
+              <label
+                className={`block text-small 2xl:text-medium mb-1 text-text`}
+                htmlFor="grid-password"
+              >
+                Treatment Name&nbsp;:
+              </label>
+              <Controller
+                control={control}
+                name={`treatments.${index}.treatmentName`}
+                render={({ field: controllerField }) => {
+                  console.log(controllerField);
+                  return (
+                    <Select
+                      options={treatmentName}
+                      className="!h-[40px] placeholder:!text-gray w-full flex-2 !rounded-medium !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none"
+                      placeholder="Select Treatment"
+                      status={
+                        errors?.treatments?.[index]?.treatmentName
+                          ? "error"
+                          : ""
+                      }
+                      value={
+                        controllerField.value
+                          ? controllerField.value
+                          : undefined
+                      }
+                      onChange={(value, option) => {
+                        controllerField.onChange(value);
+                      }}
+                    />
+                  );
+                }}
+              />
+              {errors?.treatments?.[index]?.treatmentName && (
+                <span className="text-red-500 text-xs mt-1">
+                  {errors?.treatments?.[index]?.treatmentName?.message}
+                </span>
               )}
+            </div>
+            <TextAreaInputWithLabel
+              label={"Description"}
+              input={"Enter Description"}
+              type={"textarea"}
+              errors={errors}
+              name={`doctorClinic.${index}.treatmentDescription`}
+              control={control}
+              className=""
             />
-            {errors?.treatments?.[index]?.treatmentDescription && (
-              <span className="text-red-500 text-xs mt-1">
-                {errors?.treatments?.[index]?.treatmentDescription?.message}
-              </span>
-            )}
           </div>
           {treatments.length > 1 && (
-            <Trash2 onClick={()=>removeTreatment(treatment)} size={20} className="text-red-500 absolute top-3 right-2" />
+            <Trash2
+              onClick={() => removeTreatment(treatment)}
+              size={20}
+              className="text-red-500"
+            />
           )}
         </div>
       ))}

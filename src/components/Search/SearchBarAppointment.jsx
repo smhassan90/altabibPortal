@@ -33,15 +33,15 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
     },
   ]);
 
-  const { doctors, patients, treatments:treatmentBank, fetchPatients, fetchDoctorDropdown, user, TOKEN, fetchTreatmentDropdown } =
+  const { doctors, patients, fetchPatients, treatments:treatmentBank, fetchDoctorDropdown, user, TOKEN, fetchTreatmentDropdown } =
     useContext(AppContext);
 
   useEffect(() => {
     if(user.type == 4){
       fetchDoctorDropdown();
       fetchPatients();
-      fetchTreatmentDropdown();
     }
+    fetchTreatmentDropdown()
   }, []);
 
   const sortedTreatment = treatmentBank?.map((treatment) => ({
