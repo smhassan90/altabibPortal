@@ -4,13 +4,18 @@ import React, { useContext, useEffect, useState } from "react";
 import SelectInput from "../Inputs/SelectInput";
 import AddButton from "@/utils/buttons/AddButton";
 import FormModal from "../Modals/FormModal";
-import { clinicFields } from "@/utils/formField/formFIelds";
+import {
+  clinicFields,
+  QualificationFields,
+  SpecializationFields,
+} from "@/utils/formField/formFIelds";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   addAppointmentSchema,
   addClinicSchema,
   addDoctorSchema,
+  addSpecializationSchema,
   directAppointmentSchema,
 } from "@/utils/schema";
 import { SearchInput, SelectInputWithoutLabel } from "../formInput/TextInput";
@@ -22,7 +27,7 @@ import { AxiosError } from "@/utils/axiosError";
 import dayjs from "dayjs";
 import qs from "qs";
 import { Select } from "antd";
-const SearchBarClinic  = ({ clinics, setClinics }) => {
+const SearchBarSpecialization = () => {
   const [openModal, setOpenModal] = useState(false);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -39,12 +44,10 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(addClinicSchema),
+    resolver: zodResolver(addSpecializationSchema),
     defaultValues: {
-      name: "",
-      address: "",
-      lat: "",
-      lng: "",
+      specialization: "",
+      color: "",
     },
   });
 
@@ -52,42 +55,37 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
     try {
       setLoader(true);
       const payload = {
-        name: data.name,
-        address: data.address,
-        LatLong:`${data.lat},${data.lng}`
+        name: data.specialization,
+        colorCode: data.color,
+        updateDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
       };
-      console.log(payload);
       const response = await Axios({
-        ...summary.addClinic,
-        data:payload,
+        ...summary.addSpecialization,
+        data: payload,
         params: {
           token: TOKEN,
         },
       });
       if (response?.data?.status == 200) {
-        toast.success("Clinic Add Successfully");
-        const copyArr = [...clinics]
-        copyArr.push(response?.data?.data)
-        setClinics(copyArr)
-        reset({});
-      } else {
-        toast.error(`Failed ${response?.data?.status}`);
+        toast.success("specialization Add Successfully");
+        // const newSpecialization = [...specialization];
+        // newSpecialization.push(response?.data?.data);
+        // setSpecialization(newSpecialization);
+        setOpenModal(false);
+        handleReset();
       }
     } catch (error) {
       console.log(error);
       AxiosError(error);
     } finally {
       setLoader(false);
-      setOpenModal(false);
     }
   };
 
-  const handleReset = () => {
+  function handleReset(){
     reset({
-      name: "",
-      address: "",
-      lat: "",
-      lng: "",
+      specialization: "",
+      color: "",
     });
   };
   const onChange = (e) => {
@@ -98,17 +96,16 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
       <SearchInput placeholder={"Search"} className="flex-3" />
       <AddButton onClick={() => setOpenModal(true)}>
         <Plus size={16} className="" />
-        Add New Clinic
+        Add New Specialization
       </AddButton>
       {openModal && (
         <FormModal
           open={openModal}
           setOpen={setOpenModal}
-          title={"Add New Clinic"}
-          confirmButton="Add Clinic"
-          formFields={clinicFields}
+          title={"Add New Specialization"}
+          confirmButton="Add Specialization"
+          formFields={SpecializationFields}
           handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
           setValue={setValue}
           control={control}
           errors={errors}
@@ -122,4 +119,4 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
   );
 };
 
-export default SearchBarClinic;
+export default SearchBarSpecialization;

@@ -14,6 +14,7 @@ import AddButton from "../buttons/AddButton";
 import PendingButton from "../buttons/PendingButton";
 import EditButton from "../buttons/EditButton";
 import ShowMoreButton from "../buttons/ShowMoreButton";
+import { Tag } from "antd";
 
 export const AppoitmentColumns = (onExpand, expandedRowId) => [
   {
@@ -35,8 +36,15 @@ export const AppoitmentColumns = (onExpand, expandedRowId) => [
       </div>
     ),
   },
-  { key: "patientName", label: "Patient" },
-  { key: "age", label: "Age", sortable: true },
+  { 
+    key: "patientName", 
+    label: "Patient" 
+  },
+  { 
+    key: "age",
+    label: "Age", 
+    sortable: true 
+  },
   {
     key: "visitDate",
     label: "Visit Date",
@@ -47,8 +55,14 @@ export const AppoitmentColumns = (onExpand, expandedRowId) => [
       </div>
     ),
   },
-  { key: "clinicName", label: "Clinic" },
-  { key: "doctorName", label: "Doctor" },
+  { 
+    key: "clinicName", 
+    label: "Clinic" 
+  },
+  { 
+    key: "doctorName",
+    label: "Doctor" 
+  },
   {
     key: "status",
     label: "App.Status",
@@ -113,24 +127,15 @@ export const clinicColumns = (onExpand, expandedRowId) => [
   {
     key: "id",
     label: "ID",
-    render: (value, row) => (
-      <div className="flex items-center justify-between">
-        <span>{value}</span>
-        <button
-          onClick={() => onExpand(row.id, "readable")}
-          className="ml-2 text-primary hover:text-blue-600"
-        >
-          {expandedRowId === row.id ? (
-            <ChevronDown size={16} />
-          ) : (
-            <ChevronUp size={16} />
-          )}
-        </button>
-      </div>
-    ),
   },
-  { key: "name", label: "Clinic Name" },
-  { key: "address", label: "Address" },
+  { 
+    key: "name", 
+    label: "Clinic Name" 
+  },
+  { 
+    key: "address",
+    label: "Address" 
+  },
   {
     key: "LatLong",
     label: "Latitude",
@@ -147,11 +152,6 @@ export const clinicColumns = (onExpand, expandedRowId) => [
     render: (value, row) => (
       <div className="flex space-x-2">
         <div className="flex items-center space-x-2">
-          <Eye
-            size={20}
-            className="text-secondary"
-            onClick={() => onExpand(row.id, "readable")}
-          />
           <Pencil
             size={20}
             className="text-Tertiary"
@@ -168,12 +168,12 @@ export const clinicColumns = (onExpand, expandedRowId) => [
   },
 ];
 
-export const doctorColumns = (onExpand, expandedRowId) => [
+export const doctorColumns = (onExpand, expandedRowId, deleteData) => [
   {
     key: "id",
     label: "ID",
     render: (value, row) => (
-      <div className="flex items-center justify-between">
+      <div className="flex items-center gap-ratio2">
         <span>{value}</span>
         <button
           onClick={() => onExpand(row.id, "readable")}
@@ -188,10 +188,64 @@ export const doctorColumns = (onExpand, expandedRowId) => [
       </div>
     ),
   },
-  { key: "doctorName", label: "Doctor" },
-  { key: "gender", label: "Gender", sortable: true },
-  { key: "age", label: "Age", sortable: true },
-  // { key: "spaecialization", label: "Clinic" },
+  { 
+    key: "name",
+    label: "Doctor" 
+  },
+  { 
+    key: "gender", 
+    label: "Gender", 
+    sortable: true,
+    render: (value) => (
+      <div className="flex items-center justify-between capitalize">
+        <span>{value}</span>
+      </div>
+    ),
+  },
+  { 
+    key: "age", 
+    label: "Age", 
+    sortable: true 
+  },
+  {
+    key: "specialization",
+    label: "Specialization",
+    render: (specialization) => {
+      if (!specialization || !Array.isArray(specialization) || specialization.length === 0) {
+        return "-";
+      }
+      const colors = ["blue", "green", "red", "orange", "purple"];
+      return (
+        <div className="flex flex-col gap-1">
+          {specialization.map((item, index) => (
+            <Tag color={colors[index % colors.length]} key={index} className="w-fit">
+              {item.name}
+            </Tag>
+          ))}
+        </div>
+      );
+    },
+  },
+  {
+    key: "qualification",
+    label: "Qualification",
+    type: [4, 5],
+    render: (qualification) => {
+      if (!qualification || !Array.isArray(qualification) || qualification.length === 0) {
+        return "-";
+      }
+      const colors = ["blue", "green", "red", "orange", "purple"];
+      return (
+        <div className="flex flex-col gap-1">
+          {qualification.map((item, index) => (
+            <Tag color={colors[index % colors.length]} key={index} className="w-fit">
+              {item.name}
+            </Tag>
+          ))}
+        </div>
+      );
+    },
+  },
   {
     key: "actions",
     label: "Actions",
@@ -207,7 +261,10 @@ export const doctorColumns = (onExpand, expandedRowId) => [
           className="text-Tertiary"
           onClick={() => onExpand(row.id, "editable")}
         />
-        <Delete size={20} className="text-red-500" />
+        <Trash2 
+          size={20} 
+          className="text-red-500" 
+          onClick={() => deleteData(row.id)}/>
       </div>
     ),
   },
@@ -252,6 +309,64 @@ export const patientColumns = (onExpand, expandedRowId) => [
           onClick={() => onExpand(row.id, "editable")}
         />
         <Delete size={20} className="text-red-500" />
+      </div>
+    ),
+  },
+];
+
+export const specializationColumns = (onExpand, expandedRowId) => [
+  {
+    key: "id",
+    label: "ID",
+  },
+  { 
+    key: "name", 
+    label: "Specialization" 
+  },
+  {
+    key: "color",
+    label: "Color",
+  },
+  {
+    key: "actions",
+    label: "Actions",
+    render: (value, row) => (
+      <div className="flex items-center space-x-2">
+        {/* <Pencil
+          size={20}
+          className="text-Tertiary"
+          onClick={() => onExpand(row.id, "editable")}
+        /> */}
+        <Trash2 size={20} className="text-red-500" />
+      </div>
+    ),
+  },
+];
+
+export const qualificationColumns = (onExpand, expandedRowId) => [
+  {
+    key: "id",
+    label: "ID",
+  },
+  { 
+    key: "name", 
+    label: "Qualification" 
+  },
+  {
+    key: "color",
+    label: "Color",
+  },
+  {
+    key: "actions",
+    label: "Actions",
+    render: (value, row) => (
+      <div className="flex items-center space-x-2">
+        {/* <Pencil
+          size={20}
+          className="text-Tertiary"
+          onClick={() => onExpand(row.id, "editable")}
+        /> */}
+        <Trash2 size={20} className="text-red-500" />
       </div>
     ),
   },

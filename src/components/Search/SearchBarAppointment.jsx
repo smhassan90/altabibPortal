@@ -37,8 +37,10 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
     useContext(AppContext);
 
   useEffect(() => {
-    fetchDoctorDropdown();
-    fetchPatients();
+    if(user.type == 4){
+      fetchDoctorDropdown();
+      fetchPatients();
+    }
   }, []);
 
   const {
@@ -101,6 +103,7 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
   ];
 
   const onSubmit = async (data) => {
+    console.log(data,"data")
     try {
       setLoader(true);
       const visiteDate = dayjs(data.visitDate).format("YYYY-MM-DD");
@@ -117,7 +120,7 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
         prescription: data.prescription || "",
         diagnosis: data.diagnosis || "",
         age: 0,
-        weight: data.weight || "",
+        weight: data.weight || 0,
         bloodPressure: data.bloodPressure || "",
         followupDate: data.followupDate || "",
         patientId: data.patientId || 0,
@@ -248,10 +251,10 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
         }}
       />
       <DateInput visitDate={visitDate} setVisitDate={setVisitDate} />
-      <AddButton onClick={() => setOpenModal(true)}>
+      {user?.type == 4 && <AddButton onClick={() => setOpenModal(true)}>
         <Plus size={16} className="" />
         Add New Appointment
-      </AddButton>
+      </AddButton>}
       {openModal && (
         <FormModal
           open={openModal}

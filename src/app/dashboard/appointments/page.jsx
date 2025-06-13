@@ -12,19 +12,27 @@ import { AxiosError } from "@/utils/axiosError";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { checkUpSchema } from "@/utils/schema";
+import { useSearchParams } from 'next/navigation';
 const page = () => {
-  const { user, appointment, setAppointment, doctors, fetchDoctorDropdown } =
-    useContext(AppContext);
+  const searchParams = useSearchParams();
+  const { user, appointment, setAppointment, doctors, fetchDoctorDropdown } = useContext(AppContext);
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [expandedRow, setExpandedRow] = useState(null);
   const [visitDate, setVisitDate] = useState(dayjs().format("YYYY-MM-DD"));
   const [loader, setLoader] = useState(false);
   const [mode, setMode] = useState("");
   const [filterAppointment, setFilterAppointment] = useState(appointment);
+  const clinicId = searchParams.get('clinicId');
+  const doctorId = searchParams.get('doctorId');
+  console.log(clinicId,"clinicId")
   const handleExpand = (id, Selectmode) => {
     if (expandedRow === id) {
       if (mode !== Selectmode) {
         setMode(Selectmode);
+      }
+      else {
+        setExpandedRow(null);
+        setMode("");
       }
     } else {
       setExpandedRow(id);
@@ -40,8 +48,8 @@ const page = () => {
         params: {
           token: user?.token,
           visitDate: visitDate,
-          clinicId: user?.username,
-          doctorId: 0,
+          clinicId: user.type == 5 ? 0 : clinicId ? clinicId : user?.username,
+          doctorId: user.type == 3 ? doctorId : 0,
           patientId: 0,
           appointmentId: 0,
           followupDate: "",
@@ -60,12 +68,10 @@ const page = () => {
     fetchAppointment();
   }, [visitDate]);
   useEffect(() => {
-    console.log(selectedStatus, "selectedStatus");
     const filterData = appointment.filter((item) => {
       if (selectedStatus == "all") return item;
       if (item.status == selectedStatus) return item;
     });
-    console.log(filterData, "filterData");
     setFilterAppointment(filterData);
   }, [selectedStatus, appointment]);
   const {

@@ -59,7 +59,7 @@ export default function Sidebar() {
       link: "/dashboard/clinics",
       icon: <Hospital size={20} />,
       label: "Clinics",
-      show: [5, 4 ],
+      show: [5 ],
     },
     {
       link: "/dashboard/patients",

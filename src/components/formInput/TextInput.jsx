@@ -31,7 +31,9 @@ const TextInput = ({ label, input, type, register, errors, name }) => {
         </span>
       )}
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -74,7 +76,9 @@ const TextInputs = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -117,13 +121,150 @@ const PasswordInputs = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
 };
 
+// const TextInputsWithUnderLine = ({
+//   label,
+//   input,
+//   type,
+//   register,
+//   errors,
+//   name,
+//   control,
+//   disabled,
+//   className,
+// }) => {
+//   return (
+//     <div className={`relative w-full ${className}`}>
+//       <label
+//         className="text-small 2xl:text-medium text-gray"
+//         htmlFor="grid-password"
+//       >
+//         {label}&nbsp;:
+//       </label>
+//       <div>
+//         <Controller
+//           control={control}
+//           name={name}
+//           render={({ field: controllerField }) => (
+//             <Input
+//               type={type}
+//               placeholder={input ? input : ""}
+//               className="!h-[40px] !w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
+//               status={errors[name] ? "error" : ""}
+//               value={controllerField.value}
+//               onChange={controllerField.onChange}
+//               disabled={disabled}
+//             />
+//           )}
+//         />
+//         {errors[name] && (
+//           <span className="text-red-500 text-xs">{errors[name]?.message}</span>
+//         )}
+//       </div>
+//     </div>
+//   );
+// };
+// const TextInputsWithUnderLine = ({
+//   label,
+//   input,
+//   type = "text",
+//   register,
+//   errors,
+//   name,
+//   control,
+//   disabled,
+//   className,
+// }) => {
+//   return (
+//     <div className={`w-full mb-4 ${className}`}>
+//       {label && (
+//         <label
+//           htmlFor={name}
+//           className="text-sm text-gray-700 font-medium mb-1 block"
+//         >
+//           {label}
+//         </label>
+//       )}
+
+//       <Controller
+//         control={control}
+//         name={name}
+//         render={({ field }) => (
+//           <Input
+//             {...field}
+//             id={name}
+//             type={type}
+//             placeholder={input || ""}
+//             disabled={disabled}
+//             className="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:border-blue-500 focus:outline-none"
+//             status={errors[name] ? "error" : ""}
+//           />
+//         )}
+//       />
+
+//       {errors[name] && (
+//         <span className="text-xs text-red-500 mt-1 block">
+//           {errors[name]?.message}
+//         </span>
+//       )}
+//     </div>
+//   );
+// };
 const TextInputsWithUnderLine = ({
+  label,
+  input,
+  type = "text",
+  register,
+  errors,
+  name,
+  control,
+  disabled,
+  className,
+}) => {
+  return (
+   <div className={`w-full mb-4 ${className}`}>
+  {label && (
+    <label
+      htmlFor={name}
+      className="block text-sm font-medium text-gray-700 mb-1"
+    >
+      {label}
+    </label>
+  )}
+
+  <Controller
+    control={control}
+    name={name}
+    render={({ field }) => (
+      <Input
+        {...field}
+        id={name}
+        type={type}
+        placeholder={input || ""}
+        disabled={disabled}
+        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:outline-none text-sm"
+        status={errors[name] ? "error" : ""}
+      />
+    )}
+  />
+
+  {errors[name] && (
+    <span className="text-xs text-red-500 mt-1 block">
+      {errors[name]?.message}
+    </span>
+  )}
+</div>
+
+  );
+};
+const PasswordInputsWithUnderLine = ({
   label,
   input,
   type,
@@ -136,7 +277,10 @@ const TextInputsWithUnderLine = ({
 }) => {
   return (
     <div className={`relative w-full ${className}`}>
-      <label className="text-small 2xl:text-medium text-gray" htmlFor="grid-password">
+      <label
+        className="text-small 2xl:text-medium text-gray"
+        htmlFor="grid-password"
+      >
         {label}&nbsp;:
       </label>
       <div>
@@ -144,10 +288,10 @@ const TextInputsWithUnderLine = ({
           control={control}
           name={name}
           render={({ field: controllerField }) => (
-            <Input
+            <Input.Password
               type={type}
-              placeholder={input ? input : ""}
-              className="!h-[40px] !w-full flex-1 !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
+              placeholder={input}
+              className="!h-[40px] !w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
               status={errors[name] ? "error" : ""}
               value={controllerField.value}
               onChange={controllerField.onChange}
@@ -155,10 +299,127 @@ const TextInputsWithUnderLine = ({
             />
           )}
         />
-        {errors[name] && (
-          <span className="text-red-500 text-small 2xl:text-medium">{errors[name]?.message}</span>
-        )}
       </div>
+      {errors[name] && (
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
+      )}
+    </div>
+  );
+};
+
+const MultipleSelectInputsWithUnderLine = ({
+  label,
+  input,
+  type,
+  register,
+  errors,
+  name,
+  options,
+  control,
+  className,
+}) => {
+  const handleChange = (value) => {
+    console.log(`selected ${value}`);
+  };
+  const option = useMemo(() => {
+    return options?.map((item) => ({
+      value: item.id,
+      label: item.name,
+    }));
+  }, [options]);
+
+  return (
+    <div className={`relative w-full ${className}`}>
+      {label && (
+        <label
+          className="text-small 2xl:text-medium text-gray"
+          htmlFor="grid-password"
+        >
+          {label}&nbsp;:
+        </label>
+      )}
+      {/* <div> */}
+      <Controller
+        control={control}
+        name={name}
+        render={({ field: controllerField }) => {
+          console.log(controllerField)
+          return (
+            <Select
+              mode="multiple"
+              options={option}
+              className="!min-h-[40px] !w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
+              placeholder={input}
+              // notFoundContent={loading ? <Spinner /> : "No data found"}
+              status={errors[name] ? "error" : ""}
+              value={
+                Array.isArray(controllerField.value)
+                  ? controllerField.value
+                  : []
+              }
+              onChange={controllerField.onChange}
+            />
+          );
+        }}
+      />
+      {/* </div> */}
+      {errors[name] && (
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
+      )}
+    </div>
+  );
+};
+
+const SelectInputsWithUnderLine = ({
+  label,
+  input,
+  type,
+  control,
+  errors,
+  name,
+  options,
+  className,
+}) => {
+  return (
+    <div className={`relative w-full ${className}`}>
+      {label && (
+        <label
+          className="text-small 2xl:text-medium text-gray"
+          htmlFor="grid-password"
+        >
+          {label}&nbsp;:
+        </label>
+      )}
+      <div>
+        <Controller
+          control={control}
+          name={name}
+          render={({ field: controllerField }) => {
+            console.log(controllerField)
+            return(
+            <Select
+              options={options}
+              className={`!h-[40px] !w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none`}
+              placeholder={input}
+              status={errors[name] ? "error" : ""}
+              value={controllerField.value ? controllerField.value : undefined}
+              onChange={(value, option) => {
+                  controllerField.onChange(value);
+              }}
+            />
+          )
+          }}
+        />
+      </div>
+      {errors[name] && (
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
+      )}
     </div>
   );
 };
@@ -201,7 +462,9 @@ const SelectInputs = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -237,7 +500,9 @@ const SelectInputWithoutLabel = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -296,29 +561,137 @@ const MultipleSelectInputs = ({
         }}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
 };
 
+// const SingleSelectInputs = ({
+//   label,
+//   input,
+//   type,
+//   register,
+//   errors,
+//   name,
+//   options,
+//   control,
+//   className,
+//   setValue,
+//   labelClassName,
+// }) => {
+//   const handleChange = (value) => {
+//     console.log(`selected ${value}`);
+//   };
+//   const option = useMemo(() => {
+//     return options?.map((item) => ({
+//       value: item.id,
+//       label: item.name,
+//     }));
+//   }, [options]);
+
+//   return (
+//     // <div className={`relative w-full mb-3 ${className}`}>
+//     //   {label && (
+//     //     <label
+//     //       className={`block text-small 2xl:text-medium mb-2 text-text`}
+//     //       htmlFor="grid-password"
+//     //     >
+//     //       {label}&nbsp;:
+//     //     </label>
+//     //   )}
+//     //   <Controller
+//     //     control={control}
+//     //     name={name}
+//     //     render={({ field: controllerField }) => {
+//     //       return (
+//     //         <Select
+//     //           options={option}
+//     //           className="!h-[40px] placeholder:!text-gray w-full flex-2"
+//     //           placeholder={input}
+//     //           status={errors[name] ? "error" : ""}
+//     //           value={controllerField.value ? controllerField.value : undefined}
+//     //           onChange={(value, option) => {
+//     //             controllerField.onChange(value);
+//     //             if (name === "patientId") {
+//     //               setValue("patientName", option.label);
+//     //             } else if (name === "doctorId") {
+//     //               setValue("doctorName", option.label);
+//     //             } else if (name === "clinicId") {
+//     //               setValue("clinicName", option.label);
+//     //             }
+//     //           }}
+//     //         />
+//     //       );
+//     //     }}
+//     //   />
+//     //   {errors[name] && (
+//     //     <span className="text-red-500 text-xs mt-1">
+//     //       {errors[name]?.message}
+//     //     </span>
+//     //   )}
+//     // </div>
+//     <div className={`relative w-full mb-3 ${className}`}>
+//        {label && (
+//     <label
+//       className={`block text-small bg-red 3xl:text-medium mt-2 text-text`}
+//       htmlFor="grid-password"
+//     >
+//       {label}&nbsp;:
+//     </label>
+//   )}
+//   <Controller
+//     control={control}
+//     name={name}
+//     render={({ field: controllerField }) => {
+//       return (
+//         <Select
+//           options={option}
+//           className="!h-[40px] placeholder:!text-gray w-full flex-2"
+//           placeholder={input}
+//           status={errors[name] ? "error" : ""}
+//           value={controllerField.value ? controllerField.value : undefined}
+//           onChange={(value, option) => {
+//             controllerField.onChange(value);
+//             if (name === "patientId") {
+//               setValue("patientName", option.label);
+//             } else if (name === "doctorId") {
+//               setValue("doctorName", option.label);
+//             } else if (name === "clinicId") {
+//               setValue("clinicName", option.label);
+//             }
+//           }}
+//         />
+//       );
+//     }}
+//   />
+
+ 
+
+//   {errors[name] && (
+//     <span className="text-red-500 text-xs mt-1">
+//       {errors[name]?.message}
+//     </span>
+//   )}
+// </div>
+
+//   );
+// };
+
+
 const SingleSelectInputs = ({
   label,
   input,
-  type,
-  register,
-  errors,
   name,
   options,
   control,
-  className,
+  errors,
   setValue,
-  labelClassName
+  className,
 }) => {
-  const handleChange = (value) => {
-    console.log(`selected ${value}`);
-  };
-  const option = useMemo(() => {
+  const selectOptions = useMemo(() => {
     return options?.map((item) => ({
       value: item.id,
       label: item.name,
@@ -326,40 +699,43 @@ const SingleSelectInputs = ({
   }, [options]);
 
   return (
-    <div className={`relative w-full mb-3 ${className}`}>
-      {label && <label
-        className={`block text-small 2xl:text-medium mb-2 text-text`}
-        htmlFor="grid-password"
-      >
-        {label}&nbsp;:
-      </label>}
+    <div className={`w-full mb-5 flex flex-col ${className}`}>
+      {label && (
+        <label
+          htmlFor={name}
+          className="text-sm text-gray-700 font-medium mb-1"
+        >
+          {label}
+        </label>
+      )}
+
       <Controller
         control={control}
         name={name}
-        render={({ field: controllerField }) => {
-          return (
-            <Select
-              options={option}
-              className="!h-[40px] placeholder:!text-gray w-full flex-2"
-              placeholder={input}
-              status={errors[name] ? "error" : ""}
-              value={controllerField.value ? controllerField.value : undefined}
-              onChange={(value, option) => {
-                controllerField.onChange(value);
-                if (name === "patientId") {
-                  setValue("patientName", option.label);
-                } else if (name === "doctorId") {
-                  setValue("doctorName", option.label);
-                } else if (name === "clinicId") {
-                  setValue("clinicName", option.label);
-                }
-              }}
-            />
-          );
-        }}
+        render={({ field }) => (
+          <Select
+            className="w-full !h-[42px] border border-gray-300 rounded-md shadow-sm focus:border-blue-500"
+            placeholder={input || "Select..."}
+            options={selectOptions}
+            value={field.value || undefined}
+            onChange={(value, option) => {
+              field.onChange(value);
+
+              if (name === "patientId") {
+                setValue("patientName", option.label);
+              } else if (name === "doctorId") {
+                setValue("doctorName", option.label);
+              } else if (name === "clinicId") {
+                setValue("clinicName", option.label);
+              }
+            }}
+            status={errors[name] ? "error" : ""}
+          />
+        )}
       />
+
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-xs text-red-500 mt-1">{errors[name]?.message}</span>
       )}
     </div>
   );
@@ -388,6 +764,52 @@ const TextAreaInput = ({ placeholder, className }) => {
   );
 };
 
+// const TextAreaInputWithLabel = ({
+//   label,
+//   input,
+//   type,
+//   register,
+//   errors,
+//   name,
+//   control,
+//   disabled,
+//   className,
+//   isCheckup,
+// }) => {
+//   return (
+//     <div className={`relative w-full ${className}`}>
+//       {label && (
+//         <label
+//           className="text-small 2xl:text-medium text-gray"
+//           htmlFor="grid-password"
+//         >
+//           {label}&nbsp;:
+//         </label>
+//       )}
+//       <Controller
+//         control={control}
+//         name={name}
+//         render={({ field: controllerField }) => (
+//           <TextArea
+//             type={type}
+//             placeholder={input}
+//             className={`placeholder:!text-gray w-full !bg-transparent !rounded-medium !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none`}
+//             status={errors[name] ? "error" : ""}
+//             value={controllerField.value}
+//             onChange={controllerField.onChange}
+//             disabled={disabled}
+//             autoSize={{ minRows: 3, maxRows: 5 }}
+//           />
+//         )}
+//       />
+//       {errors[name] && (
+//         <span className="text-red-500 text-xs mt-1">
+//           {errors[name]?.message}
+//         </span>
+//       )}
+//     </div>
+//   );
+// };
 const TextAreaInputWithLabel = ({
   label,
   input,
@@ -398,36 +820,37 @@ const TextAreaInputWithLabel = ({
   control,
   disabled,
   className,
-  isCheckup
 }) => {
   return (
-    <div className={`relative w-full ${className}`}>
-      {label && <label className="text-small 2xl:text-medium text-gray" htmlFor="grid-password">
-        {label}&nbsp;:
-      </label>}
+    <div className={`w-full ${className}`}>
+      {label && (
+        <label className="block text-sm font-semibold text-gray-700 mb-1">
+          {label}
+        </label>
+      )}
       <Controller
         control={control}
         name={name}
-        render={({ field: controllerField }) => (
+        render={({ field }) => (
           <TextArea
-            type={type}
-            placeholder={input}
-            className={`placeholder:!text-gray w-full !bg-transparent !rounded-medium !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none`}
-            status={errors[name] ? "error" : ""}
-            value={controllerField.value}
-            onChange={controllerField.onChange}
+            placeholder={input || ""}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-sm focus:border-blue-500 focus:outline-none transition-all duration-200"
+            value={field.value}
+            onChange={field.onChange}
             disabled={disabled}
             autoSize={{ minRows: 3, maxRows: 5 }}
+            status={errors[name] ? "error" : ""}
           />
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-xs text-red-500 mt-1 block">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
 };
-
 
 const DatePick = ({
   label,
@@ -464,7 +887,9 @@ const DatePick = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -505,7 +930,9 @@ const TimePick = ({
         )}
       />
       {errors[name] && (
-        <span className="text-red-500 text-xs mt-1">{errors[name]?.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {errors[name]?.message}
+        </span>
       )}
     </div>
   );
@@ -523,5 +950,8 @@ export {
   TextInputsWithUnderLine,
   TextAreaInputWithLabel,
   DatePick,
-  PasswordInputs
+  PasswordInputs,
+  PasswordInputsWithUnderLine,
+  MultipleSelectInputsWithUnderLine,
+  SelectInputsWithUnderLine
 };

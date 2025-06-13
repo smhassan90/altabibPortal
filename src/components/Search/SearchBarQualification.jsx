@@ -4,17 +4,11 @@ import React, { useContext, useEffect, useState } from "react";
 import SelectInput from "../Inputs/SelectInput";
 import AddButton from "@/utils/buttons/AddButton";
 import FormModal from "../Modals/FormModal";
-import { clinicFields } from "@/utils/formField/formFIelds";
+import { QualificationFields } from "@/utils/formField/formFIelds";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  addAppointmentSchema,
-  addClinicSchema,
-  addDoctorSchema,
-  directAppointmentSchema,
-} from "@/utils/schema";
-import { SearchInput, SelectInputWithoutLabel } from "../formInput/TextInput";
-import { DateInput } from "../Inputs/DateInput";
+import { addQualificationSchema } from "@/utils/schema";
+import { SearchInput } from "../formInput/TextInput";
 import { AppContext } from "@/provider/AppProvider";
 import { Axios, summary } from "@/config/summaryAPI";
 import toast from "react-hot-toast";
@@ -22,7 +16,9 @@ import { AxiosError } from "@/utils/axiosError";
 import dayjs from "dayjs";
 import qs from "qs";
 import { Select } from "antd";
-const SearchBarClinic  = ({ clinics, setClinics }) => {
+
+
+const SearchBarQualification = () => {
   const [openModal, setOpenModal] = useState(false);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -39,12 +35,10 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
     watch,
     formState: { errors },
   } = useForm({
-    resolver: zodResolver(addClinicSchema),
+    resolver: zodResolver(addQualificationSchema),
     defaultValues: {
-      name: "",
-      address: "",
-      lat: "",
-      lng: "",
+      qualification: "",
+      color: "",
     },
   });
 
@@ -52,42 +46,37 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
     try {
       setLoader(true);
       const payload = {
-        name: data.name,
-        address: data.address,
-        LatLong:`${data.lat},${data.lng}`
+        name: data.qualification,
+        colorCode: data.color,
+        updateDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
       };
-      console.log(payload);
       const response = await Axios({
-        ...summary.addClinic,
-        data:payload,
+        ...summary.addQualification,
+        data: payload,
         params: {
           token: TOKEN,
         },
       });
       if (response?.data?.status == 200) {
-        toast.success("Clinic Add Successfully");
-        const copyArr = [...clinics]
-        copyArr.push(response?.data?.data)
-        setClinics(copyArr)
-        reset({});
-      } else {
-        toast.error(`Failed ${response?.data?.status}`);
+        toast.success("Qualification Add Successfully");
+        // const newSpecialization = [...specialization];
+        // newSpecialization.push(response?.data?.data);
+        // setSpecialization(newSpecialization);
+        setOpenModal(false);
+        handleReset();
       }
     } catch (error) {
       console.log(error);
       AxiosError(error);
     } finally {
       setLoader(false);
-      setOpenModal(false);
     }
   };
 
-  const handleReset = () => {
+  function handleReset(){
     reset({
-      name: "",
-      address: "",
-      lat: "",
-      lng: "",
+      qualification: "",
+      color: "",
     });
   };
   const onChange = (e) => {
@@ -98,17 +87,16 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
       <SearchInput placeholder={"Search"} className="flex-3" />
       <AddButton onClick={() => setOpenModal(true)}>
         <Plus size={16} className="" />
-        Add New Clinic
+        Add New Qualification
       </AddButton>
       {openModal && (
         <FormModal
           open={openModal}
           setOpen={setOpenModal}
-          title={"Add New Clinic"}
-          confirmButton="Add Clinic"
-          formFields={clinicFields}
+          title={"Add New Qualification"}
+          confirmButton="Add Qualification"
+          formFields={QualificationFields}
           handleSubmit={handleSubmit}
-          onSubmit={onSubmit}
           setValue={setValue}
           control={control}
           errors={errors}
@@ -122,4 +110,4 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
   );
 };
 
-export default SearchBarClinic;
+export default SearchBarQualification;

@@ -17,9 +17,7 @@ const page = () => {
   const [loader, setLoader] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState();
   const [clinics, setClinics] = useState([]);
-  // const [filterPatient, setFilterPatient] = useState(patient);
-
-  console.log(selectedDoctor, "selectedDoctor");
+  const [mode, setMode] = useState("");
 
   const {
     register,
@@ -45,6 +43,10 @@ const page = () => {
     if (expandedRow === id) {
       if (mode !== Selectmode) {
         setMode(Selectmode);
+      }
+      else {
+        setExpandedRow(null);
+        setMode("");
       }
     } else {
       setExpandedRow(id);
@@ -79,7 +81,10 @@ const page = () => {
   return (
     <div className="mt-ratio2">
       <h2>Clinic Management</h2>
-      <SearchBarClinic selectedDoctor={selectedDoctor} setSelectedDoctor={setSelectedDoctor}/>
+      <SearchBarClinic 
+        clinics={clinics}
+        setClinics={setClinics}
+      />
       <DynamicTable
         data={clinics}
         columns={clinicColumns(handleExpand, expandedRow)}
@@ -91,6 +96,8 @@ const page = () => {
         register={register}
         errors={errors}
         loader={loader}
+        mode={mode}
+        tableName="Clinic"
       />
     </div>
   );

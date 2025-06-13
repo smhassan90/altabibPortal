@@ -1,6 +1,6 @@
 import axios from "axios";
-export const baseURL = "http://192.168.18.21:8080/tabib";
-// export const baseURL = "http://66.135.60.203:8080/tabib";
+// export const baseURL = "http://192.168.18.21:8080/tabib";
+export const baseURL = "http://66.135.60.203:8080/tabib";
 // export const baseURL = "http://192.168.18.6:8080/tabib";
 
 export const Axios = axios.create({
@@ -27,6 +27,7 @@ export const summary = {
         gender: item.gender,
         clinic: item.doctorClinicDALS,
         age: item.age,
+        type: item.type
       })),
   },
   getClinics: {

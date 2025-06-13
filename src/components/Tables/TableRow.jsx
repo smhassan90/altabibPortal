@@ -19,6 +19,8 @@ import PatientHistory from "../ExpandRows/Patient/PatientHistory";
 import EditButton from "@/utils/buttons/EditButton";
 import PatientInformation from "../ExpandRows/Patient/PatientInformation";
 import PatientExpandRow from "../ExpandRows/Patient";
+import ClinicExpandRow from "../ExpandRows/Clinic";
+import DoctorExpandRow from "../ExpandRows/Doctor";
 
 export function TableRow({
   data,
@@ -77,14 +79,34 @@ export function TableRow({
       </tr>
       {isExpanded && (
         <tr className="">
-          {tableName === "Appointment" && <td colSpan={columns.length} className="">
+          {tableName === "Appointment" && (
+          <td colSpan={columns.length} className="">
             <PatientExpandRow 
-              data={data} 
+              data={data}   
               mode={mode} 
               setExpandedRow={setExpandedRow} 
               fetchAppointment={fetchAppointment}
             />
-          </td>}
+          </td>
+          )}
+          {tableName === "Clinic" && (
+          <td colSpan={columns.length} className="">
+            <ClinicExpandRow
+              data={data} 
+              mode={mode} 
+              setExpandedRow={setExpandedRow} 
+            />
+          </td>
+          )}
+          {tableName === "Doctor" && (
+          <td colSpan={columns.length} className="">
+            <DoctorExpandRow
+              data={data} 
+              mode={mode} 
+              setExpandedRow={setExpandedRow} 
+            />
+          </td>
+          )}
         </tr>
       )}
     </>

@@ -89,16 +89,13 @@ const AppProvider = ({ children }) => {
   const fetchClinicDropdown = async () => {
     try {
       setLoading(true)
-      const { url, method, transformer = (data) => data } = summary.getClinics;
       const response = await Axios({
-        url,
-        method,
+        ...summary.getClinics,
         params: {
           token: TOKEN,
         },
       });
-      const transformed = transformer(response.data.data);
-      setClinics(transformed);
+      setClinics(response.data.data.clinics);
     } catch (error) {
       AxiosError(error);
     } finally {
@@ -146,7 +143,7 @@ const AppProvider = ({ children }) => {
         method,
         params: {
           token: TOKEN,
-          clinicId:user?.username,
+          clinicId: user.type == 5 ? 0 : user?.username,
         },
       });
       const transformed = transformer(response.data.data);
@@ -164,7 +161,7 @@ const AppProvider = ({ children }) => {
         ...summary.getAllPatients,
         params: {
           token: TOKEN,
-          clinicId:user?.username,
+          clinicId: user?.type == 5 ? 0 : user?.username,
           doctorId,
         },
       });

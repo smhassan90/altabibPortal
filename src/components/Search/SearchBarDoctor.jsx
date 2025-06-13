@@ -22,11 +22,7 @@ import { Axios, summary } from "@/config/summaryAPI";
 import toast from "react-hot-toast";
 import { AxiosError } from "@/utils/axiosError";
 
-/*************  ✨ Windsurf Command ⭐  *************/
-/**
-
-/*******  7bb4bf12-7535-4632-a9cc-cf8481a92aea  *******/
-const SearchBarDoctor = () => {
+const SearchBarDoctor = ({doctors, setDoctors, clinicId, setClinicId}) => {
   const {
     clinics,
     setClinics,
@@ -36,6 +32,7 @@ const SearchBarDoctor = () => {
     qualification,
     specialization,
     TOKEN,
+    user
   } = useContext(AppContext);
   const [selectedClinic, setSelectedClinic] = useState(null);
   const [openModal, setOpenModal] = useState(false);
@@ -46,11 +43,13 @@ const SearchBarDoctor = () => {
     fetchClinicDropdown();
     fetchQualificationDropdown();
     fetchQSpecializationDropdown();
-  }, [selectedClinic]);
-  const sortedClinic = clinics.map((clinic) => ({
+  }, []);
+
+  const sortedClinic = clinics?.map((clinic) => ({
     label: clinic.name,
     value: clinic.id,
   }));
+
   const [doctorClinics, setDoctorClinics] = useState([
     {
       id: 1,
@@ -60,6 +59,7 @@ const SearchBarDoctor = () => {
       charges: "",
     },
   ]);
+
   const {
     register,
     handleSubmit,
@@ -77,6 +77,7 @@ const SearchBarDoctor = () => {
       age: "",
       gender: "",
       address: "",
+      type:"",
       specialization: [],
       qualification: [],
       doctorClinic: [
@@ -90,22 +91,22 @@ const SearchBarDoctor = () => {
       ],
     },
   });
+
   const onSubmit = async (data) => {
     try {
       setLoader(true);
-      const age = dayjs().diff(dayjs(data.age), "year");
       const clinicIds = data.doctorClinic.map((clinic) => {
         return clinic.clinicId;
       });
       const payload = {
         name: data.doctorName,
         address: data.address,
-        age: age,
+        age: data.age,
         gender: data.gender,
         priority: 1,
         username: data.userName,
         password: data.password,
-        type: 3,
+        type: data.type,
         updateDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
         clinicIds: clinicIds,
         qualificationIds: data.qualification,
@@ -123,9 +124,9 @@ const SearchBarDoctor = () => {
 
       if (response.data.status == 200) {
         toast.success("Doctor Add Successfully");
-        // const newDoctor = [...doctors];
-        // newDoctor.push(response?.data?.data);
-        // setDoctors(newDoctor);
+        const newDoctor = [...doctors];
+        newDoctor.push(response?.data?.data);
+        setDoctors(newDoctor);
         setOpenModal(false);
         reset({});
       }
@@ -164,20 +165,21 @@ const SearchBarDoctor = () => {
   return (
     <div className="flex gap-2 mt-ratio2">
       <SearchInput placeholder={"Select Doctor"} className="flex-3" />
-      <Select
+      {user?.type == 5 && <Select
         placeholder="Select Clinic"
-        options={sortedClinic}
+        options={sortedClinic || []}
         className="!h-[35px] placeholder:!text-gray w-full flex-1"
         value={selectedClinic}
+        allowClear
         onChange={(value) => {
           setSelectedClinic(value);
+          setClinicId(value ? value : 0);
         }}
-      />
-      {/* <SelectInput selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus}/> */}
-      <AddButton onClick={() => setOpenModal(true)}>
+      />}
+      {user?.type == 5 && <AddButton onClick={() => setOpenModal(true)}>
         <Plus size={16} className="" />
         Add New Doctor
-      </AddButton>
+      </AddButton>}
       {openModal && (
         <FormModal
           open={openModal}

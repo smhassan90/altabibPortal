@@ -11,7 +11,7 @@ const page = () => {
   return (
     <div>
       <SummaryCard/>
-      {user?.type === 3 && <Clinics/>}
+      {user?.type == 3 && <Clinics/>}
     </div>
   );
 };
