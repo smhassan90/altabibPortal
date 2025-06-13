@@ -110,7 +110,7 @@ const page = () => {
         />
         <DynamicTable
           data={doctors}
-          columns={doctorColumns(handleExpand, expandedRow, deleteDoctor)}
+          columns={doctorColumns(handleExpand, expandedRow, deleteDoctor, user)}
           initialItemsPerPage={5}
           expandedRow={expandedRow}
           setExpandedRow={setExpandedRow}

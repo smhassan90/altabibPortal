@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { string, z } from "zod";
 const passwordRegex =/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()_\-+=~`[\]{}|\\:;"'<>,.?/]).{6,}$/;
 const time12HrRegex = /^(0?[1-9]|1[0-2]):[0-5][0-9]\s?(AM|PM)$/i;
 const today = new Date();
@@ -148,7 +148,13 @@ export const addAppointmentSchema = z.object({
   bloodPressure: z.coerce.string().optional(),
   prescription: z.coerce.string().optional(),
   diagnosis: z.coerce.string().optional(),
-  treatments: z.coerce.string().optional(),
+  treatments: z.array(
+      z.object({
+        treatmentName: z.coerce.string().optional(),
+        treatmentDescription: z.string().optional(),
+      })
+    )
+    .optional(),
 });
 
 
@@ -221,7 +227,13 @@ export const checkUpSchema = z.object({
       required_error: "Visit Date is required",
       invalid_type_error: "Visit Date must be a valid date",
     })
-    .min(today, { message: "FollowUp Date must be in the future" })
-    .min(tomorrow, { message: "FollowUp Date must be in the future (Not Today)" })
+    .optional(),
+  treatment: z
+    .array(
+      z.object({
+        treatmentName: z.string().optional(),
+        treatmentDescription: z.string().optional(),
+      })
+    )
     .optional(),
 });

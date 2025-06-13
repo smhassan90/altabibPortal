@@ -22,7 +22,7 @@ const StatCard = ({ data }) => {
           {title}
         </h3>
         <p className="text-xLarge">
-          <span className="">{change}</span>
+          <span className="">{value}</span>
         </p>
         <div className="items-center text-medium">
           <span>Increased by</span>

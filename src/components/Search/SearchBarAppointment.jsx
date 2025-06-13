@@ -33,15 +33,21 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
     },
   ]);
 
-  const { doctors, patients, fetchPatients, fetchDoctorDropdown, user, TOKEN } =
+  const { doctors, patients, treatments:treatmentBank, fetchPatients, fetchDoctorDropdown, user, TOKEN, fetchTreatmentDropdown } =
     useContext(AppContext);
 
   useEffect(() => {
     if(user.type == 4){
       fetchDoctorDropdown();
       fetchPatients();
+      fetchTreatmentDropdown();
     }
   }, []);
+
+  const sortedTreatment = treatmentBank?.map((treatment) => ({
+    label: treatment?.name,
+    value: treatment?.id,
+  }));
 
   const {
     register,
@@ -126,9 +132,10 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
         patientId: data.patientId || 0,
         clinicId: data.clinicId,
         doctorId: data.doctorId,
-        treatments: [],
+        treatments: data.treatments,
       };
       console.log(payload);
+      return
       const response = await Axios({
         ...summary.setAppointment,
         params: {
@@ -149,8 +156,8 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
       console.log(error);
       AxiosError(error);
     } finally {
-      setLoader(false);
-      setOpenModal(false);
+      // setLoader(false);
+      // setOpenModal(false);
     }
   };
 
@@ -274,6 +281,7 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
           setTreatments={setTreatments}
           doctors={doctors}
           patients={patients}
+          treatmentBank={sortedTreatment}
           loader={loader}
           handleReset={handleReset}
         />

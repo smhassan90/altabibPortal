@@ -15,6 +15,8 @@ import PendingButton from "../buttons/PendingButton";
 import EditButton from "../buttons/EditButton";
 import ShowMoreButton from "../buttons/ShowMoreButton";
 import { Tag } from "antd";
+import { useContext } from "react";
+import { AppContext } from "@/provider/AppProvider";
 
 export const AppoitmentColumns = (onExpand, expandedRowId) => [
   {
@@ -168,7 +170,7 @@ export const clinicColumns = (onExpand, expandedRowId) => [
   },
 ];
 
-export const doctorColumns = (onExpand, expandedRowId, deleteData) => [
+export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
   {
     key: "id",
     label: "ID",
@@ -250,21 +252,21 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData) => [
     key: "actions",
     label: "Actions",
     render: (value, row) => (
-      <div className="flex items-center space-x-2">
+      <div className="flex items-center justify-start space-x-2">
         <Eye
           size={20}
           className="text-secondary"
           onClick={() => onExpand(row.id, "readable")}
         />
-        <Pencil
+        {user.type == 5 && <Pencil
           size={20}
           className="text-Tertiary"
           onClick={() => onExpand(row.id, "editable")}
-        />
-        <Trash2 
+        />}
+        {user.type == 5 && <Trash2 
           size={20} 
           className="text-red-500" 
-          onClick={() => deleteData(row.id)}/>
+          onClick={() => deleteData(row.id)}/>}
       </div>
     ),
   },

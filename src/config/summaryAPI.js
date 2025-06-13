@@ -34,6 +34,10 @@ export const summary = {
     url: "/getAllClinics",
     method: "get",
   },
+  getTreatments: {
+    url: "/getTreatments",
+    method: "get",
+  },
   getDoctorClinics: {
     url: "/getClinics",
     method: "get",

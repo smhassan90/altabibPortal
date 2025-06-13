@@ -23,7 +23,7 @@ import toast from "react-hot-toast";
 const title = "text-small 2xl:text-medium text-gray";
 const text = "text-small 2xl:text-medium text-text";
 const PatientInformation = ({ data: patient, mode, setExpandedRow, fetchAppointment }) => {
-  console.log(mode, "mode");
+  console.log(!!patient?.followupDate, "Is followupDate truthy?");
   const [checked, setChecked] = useState(false);
   const [loader, setLoader] = useState(false);
   const { doctors, patients, fetchPatients, fetchDoctorDropdown, user, TOKEN } =
@@ -44,7 +44,7 @@ const PatientInformation = ({ data: patient, mode, setExpandedRow, fetchAppointm
       charges: patient?.charges || "",
       prescription: patient?.prescription || "",
       diagnosis: patient?.diagnosis || "",
-      followupDate: dayjs(patient.followupDate).format("YYYY-MM-DD") || "",
+      followupDate: patient?.followupDate ? dayjs(patient?.followupDate).format("YYYY-MM-DD") : dayjs(patient?.visitDate).format("YYYY-MM-DD"),
       tokenNumber: patient?.tokenNumber || "",
     },
   });
@@ -70,6 +70,9 @@ const PatientInformation = ({ data: patient, mode, setExpandedRow, fetchAppointm
   const onSubmit = async (data) => {
     try {
       setLoader(true);
+      // console.log(patient.visitDate == data.followupDate,"patient.visitDate == data.followupDate")
+      console.log(patient.visitDate)
+      console.log(data.followupDate)
       const payload = {
         id: patient.id,
         patientName: patient.patientName,
@@ -83,7 +86,7 @@ const PatientInformation = ({ data: patient, mode, setExpandedRow, fetchAppointm
         diagnosis: data.diagnosis,
         weight: data.weight,
         bloodPressure: data.bloodPressure || patient.bloodPressure,
-        followupDate: dayjs(data.followupDate).format("YYYY-MM-DD"),
+        followupDate: patient.visitDate == dayjs(data.followupDate).format("YYYY-MM-DD") ? "" : dayjs(data.followupDate).format("YYYY-MM-DD"),
         patientId: patient.patientId,
         clinicId: patient.clinicId,
         doctorId: patient.doctorId,

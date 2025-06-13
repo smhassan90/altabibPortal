@@ -10,6 +10,7 @@ const AppProvider = ({ children }) => {
   const user = useSelector((state) => state?.auth?.user);
   const [isLoading, setLoading] = useState(false);
   const [clinics, setClinics] = useState([]);
+  const [treatments, setTreatments] = useState([]);
   const [doctors, setDoctors] = useState([]);
   const [patients, setPatients] = useState([]);
   const [appointment, setAppointment] = useState([]);
@@ -102,6 +103,22 @@ const AppProvider = ({ children }) => {
       setLoading(false)
     }
   };
+  const fetchTreatmentDropdown = async () => {
+    try {
+      setLoading(true)
+      const response = await Axios({
+        ...summary.getTreatments,
+        params: {
+          token: TOKEN,
+        },
+      });
+      setTreatments(response.data.data.treatmentBanks);
+    } catch (error) {
+      AxiosError(error);
+    } finally {
+      setLoading(false)
+    }
+  };
   const fetchQualificationDropdown = async () => {
     try {
       setLoading(true)
@@ -175,10 +192,6 @@ const AppProvider = ({ children }) => {
   
   // useEffect(() => {
   //   fetchAllSummaryData();
-  //   fetchClinicDropdown();
-  //   fetchQualificationDropdown();
-  //   fetchQSpecializationDropdown();
-  //   fetchDoctorDropdown();
   // }, []);
   return (
     <AppContext.Provider
@@ -186,6 +199,8 @@ const AppProvider = ({ children }) => {
         isLoading,
         clinics,
         setClinics,
+        treatments,
+        setTreatments,
         doctors,
         setDoctors,
         patients,
@@ -216,6 +231,7 @@ const AppProvider = ({ children }) => {
         fetchQualificationDropdown,
         fetchQSpecializationDropdown,
         fetchDoctorDropdown,
+        fetchTreatmentDropdown,
         fetchPatients,
         resetContext,
         user,

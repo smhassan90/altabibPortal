@@ -8,6 +8,7 @@ import { AppContext } from "@/provider/AppProvider";
 
 const page = () => {
   const {user} = useContext(AppContext)
+  
   return (
     <div>
       <SummaryCard/>

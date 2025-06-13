@@ -16,6 +16,7 @@ import { Plus } from "lucide-react";
 import Spinner from "../Spinner/Spinner";
 import { Controller } from "react-hook-form";
 import AddDoctorClinic from "../Accordians/AddDoctorClinic";
+import AddTreatment from "../Accordians/AddTreatment";
 const FormModal = ({
   open,
   setOpen,
@@ -34,6 +35,7 @@ const FormModal = ({
   setTreatments,
   doctors,
   patients,
+  treatmentBank,
   loader,
   handleReset,
   doctorClinics,
@@ -225,46 +227,53 @@ const FormModal = ({
           })}
         </div>
         {title === "Add New Appointment" && (
-          <div className="mt-ratio2 border-t border-border">
-            {treatments.map((treatment, index) => (
-              <div
-                key={index}
-                className="flex items-start gap-ratio2 pt-ratio2"
-              >
-                <SingleSelectInputs
-                  // label={field.label}
-                  input={"Treatment"}
-                  type={"select"}
-                  control={control}
-                  errors={errors}
-                  name={"treatment"}
-                  className="flex-1 !mb-0"
-                />
-                <TextAreaInputWithLabel
-                  // label={field?.label}
-                  input={"Description"}
-                  type={"textarea"}
-                  errors={errors}
-                  name={"treatmentDescription"}
-                  control={control}
-                  className="flex flex-col space-y-ratio2 flex-2"
-                />
-              </div>
-            ))}
-            <AddButton
-              type="button"
-              className="w-full !text-center justify-center mt-2 !bg-transparent !text-secondary font-semibold !text-medium border-2 !border-dashed !border-border !py-2"
-              onClick={() =>
-                setTreatments([
-                  ...treatments,
-                  { treatmentName: "", treatmentDescription: "" },
-                ])
-              }
-            >
-              <Plus size={16} />
-              Add More Treatment
-            </AddButton>
-          </div>
+          // <div className="mt-ratio2 border-t border-border">
+          //   {treatments.map((treatment, index) => (
+          //     <div
+          //       key={index}
+          //       className="flex items-start gap-ratio2 pt-ratio2"
+          //     >
+          //       <SingleSelectInputs
+          //         // label={field.label}
+          //         input={"Treatment"}
+          //         type={"select"}
+          //         control={control}
+          //         errors={errors}
+          //         name={"treatment"}
+          //         className="flex-1 !mb-0"
+          //       />
+          //       <TextAreaInputWithLabel
+          //         // label={field?.label}
+          //         input={"Description"}
+          //         type={"textarea"}
+          //         errors={errors}
+          //         name={"treatmentDescription"}
+          //         control={control}
+          //         className="flex flex-col space-y-ratio2 flex-2"
+          //       />
+          //     </div>
+          //   ))}
+          //   <AddButton
+          //     type="button"
+          //     className="w-full !text-center justify-center mt-2 !bg-transparent !text-secondary font-semibold !text-medium border-2 !border-dashed !border-border !py-2"
+          //     onClick={() =>
+          //       setTreatments([
+          //         ...treatments,
+          //         { treatmentName: "", treatmentDescription: "" },
+          //       ])
+          //     }
+          //   >
+          //     <Plus size={16} />
+          //     Add More Treatment
+          //   </AddButton>
+          // </div>
+          <AddTreatment
+            treatments={treatments}
+            setTreatments={setTreatments}
+            control={control}
+            errors={errors}
+            treatmentName={treatmentBank}
+          />
         )}
         {title === "Add New Doctor" && (
           <AddDoctorClinic

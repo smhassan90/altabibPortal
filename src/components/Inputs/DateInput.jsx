@@ -38,10 +38,11 @@ export const DateInputWithValidation = ({
           control={control}
           name={name}
           render={({ field: controllerField }) => {
+            console.log(controllerField)
             return (
               <DatePicker
                 placeholder={input ? input : ""}
-                value={controllerField.value == "Invalid Date" ? null : dayjs(controllerField.value)}
+                value={controllerField.value == null ? "" : dayjs(controllerField.value)}
                 onChange={controllerField.onChange}
                 className="!h-[40px] w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
                 allowClear={false}
