@@ -37,8 +37,10 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
     useContext(AppContext);
 
   useEffect(() => {
-    fetchDoctorDropdown();
-    fetchPatients();
+    if(user.type == 4){
+      fetchDoctorDropdown();
+      fetchPatients();
+    }
   }, []);
 
   const {

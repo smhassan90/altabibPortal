@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "@/utils/schema";
 import { loginFields } from "@/utils/formField/authFields";
-import { Axios, summary } from "@/config/summaryAPI";
+import { Axios, baseURL, summary } from "@/config/summaryAPI";
 import { AxiosError } from "@/utils/axiosError";
 import { useDispatch } from "react-redux";
 import { login, logout } from "@/redux/auth";
@@ -37,7 +37,7 @@ const Login = () => {
   const onSubmit = async (data) => {
     try {
       setLoader(true);
-      const response = await axios.get(`http://192.168.18.21:8080/tabib/login?username=${data.username}&password=${data.password}&UUID=${dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")}&type=${type}`)
+      const response = await axios.get(`${baseURL}/login?username=${data.username}&password=${data.password}&UUID=${dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")}&type=${type}`)
       if (response.data.status == "200") {
         toast.success("Login Successfully")
         dispatch(login(response.data.data.loginStatus));
