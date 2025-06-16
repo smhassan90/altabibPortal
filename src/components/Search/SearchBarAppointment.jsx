@@ -132,10 +132,8 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
         patientId: data.patientId || 0,
         clinicId: data.clinicId,
         doctorId: data.doctorId,
-        treatments: data.treatments,
+        treatments: (data.treatments.treatmentName || data.treatments.treatmentDescription) ? data.treatments : [],
       };
-      console.log(payload);
-      return
       const response = await Axios({
         ...summary.setAppointment,
         params: {
@@ -156,8 +154,8 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
       console.log(error);
       AxiosError(error);
     } finally {
-      // setLoader(false);
-      // setOpenModal(false);
+      setLoader(false);
+      setOpenModal(false);
     }
   };
 

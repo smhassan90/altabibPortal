@@ -44,12 +44,12 @@ const PatientExpandRow = ({ data, mode, setExpandedRow, fetchAppointment }) => {
           setExpandedRow={setExpandedRow} 
           fetchAppointment={fetchAppointment}
         />
-        <EditButton
+        {data.ststus == 1 && <EditButton
           onClick={() => fetchPatientHistory(patientId)}
           className={"mt-ratio2"}
         >
           {loader ? <Spinner size={20} style={{ color: "white" }} /> : "Show History"}
-        </EditButton>
+        </EditButton>}
       </div>
       {patientHistory && <PatientHistory data={data} patientHistory={patientHistory} />}
     </>

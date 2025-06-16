@@ -18,7 +18,7 @@ import { Tag } from "antd";
 import { useContext } from "react";
 import { AppContext } from "@/provider/AppProvider";
 
-export const AppoitmentColumns = (onExpand, expandedRowId) => [
+export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
   {
     key: "id",
     label: "ID",
@@ -101,15 +101,11 @@ export const AppoitmentColumns = (onExpand, expandedRowId) => [
               className="text-secondary"
               onClick={() => onExpand(row.id, "readable")}
             />
-            <Pencil
+            {user.type == 3 || user.type == 4 && <Pencil
               size={20}
               className="text-Tertiary"
               onClick={() => onExpand(row.id, "editable")}
-            />
-            {/* </EditButton> */}
-            {/* <ShowMoreButton className={"!px-2 !py-2"}>
-              <Eye size={20} />
-            </ShowMoreButton> */}
+            />}
           </div>
         ) : (
           <div className="flex items-center space-x-2">
@@ -316,7 +312,7 @@ export const patientColumns = (onExpand, expandedRowId) => [
   },
 ];
 
-export const specializationColumns = (onExpand, expandedRowId) => [
+export const specializationColumns = (onExpand, expandedRowId, deleteData) => [
   {
     key: "id",
     label: "ID",
@@ -326,7 +322,7 @@ export const specializationColumns = (onExpand, expandedRowId) => [
     label: "Specialization" 
   },
   {
-    key: "color",
+    key: "colorCode",
     label: "Color",
   },
   {
@@ -339,13 +335,13 @@ export const specializationColumns = (onExpand, expandedRowId) => [
           className="text-Tertiary"
           onClick={() => onExpand(row.id, "editable")}
         /> */}
-        <Trash2 size={20} className="text-red-500" />
+        <Trash2 size={20} className="text-red-500" onClick={() => deleteData(row.id)}/>
       </div>
     ),
   },
 ];
 
-export const qualificationColumns = (onExpand, expandedRowId) => [
+export const qualificationColumns = (onExpand, expandedRowId, deleteData) => [
   {
     key: "id",
     label: "ID",
@@ -355,7 +351,7 @@ export const qualificationColumns = (onExpand, expandedRowId) => [
     label: "Qualification" 
   },
   {
-    key: "color",
+    key: "colorCode",
     label: "Color",
   },
   {
@@ -368,7 +364,7 @@ export const qualificationColumns = (onExpand, expandedRowId) => [
           className="text-Tertiary"
           onClick={() => onExpand(row.id, "editable")}
         /> */}
-        <Trash2 size={20} className="text-red-500" />
+        <Trash2 size={20} className="text-red-500" onClick={() => deleteData(row.id)}/>
       </div>
     ),
   },

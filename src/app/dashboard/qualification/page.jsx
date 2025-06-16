@@ -1,4 +1,5 @@
 "use client";
+import DeleteConformation from "@/components/DeleteConformation";
 import SearchBarQualification from "@/components/Search/SearchBarQualification";
 import SearchBarSpecialization from "@/components/Search/SearchBarSpecialization";
 import { DynamicTable } from "@/components/Tables/DynamicTable";
@@ -11,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Form, Input } from "antd";
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 const page = () => {
   const { user, TOKEN } = useContext(AppContext);
@@ -18,6 +20,8 @@ const page = () => {
   const [loader, setLoader] = useState(false);
   const [mode, setMode] = useState("");
   const [qualification, setQualification] = useState([]);
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [deleteId, setDeleteId] = useState("")
 
   const {
     register,
@@ -73,25 +77,69 @@ const page = () => {
     fetchQualification();
   }, []);
 
+  const deleteQualification = (id) => {
+    setDeleteModalVisible(true);
+    setDeleteId(id)
+  };
+
+  const confirmDelete = async () => {
+    try {
+      setLoader(true);
+      const response = await Axios({
+        ...summary.deleteQualification,
+        params: {
+          token: TOKEN,
+          qualificationId: deleteId,
+        },
+      });
+      if (response.data.status == 200) {
+        toast.success("Qualification Delete Successfully");
+        setDeleteModalVisible(false);
+        setQualification((prev) => {
+          return prev.filter((qual) => qual.id !== deleteId);
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      AxiosError(error);
+    } finally {
+      setLoader(false);
+    }
+  };
+
+
   return (
-    <div className="mt-ratio2">
-      <h2>Qualification Management</h2>
-      <SearchBarQualification />
-      <DynamicTable
-        data={qualification}
-        columns={qualificationColumns(handleExpand, expandedRow)}
-        initialItemsPerPage={5}
-        expandedRow={expandedRow}
-        setExpandedRow={setExpandedRow}
-        // filterPatient={patient}
-        control={control}
-        register={register}
-        errors={errors}
-        loader={loader}
-        mode={mode}
-        tableName="Qualification"
-      />
-    </div>
+    <>
+      <div className="mt-ratio2">
+        <h2>Qualification Management</h2>
+        <SearchBarQualification />
+        <DynamicTable
+          data={qualification}
+          columns={qualificationColumns(
+            handleExpand,
+            expandedRow,
+            deleteQualification
+          )}
+          initialItemsPerPage={5}
+          expandedRow={expandedRow}
+          setExpandedRow={setExpandedRow}
+          // filterPatient={patient}
+          control={control}
+          register={register}
+          errors={errors}
+          loader={loader}
+          mode={mode}
+          tableName="Qualification"
+        />
+      </div>
+      {deleteModalVisible && (
+        <DeleteConformation
+          deleteModalVisible={deleteModalVisible}
+          setDeleteModalVisible={setDeleteModalVisible}
+          confirmDelete={confirmDelete}
+        />
+      )}
+    </>
   );
 };
 

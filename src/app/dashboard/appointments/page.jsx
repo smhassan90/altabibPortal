@@ -105,7 +105,7 @@ const page = () => {
       />
       <DynamicTable
         data={filterAppointment}
-        columns={AppoitmentColumns(handleExpand, expandedRow)}
+        columns={AppoitmentColumns(handleExpand, expandedRow, user)}
         initialItemsPerPage={5}
         expandedRow={expandedRow}
         setExpandedRow={setExpandedRow}

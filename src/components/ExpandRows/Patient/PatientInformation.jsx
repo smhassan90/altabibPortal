@@ -31,6 +31,7 @@ const PatientInformation = ({
 }) => {
   const [checked, setChecked] = useState(false);
   const [loader, setLoader] = useState(false);
+  console.log(patient,"patient")
   const {
     doctors,
     patients,
@@ -71,6 +72,12 @@ const PatientInformation = ({
         ? dayjs(patient?.followupDate).format("YYYY-MM-DD")
         : dayjs(patient?.visitDate).format("YYYY-MM-DD"),
       tokenNumber: patient?.tokenNumber || "",
+      // treatment: patient.treatment.map((treatment) => {
+      //   return {
+      //     treatmentName: treatment.treatmentName,
+      //     treatmentDescription: treatment.treatmentDescription,
+      //   };
+      // }),
     },
   });
   const [treatments, setTreatments] = useState([
@@ -95,7 +102,6 @@ const PatientInformation = ({
   const onSubmit = async (data) => {
     try {
       setLoader(true);
-      // console.log(patient.visitDate == data.followupDate,"patient.visitDate == data.followupDate")
       console.log(patient.visitDate);
       console.log(data.followupDate);
       const payload = {
@@ -188,7 +194,7 @@ const PatientInformation = ({
           </div>
 
           {/* --- Textareas --- */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-ratio2 mt-ratio2">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-ratio2 py-ratio2 border-b border-border">
             {checkUpFields?.slice(-2)?.map((field, idx) => (
               <TextAreaInputWithLabel
                 label={field?.label}
@@ -210,8 +216,11 @@ const PatientInformation = ({
             errors={errors}
             treatmentName={sortedTreatment}
           />
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-4">
-            <Checkbox className="!text-sm" onChange={onChange}>
+          <div className="flex justify-end mt-ratio2">
+            <Checkbox
+              className="!text-small 2xl:!text-medium"
+              onChange={onChange}
+            >
               Check Up Completed
             </Checkbox>
             <AddButton>
@@ -224,164 +233,118 @@ const PatientInformation = ({
           </div>
         </form>
       ) : (
-        // <>
-        //   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-ratio1 gap-y-ratio2 mt-ratio2">
-        //     <div className="flex items-center justify-start gap-ratio1">
-        //       <h5 className={`${title}`}>Blood Pressure:</h5>
-        //       <p className={`${text}`}>
-        //         {patient.bloodPressure || "Not Found"}
-        //       </p>
-        //     </div>
-        //     <div className="flex items-start justify-start gap-ratio1">
-        //       <h5 className={`${title}`}>Weight:</h5>
-        //       <p className={`${text}`}>{patient.weight || "Not Found"}</p>
-        //     </div>
-        //     <div className="flex items-start justify-start gap-ratio1">
-        //       <h5 className={`${title}`}>FollowUp Date:</h5>
-        //       <p className={`${text}`}>{patient.followupDate || "Not Found"}</p>
-        //     </div>
-        //     <div className="flex items-start justify-start gap-ratio1">
-        //       <h5 className={`${title}`}>Token Number:</h5>
-        //       <p className={`${text}`}>{patient.tokenNumber || "Not Found"}</p>
-        //     </div>
-        //   </div>
-        //   <div className="grid grid-cols-1 md:grid-cols-2 gap-x-ratio1 gap-y-ratio2 mt-ratio1">
-        //     <div className="flex items-start justify-start gap-ratio1">
-        //       <h5 className={`${title}`}>Prescription:</h5>
-        //       <p className={`${text}`}>{patient.prescription || "Not Found"}</p>
-        //     </div>
-        //     <div className="flex items-start justify-start gap-ratio1">
-        //       <h5 className={`${title}`}>Diagnosis:</h5>
-        //       <p className={`${text}`}>{patient.diagnosis || "Not Found"}</p>
-        //     </div>
-        //   </div>
-        //   <div className="grid grid-cols-1 gap-x-ratio1 gap-y-ratio2 border-t border-border mt-ratio1 pt-ratio1">
-        //     {patient?.treatments?.length > 0 ? patient?.treatments?.map((record, index) => (
-        //         <div className="flex items-start gap-ratio2">
-        //           <div className="flex-1 flex items-start justify-start gap-ratio1">
-        //             <h5 className={`${title}`}>Treatment Name:</h5>
-        //             <p className={`${text}`}>{record.treatment || "Not Found"}</p>
-        //           </div>
-        //           <div className="flex-2 flex items-start justify-start gap-ratio1">
-        //             <h5 className={`${title}`}>Description:</h5>
-        //             <p className={`${text}`}>{record.description || "Not Found"}</p>
-        //           </div>
-        //         </div>
-        //       )) : (
-        //       <p className={`${text} text-center`}>No Treatments Available</p>
-        //     )}
-        //   </div>
-        // </>
         <>
           {/* Patient Basic Info - 3 per row */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-ratio2 mt-ratio2">
             <div className="flex flex-col animate-fade-in-up">
-              <label className="text-sm font-semibold text-gray-700 mb-1">
+              <label className="text-small 2xl:text-medium text-text mb-1">
                 Blood Pressure
               </label>
               <input
                 type="text"
                 readOnly
                 value={patient.bloodPressure || "Not Found"}
-                className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none hover:border-orange-400 focus:border-orange-400-500"
+                className="bg-background border border-border rounded-medium px-3 h-[35px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
               />
             </div>
 
             <div className="flex flex-col animate-fade-in-up">
-              <label className="text-sm font-semibold text-gray-700 mb-1">
+              <label className="text-small 2xl:text-medium text-text mb-1">
                 Weight
               </label>
               <input
                 type="text"
                 readOnly
                 value={patient.weight || "Not Found"}
-                className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none hover:border-orange-400 focus:border-orange-400-500"
+                className="bg-background border border-border rounded-medium px-3 h-[35px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
               />
             </div>
 
             <div className="flex flex-col animate-fade-in-up">
-              <label className="text-sm font-semibold text-gray-700 mb-1">
+              <label className="text-small 2xl:text-medium text-text mb-1">
                 FollowUp Date
               </label>
               <input
                 type="text"
                 readOnly
                 value={patient.followupDate || "Not Found"}
-                className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none hover:border-orange-400 focus:border-orange-400-500"
+                className="bg-background border border-border rounded-medium px-3 h-[35px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
               />
             </div>
 
             <div className="flex flex-col animate-fade-in-up">
-              <label className="text-sm font-semibold text-gray-700 mb-1">
+              <label className="text-small 2xl:text-medium text-text mb-1">
                 Token Number
               </label>
               <input
                 type="text"
                 readOnly
                 value={patient.tokenNumber || "Not Found"}
-                className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none hover:border-orange-400 focus:border-orange-400-500"
+                className="bg-background border border-border rounded-medium px-3 h-[35px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
               />
             </div>
+          </div>
 
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-ratio2 mt-ratio2">
             <div className="flex flex-col animate-fade-in-up">
-              <label className="text-sm font-semibold text-gray-700 mb-1">
+              <label className="text-small 2xl:text-medium text-text mb-1">
                 Prescription
               </label>
-              <input
+              <textarea
                 type="text"
                 readOnly
                 value={patient.prescription || "Not Found"}
-                className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none hover:border-orange-400 focus:border-orange-400-500"
+                className="bg-background border border-border rounded-medium px-3 py-2 min-h-[70px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
               />
             </div>
 
             <div className="flex flex-col animate-fade-in-up">
-              <label className="text-sm font-semibold text-gray-700 mb-1">
+              <label className="text-small 2xl:text-medium text-text mb-1">
                 Diagnosis
               </label>
-              <input
+              <textarea
                 type="text"
                 readOnly
                 value={patient.diagnosis || "Not Found"}
-                className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none hover:border-orange-400 focus:border-orange-400-500"
+                className="bg-background border border-border rounded-medium px-3 py-2 min-h-[70px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
               />
             </div>
           </div>
 
           {/* Treatments */}
-          <div className="border-t mt-8 pt-6">
+          <div className="border-t border-border mt-ratio2 pt-ratio2">
             {patient?.treatments?.length > 0 ? (
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                {patient.treatments.map((record, index) => (
-                  <div key={index} className="col-span-1 animate-fade-in-up">
-                    <div className="flex flex-col mb-4">
-                      <label className="text-sm font-semibold text-gray-700 mb-1">
+              <div className="grid grid-cols-1 gap-4">
+                {patient?.treatments?.map((record, index) => (
+                  <div key={index} className="grid grid-cols-3 gap-ratio2">
+                    <div className="col-span-1 flex flex-col animate-fade-in-up">
+                      <label className="text-small 2xl:text-medium text-text mb-1">
                         Treatment Name
                       </label>
                       <input
                         type="text"
                         readOnly
-                        value={record.treatment || "Not Found"}
-                        className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none hover:border-orange-400 focus:border-orange-400-500"
+                        value={record?.treatment || "Not Found"}
+                        className="bg-background border border-border rounded-medium px-3 py-2 h-[35px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
                       />
                     </div>
-                    <div className="flex flex-col">
-                      <label className="text-sm font-semibold text-gray-700 mb-1">
-                        Description
+                    <div className="col-span-2 flex flex-col animate-fade-in-up">
+                      <label className="text-small 2xl:text-medium text-text mb-1">
+                        Treatment Description
                       </label>
-                      <input
+                      <textarea
                         type="text"
                         readOnly
                         value={record.description || "Not Found"}
-                        className="bg-gray-100 border border-gray-300 rounded px-3 py-2 text-sm focus:outline-none hover:border-orange-400 focus:border-orange-400-500"
+                        className="bg-background border border-border rounded-medium px-3 py-2 min-h-[70px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
                       />
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-sm text-gray-600 text-center">
-                No Treatments Available
+              <p className="text-medium text-text text-center">
+                No Treatments
               </p>
             )}
           </div>
