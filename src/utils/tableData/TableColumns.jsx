@@ -101,7 +101,8 @@ export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
               className="text-secondary"
               onClick={() => onExpand(row.id, "readable")}
             />
-            {user.type == 3 || user.type == 4 && <Pencil
+            {/* {user.type == 3 || user.type == 4 && <Pencil */}
+            {<Pencil
               size={20}
               className="text-Tertiary"
               onClick={() => onExpand(row.id, "editable")}
@@ -121,7 +122,7 @@ export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
   },
 ];
 
-export const clinicColumns = (onExpand, expandedRowId) => [
+export const clinicColumns = (onExpand, expandedRowId, deleteData) => [
   {
     key: "id",
     label: "ID",
@@ -158,7 +159,7 @@ export const clinicColumns = (onExpand, expandedRowId) => [
           <Trash2 
             size={20}
             className="text-red-500"
-            onClick={() => onExpand(row.id, "deletable")}
+            onClick={() => deleteData(row.id)}
           />
         </div>
       </div>
@@ -213,6 +214,7 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
         return "-";
       }
       const colors = ["blue", "green", "red", "orange", "purple"];
+      console.log(specialization,"specialization")
       return (
         <div className="flex flex-col gap-1">
           {specialization.map((item, index) => (
@@ -268,7 +270,7 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
   },
 ];
 
-export const patientColumns = (onExpand, expandedRowId) => [
+export const patientColumns = (onExpand, expandedRowId, deleteData) => [
   {
     key: "id",
     label: "ID",
@@ -296,17 +298,21 @@ export const patientColumns = (onExpand, expandedRowId) => [
     label: "Actions",
     render: (value, row) => (
       <div className="flex items-center space-x-2">
-        <Eye
+        {/* <Eye
           size={20}
           className="text-secondary"
           onClick={() => onExpand(row.id, "readable")}
-        />
+        /> */}
         <Pencil
           size={20}
           className="text-Tertiary"
           onClick={() => onExpand(row.id, "editable")}
         />
-        <Delete size={20} className="text-red-500" />
+        <Trash2 
+          size={20} 
+          className="text-red-500"
+          onClick={() => deleteData(row.id)}
+        />
       </div>
     ),
   },

@@ -31,6 +31,7 @@ import { AxiosError } from "@/utils/axiosError";
 import qs from "qs";
 import toast from "react-hot-toast";
 import AddDoctorClinic from "@/components/Accordians/AddDoctorClinic";
+import { ReadOnlyInputWithLabel, ReadOnlyMapingWithLabel } from "@/components/Inputs/ReadableInputs";
 const title = "text-small 2xl:text-medium text-gray";
 const text = "text-small 2xl:text-medium text-text";
 const DoctorInformation = ({
@@ -145,7 +146,7 @@ const DoctorInformation = ({
       </h2>
       {mode == "editable" ? (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-ratio1 gap-y-ratio2 mt-ratio2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-ratio1 gap-y-ratio2 mt-ratio2">
             {doctorFields.map((field, idx) => {
               if (field?.type == "text") {
                 return (
@@ -158,7 +159,7 @@ const DoctorInformation = ({
                     errors={errors}
                     name={field?.name}
                     control={control}
-                    className="flex items-center justify-between gap-ratio2"
+                    className=""
                   />
                 );
               }
@@ -173,7 +174,7 @@ const DoctorInformation = ({
                     errors={errors}
                     name={field?.name}
                     control={control}
-                    className="flex items-center justify-between gap-ratio2"
+                    className=""
                   />
                 );
               }
@@ -188,13 +189,13 @@ const DoctorInformation = ({
                     errors={errors}
                     name={field.name}
                     options={field.options}
-                    className="flex items-center justify-between gap-ratio2 selection"
+                    className=""
                   />
                 );
               }
             })}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-ratio1 gap-y-ratio2 mt-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-ratio1 gap-y-ratio2 py-3 border-b border-border">
             {doctorFields?.slice(-2)?.map((field, idx) => {
               if (field.type === "selectoption") {
                 const isQualification = field.name
@@ -212,7 +213,7 @@ const DoctorInformation = ({
                     control={control}
                     errors={errors}
                     name={field.name}
-                    className="flex items-center justify-between gap-ratio2 selection"
+                    className=""
                     options={
                       isQualification
                         ? qualification
@@ -225,6 +226,9 @@ const DoctorInformation = ({
               }
             })}
           </div>
+          <h2 className="text-text text-medium 2xl:text-large font-semibold mt-ratio2">
+            Clinic Information
+          </h2>
           <AddDoctorClinic
             doctorClinics={doctorClinics}
             setDoctorClinics={setDoctorClinics}
@@ -245,62 +249,59 @@ const DoctorInformation = ({
         </form>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-x-ratio1 gap-y-ratio2 mt-ratio2">
-            <div className="flex items-center justify-start gap-ratio1">
-              <h5 className={`${title}`}>Doctor Name:</h5>
-              <p className={`${text}`}>{doctor.name || "Not Found"}</p>
-            </div>
-            <div className="flex items-start justify-start gap-ratio1">
-              <h5 className={`${title}`}>User Name</h5>
-              <p className={`${text}`}>{doctor.userName || "Not Found"}</p>
-            </div>
-            <div className="flex items-start justify-start gap-ratio1">
-              <h5 className={`${title}`}>Address</h5>
-              <p className={`${text}`}>{doctor.address || "Not Found"}</p>
-            </div>
-            <div className="flex items-start justify-start gap-ratio1">
-              <h5 className={`${title}`}>Age</h5>
-              <p className={`${text}`}>{doctor.age || "Not Found"}</p>
-            </div>
-            <div className="flex items-start justify-start gap-ratio1">
-              <h5 className={`${title}`}>Gender</h5>
-              <p className={`${text}`}>{doctor.gender || "Not Found"}</p>
-            </div>
-            <div className="flex items-start justify-start gap-ratio1">
-              <h5 className={`${title}`}>Specialization</h5>
-              <div>
-                {doctor.specialization.map((spe) => (
-                  <p className={`${text}`}>{spe.name}</p>
-                ))}
-              </div>
-            </div>
-            <div className="flex items-start justify-start gap-ratio1">
-              <h5 className={`${title}`}>Qualification</h5>
-              <div>
-                {doctor.qualification.map((qua) => (
-                  <p className={`${text}`}>{qua.name}</p>
-                ))}
-              </div>
-            </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-ratio2 mt-ratio2">
+            <ReadOnlyInputWithLabel
+              label={"Doctor Name"}
+              value={doctor?.name}
+            />
+            <ReadOnlyInputWithLabel
+              label={"User Name"}
+              value={doctor?.userName}
+            />
+            <ReadOnlyInputWithLabel
+              label={"Address"}
+              value={doctor?.address}
+            />
+            <ReadOnlyInputWithLabel
+              label={"Age"}
+              value={doctor?.age}
+            />
+            <ReadOnlyInputWithLabel
+              label={"Gender"}
+              value={doctor?.gender}
+            />
           </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-ratio2 mt-ratio2 pb-ratio2 border-b border-border">
+            <ReadOnlyMapingWithLabel
+              label={"Specialization"}
+              value={doctor?.specialization}
+            />
+            <ReadOnlyMapingWithLabel
+              label={"Qualification"}
+              value={doctor?.qualification}
+            />
+          </div>
+          <h2 className="text-text text-medium 2xl:text-large font-semibold mt-ratio2">
+            Clinic Information
+          </h2>
           {doctor.clinic.map((clinic) => (
-            <div className="grid grid-cols-4 gap-x-ratio1 gap-y-ratio2 mt-ratio2 border-b border-border">
-              <div className="flex items-center justify-start gap-ratio1">
-                <h5 className={`${title}`}>Clinic Name:</h5>
-                <p className={`${text}`}>{clinic.clinic.name}</p>
-              </div>
-              <div className="flex items-start justify-start gap-ratio1">
-                <h5 className={`${title}`}>Charges</h5>
-                <p className={`${text}`}>{clinic.charges}</p>
-              </div>
-              <div className="flex items-start justify-start gap-ratio1">
-                <h5 className={`${title}`}>Start Time</h5>
-                <p className={`${text}`}>{clinic.startTime}</p>
-              </div>
-              <div className="flex items-start justify-start gap-ratio1">
-                <h5 className={`${title}`}>End Time</h5>
-                <p className={`${text}`}>{clinic.endTime}</p>
-              </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-ratio2 py-ratio2 border-b border-border">
+              <ReadOnlyInputWithLabel
+                label={"Clinic Name"}
+                value={clinic?.clinic?.name}
+              />
+              <ReadOnlyInputWithLabel
+                label={"Charges"}
+                value={clinic?.charges}
+              />
+              <ReadOnlyInputWithLabel
+                label={"Start Time"}
+                value={clinic?.startTime}
+              />
+              <ReadOnlyInputWithLabel
+                label={"End Time"}
+                value={clinic?.endTime}
+              />
             </div>
           ))}
         </>

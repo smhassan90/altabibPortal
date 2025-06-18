@@ -44,7 +44,7 @@ const PatientExpandRow = ({ data, mode, setExpandedRow, fetchAppointment }) => {
           setExpandedRow={setExpandedRow} 
           fetchAppointment={fetchAppointment}
         />
-        {data.ststus == 1 && <EditButton
+        {data.status == 0 && <EditButton
           onClick={() => fetchPatientHistory(patientId)}
           className={"mt-ratio2"}
         >

@@ -54,9 +54,9 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
       const payload = {
         name: data.name,
         address: data.address,
-        LatLong:`${data.lat},${data.lng}`
+        LatLong:`${data.lat},${data.lng}`,
+        updateDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
       };
-      console.log(payload);
       const response = await Axios({
         ...summary.addClinic,
         data:payload,

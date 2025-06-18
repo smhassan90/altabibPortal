@@ -233,7 +233,7 @@ const TextInputsWithUnderLine = ({
   {label && (
     <label
       htmlFor={name}
-      className="block text-sm 2xl:text-medium text-text mb-1"
+      className="block text-small 2xl:text-medium text-text mb-1"
     >
       {label}
     </label>
@@ -249,7 +249,7 @@ const TextInputsWithUnderLine = ({
         type={type}
         placeholder={input || ""}
         disabled={disabled}
-        className="w-full !h-[35px] border border-gray-300 rounded-large shadow-sm focus:border-blue-500 focus:outline-none !text-small 2xl:!text-medium"
+        className="w-full !h-[40px] border border-gray-300 rounded-large shadow-sm focus:border-blue-500 focus:outline-none !text-small 2xl:!text-medium"
         status={errors[name] ? "error" : ""}
       />
     )}
@@ -334,7 +334,7 @@ const MultipleSelectInputsWithUnderLine = ({
     <div className={`relative w-full ${className}`}>
       {label && (
         <label
-          className="text-small 2xl:text-medium text-gray"
+          className="block text-small 2xl:text-medium text-text mb-1"
           htmlFor="grid-password"
         >
           {label}&nbsp;:
@@ -350,7 +350,7 @@ const MultipleSelectInputsWithUnderLine = ({
             <Select
               mode="multiple"
               options={option}
-              className="!min-h-[40px] !w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none"
+              className="!min-h-[40px] !w-full !bg-transparent focus:!border-secondary rounded-md shadow-sm focus:!ring-0 focus:!outline-none"
               placeholder={input}
               // notFoundContent={loading ? <Spinner /> : "No data found"}
               status={errors[name] ? "error" : ""}
@@ -388,10 +388,10 @@ const SelectInputsWithUnderLine = ({
     <div className={`relative w-full ${className}`}>
       {label && (
         <label
-          className="text-small 2xl:text-medium text-gray"
+          className="block text-small 2xl:text-medium text-text mb-1"
           htmlFor="grid-password"
         >
-          {label}&nbsp;:
+          {label}
         </label>
       )}
       <div>
@@ -403,7 +403,7 @@ const SelectInputsWithUnderLine = ({
             return(
             <Select
               options={options}
-              className={`!h-[40px] !w-full !bg-transparent focus:!border-secondary focus:!ring-0 focus:!outline-none`}
+              className={`!h-[40px] !w-full !bg-transparent focus:!border-secondary rounded-md shadow-sm focus:!ring-0 focus:!outline-none`}
               placeholder={input}
               status={errors[name] ? "error" : ""}
               value={controllerField.value ? controllerField.value : undefined}

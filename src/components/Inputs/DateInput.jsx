@@ -83,7 +83,7 @@ export const DateInputWithValidation = ({
             value={field.value === "Invalid Date" || !field.value ? null : dayjs(field.value)}
             onChange={(date) => field.onChange(date)}
             allowClear={false}
-            className="w-full !h-[35px] border border-gray-300 rounded-md shadow-sm !text-small 2xl:!text-medium focus:border-blue-500 focus:outline-none transition-all duration-200"
+            className="w-full !h-[40px] border border-gray-300 rounded-md shadow-sm !text-small 2xl:!text-medium focus:border-blue-500 focus:outline-none transition-all duration-200"
             format="YYYY-MM-DD"
           />
         )}

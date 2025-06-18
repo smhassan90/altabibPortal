@@ -1,6 +1,7 @@
 "use client";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 import authReducer from "./auth";
+import sidebarReducer from './sidebar'
 import patientCheckupReducer from "./patientCheckup";
 import {
   persistStore,
@@ -23,6 +24,7 @@ const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
 
 export const store = configureStore({
   reducer: {
+    sideBar:sidebarReducer,
     auth: persistedAuthReducer,
     patient: patientCheckupReducer
   },

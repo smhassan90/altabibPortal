@@ -127,7 +127,7 @@ const ClinicInformation = ({
                     errors={errors}
                     name={field?.name}
                     control={control}
-                    className="flex items-center justify-between gap-ratio2"
+                    className=""
                   />
                 );
               }

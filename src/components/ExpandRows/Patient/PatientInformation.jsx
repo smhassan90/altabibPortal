@@ -21,6 +21,10 @@ import { AxiosError } from "@/utils/axiosError";
 import qs from "qs";
 import toast from "react-hot-toast";
 import AddTreatment from "@/components/Accordians/AddTreatment";
+import {
+  ReadOnlyInputWithLabel,
+  ReadOnlyTextAreaWithLabel,
+} from "@/components/Inputs/ReadableInputs";
 const title = "text-small 2xl:text-medium text-gray";
 const text = "text-small 2xl:text-medium text-text";
 const PatientInformation = ({
@@ -31,7 +35,7 @@ const PatientInformation = ({
 }) => {
   const [checked, setChecked] = useState(false);
   const [loader, setLoader] = useState(false);
-  console.log(patient,"patient")
+  console.log(patient, "patient");
   const {
     doctors,
     patients,
@@ -236,79 +240,33 @@ const PatientInformation = ({
         <>
           {/* Patient Basic Info - 3 per row */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-ratio2 mt-ratio2">
-            <div className="flex flex-col animate-fade-in-up">
-              <label className="text-small 2xl:text-medium text-text mb-1">
-                Blood Pressure
-              </label>
-              <input
-                type="text"
-                readOnly
-                value={patient.bloodPressure || "Not Found"}
-                className="bg-background border border-border rounded-medium px-3 h-[35px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
-              />
-            </div>
-
-            <div className="flex flex-col animate-fade-in-up">
-              <label className="text-small 2xl:text-medium text-text mb-1">
-                Weight
-              </label>
-              <input
-                type="text"
-                readOnly
-                value={patient.weight || "Not Found"}
-                className="bg-background border border-border rounded-medium px-3 h-[35px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
-              />
-            </div>
-
-            <div className="flex flex-col animate-fade-in-up">
-              <label className="text-small 2xl:text-medium text-text mb-1">
-                FollowUp Date
-              </label>
-              <input
-                type="text"
-                readOnly
-                value={patient.followupDate || "Not Found"}
-                className="bg-background border border-border rounded-medium px-3 h-[35px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
-              />
-            </div>
-
-            <div className="flex flex-col animate-fade-in-up">
-              <label className="text-small 2xl:text-medium text-text mb-1">
-                Token Number
-              </label>
-              <input
-                type="text"
-                readOnly
-                value={patient.tokenNumber || "Not Found"}
-                className="bg-background border border-border rounded-medium px-3 h-[35px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
-              />
-            </div>
+            <ReadOnlyInputWithLabel
+              label={"Blood Pressure"}
+              value={patient.bloodPressure}
+            />
+            <ReadOnlyInputWithLabel 
+              label={"Weight"} 
+              value={patient.weight}
+            />
+            <ReadOnlyInputWithLabel
+              label={"FollowUp Date"}
+              value={patient.followupDate}
+            />
+            <ReadOnlyInputWithLabel
+              label={"Token Number"}
+              value={patient.tokenNumber}
+            />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-ratio2 mt-ratio2">
-            <div className="flex flex-col animate-fade-in-up">
-              <label className="text-small 2xl:text-medium text-text mb-1">
-                Prescription
-              </label>
-              <textarea
-                type="text"
-                readOnly
-                value={patient.prescription || "Not Found"}
-                className="bg-background border border-border rounded-medium px-3 py-2 min-h-[70px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
-              />
-            </div>
-
-            <div className="flex flex-col animate-fade-in-up">
-              <label className="text-small 2xl:text-medium text-text mb-1">
-                Diagnosis
-              </label>
-              <textarea
-                type="text"
-                readOnly
-                value={patient.diagnosis || "Not Found"}
-                className="bg-background border border-border rounded-medium px-3 py-2 min-h-[70px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
-              />
-            </div>
+            <ReadOnlyTextAreaWithLabel
+              label={"Prescription"}
+              value={patient.prescription}
+            />
+            <ReadOnlyTextAreaWithLabel
+              label={"Diagnosis"}
+              value={patient.diagnosis}
+            />
           </div>
 
           {/* Treatments */}
@@ -317,35 +275,19 @@ const PatientInformation = ({
               <div className="grid grid-cols-1 gap-4">
                 {patient?.treatments?.map((record, index) => (
                   <div key={index} className="grid grid-cols-3 gap-ratio2">
-                    <div className="col-span-1 flex flex-col animate-fade-in-up">
-                      <label className="text-small 2xl:text-medium text-text mb-1">
-                        Treatment Name
-                      </label>
-                      <input
-                        type="text"
-                        readOnly
-                        value={record?.treatment || "Not Found"}
-                        className="bg-background border border-border rounded-medium px-3 py-2 h-[35px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
-                      />
-                    </div>
-                    <div className="col-span-2 flex flex-col animate-fade-in-up">
-                      <label className="text-small 2xl:text-medium text-text mb-1">
-                        Treatment Description
-                      </label>
-                      <textarea
-                        type="text"
-                        readOnly
-                        value={record.description || "Not Found"}
-                        className="bg-background border border-border rounded-medium px-3 py-2 min-h-[70px] text-small focus:outline-none hover:border-orange-400 focus:border-Tertiary"
-                      />
-                    </div>
+                    <ReadOnlyInputWithLabel
+                      label={"Treatment Name"}
+                      value={record?.treatment}
+                    />
+                    <ReadOnlyTextAreaWithLabel
+                      label={"Treatment Description"}
+                      value={record?.description}
+                    />
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="text-medium text-text text-center">
-                No Treatments
-              </p>
+              <p className="text-medium text-text text-center">No Treatments</p>
             )}
           </div>
         </>

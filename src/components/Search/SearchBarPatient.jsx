@@ -17,7 +17,7 @@ import {
 import { Input, Select } from "antd";
 import { AppContext } from "@/provider/AppProvider";
 
-const SearchBarPatient = ({selectedDoctor, setSelectedDoctor}) => {
+const SearchBarPatient = ({selectedDoctor, setSelectedDoctor, selectedClinic, setSelectedClinic}) => {
   const { doctors, clinics, patients, fetchPatients, fetchDoctorDropdown, fetchClinicDropdown, user, TOKEN } = useContext(AppContext);
   useEffect(() => {
     fetchClinicDropdown()
@@ -83,6 +83,7 @@ const SearchBarPatient = ({selectedDoctor, setSelectedDoctor}) => {
         options={sortedDoctor}
         className="!h-[35px] placeholder:!text-gray w-full flex-1"
         value={selectedDoctor}
+        allowClear
         onChange={(value) => {
           setSelectedDoctor(value);
         }}
@@ -91,9 +92,10 @@ const SearchBarPatient = ({selectedDoctor, setSelectedDoctor}) => {
         placeholder="Select Clinic"
         options={sortedClinics}
         className="!h-[35px] placeholder:!text-gray w-full flex-1"
-        value={selectedDoctor}
+        value={selectedClinic}
+        allowClear
         onChange={(value) => {
-          setSelectedDoctor(value);
+          setSelectedClinic(value);
         }}
       />}
       {/* <SelectInput selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus}/> */}

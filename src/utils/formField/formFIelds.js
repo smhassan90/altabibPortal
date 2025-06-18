@@ -14,14 +14,14 @@ export const clinicFields = [
     require: true,
   },
   {
-    label: "latitude",
+    label: "Latitude",
     input: "Enter Location",
     type: "text",
     name: "lat",
     require: true,
   },
   {
-    label: "longitude",
+    label: "Longitude",
     input: "Enter Location",
     type: "text",
     name: "lng",

@@ -1,11 +1,12 @@
 "use client";
+import DeleteConformation from "@/components/DeleteConformation";
 import SearchBarPatient from "@/components/Search/SearchBarPatient";
 import { DynamicTable } from "@/components/Tables/DynamicTable";
 import { Axios, summary } from "@/config/summaryAPI";
 import { AppContext } from "@/provider/AppProvider";
 import { AxiosError } from "@/utils/axiosError";
 import { checkUpSchema } from "@/utils/schema";
-import { patientColumns} from "@/utils/tableData/TableColumns";
+import { patientColumns } from "@/utils/tableData/TableColumns";
 import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -15,10 +16,10 @@ const page = () => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [loader, setLoader] = useState(false);
   const [selectedDoctor, setSelectedDoctor] = useState();
+  const [selectedClinic, setSelectedClinic] = useState();
   const [patient, setPatient] = useState([]);
-  // const [filterPatient, setFilterPatient] = useState(patient);
-  console.log(user,"user")
-  console.log(selectedDoctor,"selectedDoctor")
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
+  const [deleteId, setDeleteId] = useState("")
 
   const {
     register,
@@ -60,7 +61,12 @@ const page = () => {
           ...summary.getAllPatients,
           params: {
             token: TOKEN,
-            clinicId: user?.type == 5 ? 0 : user?.username,
+            clinicId:
+              user?.type == 5
+                ? selectedClinic
+                  ? selectedClinic
+                  : 0
+                : user?.username,
             doctorId: selectedDoctor ? selectedDoctor : 0,
           },
         });
@@ -71,30 +77,71 @@ const page = () => {
         setLoader(false);
       }
     };
-      fetchPatients();
-  }, [selectedDoctor]);
+    fetchPatients();
+  }, [selectedDoctor, selectedClinic]);
 
-  // useEffect(() => {
-  //   setFilterPatient(patient);
-  // }, [patient]);
-  
+  const deletePatient = (id) => {
+    setDeleteModalVisible(true);
+    setDeleteId(id);
+  };
+
+  const confirmDelete = async () => {
+    // try {
+    //   setLoader(true);
+    //   const response = await Axios({
+    //     ...summary.deleteQualification,
+    //     params: {
+    //       token: TOKEN,
+    //       qualificationId: deleteId,
+    //     },
+    //   });
+    //   if (response.data.status == 200) {
+    //     toast.success("Qualification Delete Successfully");
+    //     setDeleteModalVisible(false);
+    //     setQualification((prev) => {
+    //       return prev.filter((qual) => qual.id !== deleteId);
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    //   AxiosError(error);
+    // } finally {
+    //   setLoader(false);
+    // }
+  };
+
+
   return (
-    <div className="mt-ratio2">
-      <h2>Patient Management</h2>
-      <SearchBarPatient selectedDoctor={selectedDoctor} setSelectedDoctor={setSelectedDoctor}/>
-      <DynamicTable
-        data={patient}
-        columns={patientColumns(handleExpand, expandedRow)}
-        initialItemsPerPage={5}
-        expandedRow={expandedRow}
-        setExpandedRow={setExpandedRow}
-        filterPatient={patient}
-        control={control}
-        register={register}
-        errors={errors}
-        loader={loader}
-      />
-    </div>
+    <>
+      <div className="mt-ratio2">
+        <h2>Patient Management</h2>
+        <SearchBarPatient
+          selectedDoctor={selectedDoctor}
+          setSelectedDoctor={setSelectedDoctor}
+          selectedClinic={selectedClinic}
+          setSelectedClinic={setSelectedClinic}
+        />
+        <DynamicTable
+          data={patient}
+          columns={patientColumns(handleExpand, expandedRow, deletePatient)}
+          initialItemsPerPage={5}
+          expandedRow={expandedRow}
+          setExpandedRow={setExpandedRow}
+          filterPatient={patient}
+          control={control}
+          register={register}
+          errors={errors}
+          loader={loader}
+        />
+      </div>
+      {deleteModalVisible && (
+        <DeleteConformation
+          deleteModalVisible={deleteModalVisible}
+          setDeleteModalVisible={setDeleteModalVisible}
+          confirmDelete={confirmDelete}
+        />
+      )}
+    </>
   );
 };
 
