@@ -72,12 +72,12 @@ export default function UserDropdown({ user }) {
     <div className="relative">
       <button
         ref={triggerRef}
-        className="flex items-center gap-2 rounded-full focus:outline-none"
+        className="flex items-center sm:gap-2 rounded-full focus:outline-none"
         onClick={toggleDropdown}
         aria-expanded={dropdownOpen}
         aria-haspopup="true"
       >
-        <div className="relative h-10 w-10 overflow-hidden rounded-full border-2 border-black bg-gray-200">
+        <div className="relative h-8 w-8 sm:h-10 sm:w-10 overflow-hidden rounded-full border-2 border-black bg-gray-200">
           <Image
             alt={`Admin12's profile picture`}
             className="object-cover"
@@ -86,7 +86,7 @@ export default function UserDropdown({ user }) {
             sizes="40px"
           />
         </div>
-        <ChevronDown color="black"/>
+        <ChevronDown size={20}/>
       </button>
       <div
         ref={dropdownRef}

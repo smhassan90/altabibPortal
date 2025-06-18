@@ -152,7 +152,7 @@ export default function Sidebar() {
       )} */}
       <FadeInSection delay={0.2}>
         <nav
-          className={`w-full fixed top-0 bottom-0 z-10 shadow-md items-center justify-between md:w-56 py-2 rounded-2xl transition-transform duration-300 !bg-white ${isMobileMenuOpen ? 'translate-x-0 top-10' : '-translate-x-full'} md:translate-x-0
+          className={`w-full fixed top-0 bottom-0 z-10 shadow-md items-center justify-between md:w-56 py-2 rounded-2xl transition-transform duration-300 !bg-white ${isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
             `}
         >
           <h2 className="hidden md:block text-secondary text-xxLarge font-semibold text-center border-b border-border pb-4 px-4">

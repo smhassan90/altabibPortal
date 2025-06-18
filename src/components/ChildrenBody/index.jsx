@@ -8,7 +8,7 @@ const ChildrenBody = ({ children }) => {
       <Sidebar />
       <div className="relative md:ml-56 bg-gray-100 min-h-screen">
         <Navbar/>
-        <div className="pt-16 px-ratio1">
+        <div className="md:pt-16 px-ratio2 md:px-ratio1">
           {children}
         </div>
       </div>

@@ -14,24 +14,24 @@ function Navbar() {
   const isMobileMenuOpen = useSelector((state) => state.sideBar.isMobileMenuOpen);
   return (
     <>
-      <nav className="fixed top-0 right-0 z-10 w-full md:w-[calc(100%-14rem)] md:flex-row md:flex-nowrap md:justify-start flex items-center py-3 bg-white">
-        <div className="w-full mx-autp items-center flex justify-between md:flex-nowrap flex-wrap md:px-6 sm:px-4">
+      <nav className="md:fixed top-0 right-0 z-10 w-full md:w-[calc(100%-14rem)] md:flex-row md:flex-nowrap md:justify-start flex items-center py-3 bg-white">
+        <div className="w-full mx-auto items-center flex justify-between md:flex-nowrap flex-wrap md:px-6 px-4 relative">
           <div className="flex items-center gap-ratio2">
             <button
               onClick={() => dispatch(toogleMobile())}
-              className={`md:hidden z-50 bg-white`}
+              className={`md:hidden z-50 bg-white ${isMobileMenuOpen ? "absolute right-4" : ""}`}
             >
               {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
             <Link
-              className="text-text text-lg font-semibold"
+              className="text-text text-medium sm:text-large font-semibold"
               href="#pablo"
               // onClick={(e) => e.preventDefault()}
             >
               Hi, {user?.name}
             </Link>
           </div>
-          <h2 className="md:hidden text-secondary text-xxLarge font-semibold text-center">
+          <h2 className="md:hidden text-secondary text-large sm:text-xLarge font-semibold text-center">
             Al-Tabib
           </h2>
           {/* User */}
