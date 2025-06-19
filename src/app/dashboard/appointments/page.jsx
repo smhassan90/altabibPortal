@@ -102,6 +102,8 @@ const page = () => {
         setVisitDate={setVisitDate}
         selectedStatus={selectedStatus}
         setSelectedStatus={setSelectedStatus}
+        filterAppointment={filterAppointment}
+        setFilterAppointment={setFilterAppointment}
       />
       <DynamicTable
         data={filterAppointment}

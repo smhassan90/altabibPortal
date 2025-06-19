@@ -21,7 +21,14 @@ import { AxiosError } from "@/utils/axiosError";
 import dayjs from "dayjs";
 import qs from "qs";
 import { Select } from "antd";
-const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSelectedStatus }) => {
+const SearchBarAppointment = ({
+  visitDate,
+  setVisitDate,
+  selectedStatus,
+  setSelectedStatus,
+  filterAppointment,
+  setFilterAppointment,
+}) => {
   const [openModal, setOpenModal] = useState(false);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -33,15 +40,23 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
     },
   ]);
 
-  const { doctors, patients, fetchPatients, treatments:treatmentBank, fetchDoctorDropdown, user, TOKEN, fetchTreatmentDropdown } =
-    useContext(AppContext);
+  const {
+    doctors,
+    patients,
+    fetchPatients,
+    treatments: treatmentBank,
+    fetchDoctorDropdown,
+    user,
+    TOKEN,
+    fetchTreatmentDropdown,
+  } = useContext(AppContext);
 
   useEffect(() => {
-    if(user.type == 4){
+    if (user.type == 4) {
       fetchDoctorDropdown();
       fetchPatients();
     }
-    fetchTreatmentDropdown()
+    fetchTreatmentDropdown();
   }, []);
 
   const sortedTreatment = treatmentBank?.map((treatment) => ({
@@ -109,7 +124,6 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
   ];
 
   const onSubmit = async (data) => {
-    console.log(data,"data")
     try {
       setLoader(true);
       const visiteDate = dayjs(data.visitDate).format("YYYY-MM-DD");
@@ -132,7 +146,10 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
         patientId: data.patientId || 0,
         clinicId: data.clinicId,
         doctorId: data.doctorId,
-        treatments: (data.treatments.treatmentName || data.treatments.treatmentDescription) ? data.treatments : [],
+        treatments:
+          data.treatments.treatmentName || data.treatments.treatmentDescription
+            ? data.treatments
+            : [],
       };
       const response = await Axios({
         ...summary.setAppointment,
@@ -146,6 +163,9 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
       });
       if (response?.data?.status == 200) {
         toast.success("Appointment Add Successfully");
+        const copyArr = [...filterAppointment]
+        copyArr.push(response?.data.data.appointments[0])
+        setFilterAppointment(copyArr)
         reset({});
       } else {
         toast.error(`Failed ${response?.data?.status}`);
@@ -204,6 +224,9 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
       });
       if (response?.data?.status == 200) {
         toast.success("Appointment Add Successfully");
+        const copyArr = [...filterAppointment]
+        copyArr.push(response?.data.data.appointments[0])
+        setFilterAppointment(copyArr)
         reset({});
       } else {
         toast.error(`Failed ${response?.data?.status}`);
@@ -214,6 +237,7 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
     } finally {
       setLoader(false);
       setOpenModal(false);
+      setNewPatientCheck(false)
     }
   };
 
@@ -245,21 +269,23 @@ const SearchBarAppointment = ({ visitDate, setVisitDate, selectedStatus, setSele
     setNewPatientCheck(e.target.checked);
   };
   return (
-    <div className="flex gap-2 mt-ratio2">
+    <div className="flex flex-col md:flex-row gap-2 mt-ratio2">
       <SearchInput placeholder={"Search"} className="flex-3" />
       <Select
         options={status}
-        className="!h-[35px] placeholder:!text-gray w-full flex-1"
+        className="!h-[40px] placeholder:!text-gray w-full flex-1"
         value={selectedStatus}
         onChange={(value) => {
           setSelectedStatus(value);
         }}
       />
       <DateInput visitDate={visitDate} setVisitDate={setVisitDate} />
-      {user?.type == 4 && <AddButton onClick={() => setOpenModal(true)}>
-        <Plus size={16} className="" />
-        Add New Appointment
-      </AddButton>}
+      {user?.type == 4 && (
+        <AddButton onClick={() => setOpenModal(true)}>
+          <Plus size={16} className="" />
+          Add New Appointment
+        </AddButton>
+      )}
       {openModal && (
         <FormModal
           open={openModal}

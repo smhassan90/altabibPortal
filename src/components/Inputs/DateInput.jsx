@@ -9,7 +9,7 @@ export const DateInput = ({ visitDate, setVisitDate }) => {
       <DatePicker
         value={dayjs(visitDate)}
         onChange={(date, dateString) => setVisitDate(dateString)}
-        className="w-full text-small px-4 h-[35px] bg-white border border-gray-300 rounded focus:outline-none"
+        className="w-full text-small px-4 h-[40px] bg-white border border-gray-300 rounded focus:outline-none"
         allowClear={false}
       />
     </div>

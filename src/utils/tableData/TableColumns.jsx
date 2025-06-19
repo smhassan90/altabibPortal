@@ -293,29 +293,29 @@ export const patientColumns = (onExpand, expandedRowId, deleteData) => [
   },
   { key: "cellNumber", label: "Cell Number" },
   { key: "dob", label: "DOB" },
-  {
-    key: "actions",
-    label: "Actions",
-    render: (value, row) => (
-      <div className="flex items-center space-x-2">
-        {/* <Eye
-          size={20}
-          className="text-secondary"
-          onClick={() => onExpand(row.id, "readable")}
-        /> */}
-        <Pencil
-          size={20}
-          className="text-Tertiary"
-          onClick={() => onExpand(row.id, "editable")}
-        />
-        <Trash2 
-          size={20} 
-          className="text-red-500"
-          onClick={() => deleteData(row.id)}
-        />
-      </div>
-    ),
-  },
+  // {
+  //   key: "actions",
+  //   label: "Actions",
+  //   render: (value, row) => (
+  //     <div className="flex items-center space-x-2">
+  //       {/* <Eye
+  //         size={20}
+  //         className="text-secondary"
+  //         onClick={() => onExpand(row.id, "readable")}
+  //       /> */}
+  //       <Pencil
+  //         size={20}
+  //         className="text-Tertiary"
+  //         onClick={() => onExpand(row.id, "editable")}
+  //       />
+  //       {/* <Trash2 
+  //         size={20} 
+  //         className="text-red-500"
+  //         onClick={() => deleteData(row.id)}
+  //       /> */}
+  //     </div>
+  //   ),
+  // },
 ];
 
 export const specializationColumns = (onExpand, expandedRowId, deleteData) => [

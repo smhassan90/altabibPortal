@@ -83,7 +83,7 @@ const SearchBarQualification = () => {
     setNewPatientCheck(e.target.checked);
   };
   return (
-    <div className="flex gap-2 mt-ratio2">
+    <div className="flex flex-col md:flex-row gap-2 mt-ratio2">
       <SearchInput placeholder={"Search"} className="flex-3" />
       <AddButton onClick={() => setOpenModal(true)}>
         <Plus size={16} className="" />

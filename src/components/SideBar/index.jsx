@@ -115,12 +115,12 @@ export default function Sidebar() {
       label: "Specialization",
       show: [5],
     },
-    {
-      link: "/dashboard/settings",
-      icon: <Settings size={20} />,
-      label: "Settings",
-      show: [5, 4, 3],
-    },
+    // {
+    //   link: "/dashboard/settings",
+    //   icon: <Settings size={20} />,
+    //   label: "Settings",
+    //   show: [5, 4, 3],
+    // },
     {
       link: "/auth/login",
       icon: <PieChart size={20} />,

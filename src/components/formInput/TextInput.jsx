@@ -699,11 +699,11 @@ const SingleSelectInputs = ({
   }, [options]);
 
   return (
-    <div className={`w-full mb-5 flex flex-col ${className}`}>
+    <div className={`w-full flex flex-col mb-3 ${className}`}>
       {label && (
         <label
           htmlFor={name}
-          className="text-sm text-gray-700 font-medium mb-1"
+          className="block text-small 2xl:text-medium text-text mb-2"
         >
           {label}
         </label>
@@ -714,7 +714,7 @@ const SingleSelectInputs = ({
         name={name}
         render={({ field }) => (
           <Select
-            className="w-full !h-[42px] border border-gray-300 rounded-md shadow-sm focus:border-blue-500"
+            className="!h-[40px] placeholder:!text-gray"
             placeholder={input || "Select..."}
             options={selectOptions}
             value={field.value || undefined}
