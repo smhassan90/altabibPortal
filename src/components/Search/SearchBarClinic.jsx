@@ -22,7 +22,7 @@ import { AxiosError } from "@/utils/axiosError";
 import dayjs from "dayjs";
 import qs from "qs";
 import { Select } from "antd";
-const SearchBarClinic  = ({ clinics, setClinics }) => {
+const SearchBarClinic  = ({ clinics, setClinics, searchClinic, setSearchClinic }) => {
   const [openModal, setOpenModal] = useState(false);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -94,8 +94,8 @@ const SearchBarClinic  = ({ clinics, setClinics }) => {
     setNewPatientCheck(e.target.checked);
   };
   return (
-    <div className="flex gap-2 mt-ratio2">
-      <SearchInput placeholder={"Search"} className="flex-3" />
+    <div className="flex flex-col md:flex-row gap-2 mt-ratio2">
+      <SearchInput placeholder={"Search"} className="flex-3" value={searchClinic} setValue={setSearchClinic} />
       <AddButton onClick={() => setOpenModal(true)}>
         <Plus size={16} className="" />
         Add New Clinic

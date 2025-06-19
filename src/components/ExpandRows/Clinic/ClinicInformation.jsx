@@ -114,7 +114,7 @@ const ClinicInformation = ({
       </h2>
       {mode == "editable" && (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-ratio1 gap-y-ratio2 mt-ratio2">
+          <div className="grid grid-cols-2 gap-x-ratio1 gap-y-ratio2 mt-ratio2">
             {clinicFields.map((field, idx) => {
               if (field?.type == "text") {
                 return (

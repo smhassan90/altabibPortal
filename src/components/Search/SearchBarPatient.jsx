@@ -17,14 +17,30 @@ import {
 import { Input, Select } from "antd";
 import { AppContext } from "@/provider/AppProvider";
 
-const SearchBarPatient = ({selectedDoctor, setSelectedDoctor, selectedClinic, setSelectedClinic}) => {
-  const { doctors, clinics, patients, fetchPatients, fetchDoctorDropdown, fetchClinicDropdown, user, TOKEN } = useContext(AppContext);
+const SearchBarPatient = ({
+  selectedDoctor,
+  setSelectedDoctor,
+  selectedClinic,
+  setSelectedClinic,
+  searchPatient,
+  setSearchPatient,
+}) => {
+  const {
+    doctors,
+    clinics,
+    patients,
+    fetchPatients,
+    fetchDoctorDropdown,
+    fetchClinicDropdown,
+    user,
+    TOKEN,
+  } = useContext(AppContext);
   useEffect(() => {
-    fetchClinicDropdown()
+    fetchClinicDropdown();
     fetchDoctorDropdown();
     fetchPatients();
   }, []);
-  console.log(doctors,"doctors")
+  console.log(doctors, "doctors");
   const sortedDoctor = doctors.map((doctor) => ({
     label: doctor.name,
     value: doctor.id,
@@ -77,7 +93,12 @@ const SearchBarPatient = ({selectedDoctor, setSelectedDoctor, selectedClinic, se
   };
   return (
     <div className="flex gap-2 mt-ratio2">
-      <SearchInput placeholder={"Select Doctor"} className="flex-3" />
+      <SearchInput 
+        placeholder={"Search Patient"} 
+        className="flex-3"
+        value={searchPatient} 
+        setValue={setSearchPatient}
+      />
       <Select
         placeholder="Select Doctor"
         options={sortedDoctor}
@@ -88,16 +109,18 @@ const SearchBarPatient = ({selectedDoctor, setSelectedDoctor, selectedClinic, se
           setSelectedDoctor(value);
         }}
       />
-      {user.type == 5 && <Select
-        placeholder="Select Clinic"
-        options={sortedClinics}
-        className="!h-[35px] placeholder:!text-gray w-full flex-1"
-        value={selectedClinic}
-        allowClear
-        onChange={(value) => {
-          setSelectedClinic(value);
-        }}
-      />}
+      {user.type == 5 && (
+        <Select
+          placeholder="Select Clinic"
+          options={sortedClinics}
+          className="!h-[35px] placeholder:!text-gray w-full flex-1"
+          value={selectedClinic}
+          allowClear
+          onChange={(value) => {
+            setSelectedClinic(value);
+          }}
+        />
+      )}
       {/* <SelectInput selectedStatus={selectedStatus} setSelectedStatus={setSelectedStatus}/> */}
       {/* {openModal && (
         <FormModal

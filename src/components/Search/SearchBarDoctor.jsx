@@ -22,7 +22,7 @@ import { Axios, summary } from "@/config/summaryAPI";
 import toast from "react-hot-toast";
 import { AxiosError } from "@/utils/axiosError";
 
-const SearchBarDoctor = ({doctors, setDoctors, clinicId, setClinicId}) => {
+const SearchBarDoctor = ({doctors, setDoctors, clinicId, setClinicId, searchDoctor, setSearchDoctor}) => {
   const {
     clinics,
     setClinics,
@@ -163,12 +163,17 @@ const SearchBarDoctor = ({doctors, setDoctors, clinicId, setClinicId}) => {
     setNewPatientCheck(e.target.checked);
   };
   return (
-    <div className="flex gap-2 mt-ratio2">
-      <SearchInput placeholder={"Select Doctor"} className="flex-3" />
+    <div className="flex flex-col md:flex-row gap-2 mt-ratio2">
+      <SearchInput 
+        placeholder={"Select Doctor"} 
+        className="flex-2 lg:flex-3" 
+        value={searchDoctor} 
+        setValue={setSearchDoctor}
+      />
       {user?.type == 5 && <Select
         placeholder="Select Clinic"
         options={sortedClinic || []}
-        className="!h-[35px] placeholder:!text-gray w-full flex-1"
+        className="!h-[35px] placeholder:!text-gray w-full flex-2 lg:flex-1"
         value={selectedClinic}
         allowClear
         onChange={(value) => {

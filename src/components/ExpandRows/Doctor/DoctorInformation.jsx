@@ -146,7 +146,7 @@ const DoctorInformation = ({
       </h2>
       {mode == "editable" ? (
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-ratio1 gap-y-ratio2 mt-ratio2">
+          <div className="grid grid-cols-4 gap-x-ratio1 gap-y-ratio2 mt-ratio2">
             {doctorFields.map((field, idx) => {
               if (field?.type == "text") {
                 return (
@@ -195,7 +195,7 @@ const DoctorInformation = ({
               }
             })}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-ratio1 gap-y-ratio2 py-3 border-b border-border">
+          <div className="grid grid-cols-2 gap-x-ratio1 gap-y-ratio2 py-3 border-b border-border">
             {doctorFields?.slice(-2)?.map((field, idx) => {
               if (field.type === "selectoption") {
                 const isQualification = field.name
@@ -235,7 +235,7 @@ const DoctorInformation = ({
             control={control}
             errors={errors}
             clinics={sortedClinic}
-            isEdit={false}
+            isEdit={true}
           />
           <div className="flex items-center justify-end mt-ratio2">
             <AddButton>
@@ -249,7 +249,7 @@ const DoctorInformation = ({
         </form>
       ) : (
         <>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-ratio2 mt-ratio2">
+          <div className="grid grid-cols-4 gap-ratio2 mt-ratio2">
             <ReadOnlyInputWithLabel
               label={"Doctor Name"}
               value={doctor?.name}
@@ -271,7 +271,7 @@ const DoctorInformation = ({
               value={doctor?.gender}
             />
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-ratio2 mt-ratio2 pb-ratio2 border-b border-border">
+          <div className="grid grid-cols-3 gap-ratio2 mt-ratio2 pb-ratio2 border-b border-border">
             <ReadOnlyMapingWithLabel
               label={"Specialization"}
               value={doctor?.specialization}
@@ -285,7 +285,7 @@ const DoctorInformation = ({
             Clinic Information
           </h2>
           {doctor.clinic.map((clinic) => (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-ratio2 py-ratio2 border-b border-border">
+            <div className="grid grid-cols-4 gap-ratio2 py-ratio2 border-b border-border">
               <ReadOnlyInputWithLabel
                 label={"Clinic Name"}
                 value={clinic?.clinic?.name}

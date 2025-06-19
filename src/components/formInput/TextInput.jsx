@@ -741,10 +741,15 @@ const SingleSelectInputs = ({
   );
 };
 
-const SearchInput = ({ placeholder, className }) => {
+const SearchInput = ({ placeholder, className, value, setValue }) => {
   return (
     <div className={`${className} flex items-center relative`}>
-      <Input placeholder={placeholder} className="!h-[40px]" />
+      <Input 
+        placeholder={placeholder} 
+        className="!h-[40px]" 
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
       <AddButton className="absolute right-0 !bg-transparent">
         <Search size={16} className="text-text" />
       </AddButton>

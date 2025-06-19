@@ -20,6 +20,7 @@ const AddDoctorClinic = ({
 
   useEffect(() => {
     if (!isEdit) {
+      console.log("hello")
       if (fields.length === 0) {
         append({ clinicId: "", charges: "", startTime: "", endTime: "" });
       }
@@ -52,7 +53,7 @@ const AddDoctorClinic = ({
         <div className="flex justify-between gap-ratio2 mt-ratio2 pb-ratio2 border-b border-border">
           <div
             key={index}
-            className="w-full grid grid-cols-1 sm:grid-cols-2 gap-ratio2"
+            className={`w-full grid ${isEdit ? "grid-cols-4" : "grid-cols-2"} gap-ratio2`}
           >
             <div className={`relative w-full`}>
               <label

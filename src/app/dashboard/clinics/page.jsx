@@ -17,12 +17,13 @@ const page = () => {
   const { user, TOKEN } = useContext(AppContext);
   const [expandedRow, setExpandedRow] = useState(null);
   const [loader, setLoader] = useState(false);
-  const [selectedDoctor, setSelectedDoctor] = useState();
+  const [searchClinic, setSearchClinic] = useState("");
   const [clinics, setClinics] = useState([]);
+  const [filterClinic,setFilterClinic] = useState([])
   const [mode, setMode] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deleteId, setDeleteId] = useState("");
-
+  console.log(searchClinic,"searchClinic")
   const {
     register,
     handleSubmit,
@@ -42,6 +43,13 @@ const page = () => {
       followupDate: "",
     },
   });
+
+
+  useEffect(()=>{
+    const filtered = clinics.filter((item,index)=>item.name.toLowerCase().includes(searchClinic.toLowerCase()))
+    setFilterClinic(filtered);
+  },[clinics,searchClinic])
+
 
   const handleExpand = (id, Selectmode) => {
     if (expandedRow === id) {
@@ -75,7 +83,7 @@ const page = () => {
       }
     };
     fetchClinicDropdown();
-  }, [selectedDoctor]);
+  }, []);
 
   const deleteClinic = (id) => {
     setDeleteModalVisible(true);
@@ -111,9 +119,14 @@ const page = () => {
     <>
       <div className="mt-ratio2">
         <h2>Clinic Management</h2>
-        <SearchBarClinic clinics={clinics} setClinics={setClinics} />
+        <SearchBarClinic 
+          clinics={clinics} 
+          setClinics={setClinics} 
+          searchClinic={searchClinic} 
+          setSearchClinic={setSearchClinic}
+        />
         <DynamicTable
-          data={clinics}
+          data={filterClinic}
           columns={clinicColumns(handleExpand, expandedRow, deleteClinic)}
           initialItemsPerPage={5}
           expandedRow={expandedRow}

@@ -21,9 +21,11 @@ const page = () => {
   const [expandedRow, setExpandedRow] = useState(null);
   const [loader, setLoader] = useState(false);
   const [doctors, setDoctors] = useState([]);
-  const [clinicId, setClinicId] = useState(0)
+  const [filterDoctor, setFilterDoctor] = useState([]);
+  const [searchDoctor, setSearchDoctor] = useState("");
+  const [clinicId, setClinicId] = useState(0);
   const [mode, setMode] = useState("");
-  const [deleteModalVisible, setDeleteModalVisible] = useState(false)
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const { TOKEN, user } = useContext(AppContext);
 
   const {
@@ -50,8 +52,7 @@ const page = () => {
     if (expandedRow === id) {
       if (mode !== Selectmode) {
         setMode(Selectmode);
-      }
-      else {
+      } else {
         setExpandedRow(null);
         setMode("");
       }
@@ -63,7 +64,7 @@ const page = () => {
 
   const fetchDoctor = async () => {
     try {
-      setDoctors([])
+      setDoctors([]);
       setLoader(true);
       const { url, method, transformer = (data) => data } = summary.getDoctors;
       const response = await Axios({
@@ -88,28 +89,33 @@ const page = () => {
     fetchDoctor();
   }, [clinicId]);
 
-  const deleteDoctor = (id) =>{
-    setDeleteModalVisible(true)
-    console.log(id)
-  }
+  useEffect(() => {
+    const filtered = doctors.filter((item, index) =>
+      item.name.toLowerCase().includes(searchDoctor.toLowerCase())
+    );
+    setFilterDoctor(filtered);
+  }, [doctors, searchDoctor]);
 
-  const confirmDelete = () =>{
+  const deleteDoctor = (id) => {
+    setDeleteModalVisible(true);
+    console.log(id);
+  };
 
-  }
-
-  console.log(doctors, "doctors");
+  const confirmDelete = () => {};
   return (
     <>
       <div className="mt-ratio2">
         <h2>Doctor Management</h2>
-        <SearchBarDoctor 
-          doctors={doctors} 
-          setDoctors={setDoctors} 
-          clinicId={clinicId} 
+        <SearchBarDoctor
+          doctors={doctors}
+          setDoctors={setDoctors}
+          clinicId={clinicId}
           setClinicId={setClinicId}
+          searchDoctor={searchDoctor} 
+          setSearchDoctor={setSearchDoctor}
         />
         <DynamicTable
-          data={doctors}
+          data={filterDoctor}
           columns={doctorColumns(handleExpand, expandedRow, deleteDoctor, user)}
           initialItemsPerPage={5}
           expandedRow={expandedRow}
@@ -123,11 +129,13 @@ const page = () => {
           tableName="Doctor"
         />
       </div>
-      {deleteModalVisible && <DeleteConformation 
-        deleteModalVisible={deleteModalVisible} 
-        setDeleteModalVisible={setDeleteModalVisible}
-        confirmDelete={confirmDelete}
-      />}
+      {deleteModalVisible && (
+        <DeleteConformation
+          deleteModalVisible={deleteModalVisible}
+          setDeleteModalVisible={setDeleteModalVisible}
+          confirmDelete={confirmDelete}
+        />
+      )}
     </>
   );
 };

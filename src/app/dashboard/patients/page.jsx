@@ -18,8 +18,10 @@ const page = () => {
   const [selectedDoctor, setSelectedDoctor] = useState();
   const [selectedClinic, setSelectedClinic] = useState();
   const [patient, setPatient] = useState([]);
+  const [filterPatient, setFilterPatient] = useState([]);
+  const [searchPatient, setSearchPatient] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
-  const [deleteId, setDeleteId] = useState("")
+  const [deleteId, setDeleteId] = useState("");
 
   const {
     register,
@@ -80,6 +82,13 @@ const page = () => {
     fetchPatients();
   }, [selectedDoctor, selectedClinic]);
 
+  useEffect(() => {
+    const filtered = patient.filter((item, index) =>
+      item.name.toLowerCase().includes(searchPatient.toLowerCase())
+    );
+    setFilterPatient(filtered);
+  }, [patient, searchPatient]);
+
   const deletePatient = (id) => {
     setDeleteModalVisible(true);
     setDeleteId(id);
@@ -110,7 +119,6 @@ const page = () => {
     // }
   };
 
-
   return (
     <>
       <div className="mt-ratio2">
@@ -120,9 +128,11 @@ const page = () => {
           setSelectedDoctor={setSelectedDoctor}
           selectedClinic={selectedClinic}
           setSelectedClinic={setSelectedClinic}
+          searchPatient={searchPatient}
+          setSearchPatient={setSearchPatient}
         />
         <DynamicTable
-          data={patient}
+          data={filterPatient}
           columns={patientColumns(handleExpand, expandedRow, deletePatient)}
           initialItemsPerPage={5}
           expandedRow={expandedRow}
