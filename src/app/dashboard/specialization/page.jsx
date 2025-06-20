@@ -131,6 +131,8 @@ const page = () => {
           loader={loader}
           mode={mode}
           tableName="Specialization"
+          functionData={specialization}
+          setterFunctionData={setSpecialization}
         />
       </div>
       {deleteModalVisible && (

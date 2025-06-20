@@ -22,6 +22,7 @@ import PatientExpandRow from "../ExpandRows/Patient";
 import ClinicExpandRow from "../ExpandRows/Clinic";
 import DoctorExpandRow from "../ExpandRows/Doctor";
 import QualificationExpandRow from "../ExpandRows/Qualification";
+import SpecializationExpandRow from "../ExpandRows/Specialization";
 
 export function TableRow({
   data,
@@ -113,6 +114,17 @@ export function TableRow({
           {tableName === "Qualification" && (
           <td colSpan={columns.length} className="">
             <QualificationExpandRow
+              data={data} 
+              mode={mode} 
+              setExpandedRow={setExpandedRow}
+              functionData={functionData}
+              setterFunctionData={setterFunctionData}
+            />
+          </td>
+          )}
+          {tableName === "Specialization" && (
+          <td colSpan={columns.length} className="">
+            <SpecializationExpandRow
               data={data} 
               mode={mode} 
               setExpandedRow={setExpandedRow}
