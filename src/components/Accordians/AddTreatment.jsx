@@ -17,13 +17,13 @@ const AddTreatment = ({
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
-    name: "treatments",
+    name: "treatment",
   });
 
   useEffect(() => {
     if (!isEdit) {
       if (fields.length === 0) {
-        append({ treatmentName: "", treatmentDescription: "" });
+        append({ name: "", detail: "" });
       }
     }
   }, [fields.length, append]);
@@ -32,18 +32,17 @@ const AddTreatment = ({
     setTreatments([
       ...treatments,
       {
-        id: treatments.length + 1,
-        treatmentName: "",
-        treatmentDescription: "",
+        name: "",
+        detail: "",
       },
     ]);
-    append({ treatmentName: "", treatmentDescription: "" });
+    append({ name: "", detail: "" });
   };
 
   const removeTreatment = (treatment) => {
     if (treatments.length > 1) {
       setTreatments(treatments.filter((item) => item.id !== treatment?.id));
-      remove(treatment.treatmentName);
+      remove(treatment.name);
     }
   };
   return (
@@ -63,16 +62,16 @@ const AddTreatment = ({
               </label>
               <Controller
                 control={control}
-                name={`treatments.${index}.treatmentName`}
+                name={`treatment.${index}.name`}
                 render={({ field: controllerField }) => {
-                  console.log(controllerField);
+                  // console.log(controllerField);
                   return (
                     <Select
                       options={treatmentName}
                       className="!h-[40px] placeholder:!text-gray w-full flex-2 !rounded-medium !border-border focus:!border-secondary focus:!ring-0 focus:!outline-none"
                       placeholder="Select Treatment"
                       status={
-                        errors?.treatments?.[index]?.treatmentName
+                        errors?.treatments?.[index]?.name
                           ? "error"
                           : ""
                       }
@@ -88,9 +87,9 @@ const AddTreatment = ({
                   );
                 }}
               />
-              {errors?.treatments?.[index]?.treatmentName && (
+              {errors?.treatments?.[index]?.name && (
                 <span className="text-red-500 text-xs mt-1">
-                  {errors?.treatments?.[index]?.treatmentName?.message}
+                  {errors?.treatments?.[index]?.name?.message}
                 </span>
               )}
             </div>
@@ -99,7 +98,7 @@ const AddTreatment = ({
               input={"Enter Description"}
               type={"textarea"}
               errors={errors}
-              name={`doctorClinic.${index}.treatmentDescription`}
+              name={`treatment.${index}.detail`}
               control={control}
               className=""
             />
@@ -119,7 +118,7 @@ const AddTreatment = ({
         onClick={addMoreTreatment}
       >
         <Plus size={16} />
-        Add More Treatments
+          Add Treatment
       </AddButton>
     </div>
   );

@@ -17,6 +17,7 @@ import ShowMoreButton from "../buttons/ShowMoreButton";
 import { Tag } from "antd";
 import { useContext } from "react";
 import { AppContext } from "@/provider/AppProvider";
+import dayjs from "dayjs";
 
 export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
   {
@@ -91,7 +92,9 @@ export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
   {
     key: "actions",
     label: "Actions",
-    render: (value, row) => (
+    render: (value, row) => {
+      console.log(row)
+      return(
       <div className="flex space-x-2">
         {row?.status == 0 ? (
           <div className="flex items-center space-x-2">
@@ -102,7 +105,7 @@ export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
               onClick={() => onExpand(row.id, "readable")}
             />
             {/* {user.type == 3 || user.type == 4 && <Pencil */}
-            {<Pencil
+            {dayjs(row.visitDate).format("YYYY-MM-DD") == dayjs().format("YYYY-MM-DD") && <Pencil
               size={20}
               className="text-Tertiary"
               onClick={() => onExpand(row.id, "editable")}
@@ -118,7 +121,7 @@ export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
           </div>
         )}
       </div>
-    ),
+    )},
   },
 ];
 

@@ -24,7 +24,6 @@ const page = () => {
   const [filterAppointment, setFilterAppointment] = useState(appointment);
   const clinicId = searchParams.get('clinicId');
   const doctorId = searchParams.get('doctorId');
-  console.log(clinicId,"clinicId")
   const handleExpand = (id, Selectmode) => {
     if (expandedRow === id) {
       if (mode !== Selectmode) {

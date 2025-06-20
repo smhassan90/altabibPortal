@@ -53,7 +53,7 @@ const PatientInformation = ({
 
   const sortedTreatment = treatmentBank?.map((treatment) => ({
     label: treatment?.name,
-    value: treatment?.id,
+    value: treatment?.name,
   }));
 
   const {
@@ -76,34 +76,19 @@ const PatientInformation = ({
         ? dayjs(patient?.followupDate).format("YYYY-MM-DD")
         : dayjs(patient?.visitDate).format("YYYY-MM-DD"),
       tokenNumber: patient?.tokenNumber || "",
-      // treatment: patient.treatment.map((treatment) => {
-      //   return {
-      //     treatmentName: treatment.treatmentName,
-      //     treatmentDescription: treatment.treatmentDescription,
-      //   };
-      // }),
+      treatment: patient.treatments ? patient.treatments.map((treatment) => {
+        return {
+          name: treatment.name,
+          detail: treatment.detail,
+        };
+      }) : [{name: "", detail: ""}],
     },
   });
-  const [treatments, setTreatments] = useState([
-    { id: Date.now().toString(), treatment: "", description: "" },
-  ]);
-
-  const addTreatment = () => {
-    const newTreatment = {
-      id: Date.now().toString(),
-      treatment: "",
-      description: "",
-    };
-    setTreatments([...treatments, newTreatment]);
-    console.log([...treatments, newTreatment]);
-  };
-  const removeTreatment = (id) => {
-    if (treatments.length > 1) {
-      setTreatments(treatments.filter((t) => t.id !== id));
-    }
-  };
-
+  const [treatments, setTreatments] = useState(patient.treatments || [{name: "", detail: ""}]);
+  console.log(treatments, "treatments");
   const onSubmit = async (data) => {
+    console.log(data, "data");
+    // return
     try {
       setLoader(true);
       console.log(patient.visitDate);
@@ -128,8 +113,12 @@ const PatientInformation = ({
         patientId: patient.patientId,
         clinicId: patient.clinicId,
         doctorId: patient.doctorId,
-        treatments: [],
+        treatments: patient.treatments ? data.treatment.filter(treatment=>
+          !patient.treatments.some(pt => pt.name === treatment.name)
+          ) : data.treatment,
       };
+
+      console.log(payload, "payload");
       const response = await Axios({
         ...summary.setAppointment,
         params: {
@@ -153,6 +142,13 @@ const PatientInformation = ({
       AxiosError(error);
     } finally {
       setLoader(false);
+      // setTreatments([
+      //   {
+      //     id: 1,
+      //     name: "",
+      //     detail: "",
+      //   },
+      // ]);
     }
   };
 
@@ -219,6 +215,7 @@ const PatientInformation = ({
             control={control}
             errors={errors}
             treatmentName={sortedTreatment}
+            // isEdit={true}
           />
           <div className="flex justify-end mt-ratio2">
             <Checkbox
@@ -244,10 +241,7 @@ const PatientInformation = ({
               label={"Blood Pressure"}
               value={patient.bloodPressure}
             />
-            <ReadOnlyInputWithLabel 
-              label={"Weight"} 
-              value={patient.weight}
-            />
+            <ReadOnlyInputWithLabel label={"Weight"} value={patient.weight} />
             <ReadOnlyInputWithLabel
               label={"FollowUp Date"}
               value={patient.followupDate}

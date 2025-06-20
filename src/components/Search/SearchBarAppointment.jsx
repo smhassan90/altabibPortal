@@ -32,11 +32,12 @@ const SearchBarAppointment = ({
   const [openModal, setOpenModal] = useState(false);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   const [loader, setLoader] = useState(false);
+  const [checked, setChecked] = useState(false);
   const [treatments, setTreatments] = useState([
     {
       id: 1,
-      treatmentName: "",
-      treatmentDescription: "",
+      name: "",
+      detail: "",
     },
   ]);
 
@@ -61,7 +62,7 @@ const SearchBarAppointment = ({
 
   const sortedTreatment = treatmentBank?.map((treatment) => ({
     label: treatment?.name,
-    value: treatment?.id,
+    value: treatment?.name,
   }));
 
   const {
@@ -91,10 +92,10 @@ const SearchBarAppointment = ({
       bloodPressure: "",
       prescription: "",
       diagnosis: "",
-      treatments: [
+      treatment: [
         {
-          treatmentName: "",
-          treatmentDescription: "",
+          name: "",
+          detail: "",
         },
       ],
     },
@@ -133,7 +134,7 @@ const SearchBarAppointment = ({
         doctorName: data.doctorName,
         visitDate: visiteDate,
         tokenNumber: 0,
-        status: 0,
+        status: checked ? 1 : 0,
         clinicTotalAppointments: 0,
         clinicLastAppointmentToken: 0,
         charges: data.charges,
@@ -147,8 +148,8 @@ const SearchBarAppointment = ({
         clinicId: data.clinicId,
         doctorId: data.doctorId,
         treatments:
-          data.treatments.treatmentName || data.treatments.treatmentDescription
-            ? data.treatments
+          data.treatment[0].name || data.treatment[0].detail
+            ? data.treatment
             : [],
       };
       const response = await Axios({
@@ -175,7 +176,15 @@ const SearchBarAppointment = ({
       AxiosError(error);
     } finally {
       setLoader(false);
+      setChecked(false)
       setOpenModal(false);
+      setTreatments([
+        {
+          id: 1,
+          name: "",
+          detail: "",
+        }
+      ])
     }
   };
 
@@ -205,7 +214,10 @@ const SearchBarAppointment = ({
           patientId: data.patientId || 0,
           clinicId: data.clinicId,
           doctorId: data.doctorId,
-          treatments: [],
+          treatments:
+          data.treatment[0].name || data.treatment[0].detail
+            ? data.treatment
+            : [],
         },
         patient: {
           name: data.patientName,
@@ -238,6 +250,13 @@ const SearchBarAppointment = ({
       setLoader(false);
       setOpenModal(false);
       setNewPatientCheck(false)
+      setTreatments([
+        {
+          id: 1,
+          name: "",
+          detail: "",
+        }
+      ])
     }
   };
 
@@ -308,6 +327,8 @@ const SearchBarAppointment = ({
           treatmentBank={sortedTreatment}
           loader={loader}
           handleReset={handleReset}
+          checked={checked}
+          setChecked={setChecked}
         />
       )}
     </div>

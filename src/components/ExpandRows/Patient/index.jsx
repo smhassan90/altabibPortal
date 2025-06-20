@@ -33,8 +33,6 @@ const PatientExpandRow = ({ data, mode, setExpandedRow, fetchAppointment }) => {
       setLoader(false);
     }
   };
-  
-  console.log(patientHistory, "patientHistory");
   return (
     <>
       <div className="mx-ratio2 px-ratio2 py-ratio2 bg-Bluish text-small text-gray-700">

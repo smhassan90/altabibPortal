@@ -148,10 +148,10 @@ export const addAppointmentSchema = z.object({
   bloodPressure: z.coerce.string().optional(),
   prescription: z.coerce.string().optional(),
   diagnosis: z.coerce.string().optional(),
-  treatments: z.array(
+  treatment: z.array(
       z.object({
-        treatmentName: z.coerce.string().optional(),
-        treatmentDescription: z.string().optional(),
+        name: z.coerce.string().optional(),
+        detail: z.string().optional(),
       })
     )
     .optional(),
@@ -191,7 +191,13 @@ export const directAppointmentSchema = z.object({
   bloodPressure: z.coerce.string().optional(),
   prescription: z.coerce.string().optional(),
   diagnosis: z.coerce.string().optional(),
-  treatments: z.coerce.string().optional(),
+  treatment: z.array(
+      z.object({
+        name: z.coerce.string().optional(),
+        detail: z.string().optional(),
+      })
+    )
+    .optional(),
 });
 
 
@@ -228,11 +234,10 @@ export const checkUpSchema = z.object({
       invalid_type_error: "Visit Date must be a valid date",
     })
     .optional(),
-  treatment: z
-    .array(
+  treatment: z.array(
       z.object({
-        treatmentName: z.string().optional(),
-        treatmentDescription: z.string().optional(),
+        name: z.coerce.string().optional(),
+        detail: z.coerce.string().optional(),
       })
     )
     .optional(),
