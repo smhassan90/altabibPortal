@@ -221,7 +221,7 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
       return (
         <div className="flex flex-col gap-1">
           {specialization.map((item, index) => (
-            <Tag color={colors[index % colors.length]} key={index} className="w-fit">
+            <Tag color={item.colorCode || colors[index % colors.length]} key={index} className="w-fit">
               {item.name}
             </Tag>
           ))}
@@ -241,7 +241,7 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
       return (
         <div className="flex flex-col gap-1">
           {qualification.map((item, index) => (
-            <Tag color={colors[index % colors.length]} key={index} className="w-fit">
+            <Tag color={item.colorCode || colors[index % colors.length]} key={index} className="w-fit">
               {item.name}
             </Tag>
           ))}
@@ -339,11 +339,11 @@ export const specializationColumns = (onExpand, expandedRowId, deleteData) => [
     label: "Actions",
     render: (value, row) => (
       <div className="flex items-center space-x-2">
-        {/* <Pencil
+        <Pencil
           size={20}
           className="text-Tertiary"
           onClick={() => onExpand(row.id, "editable")}
-        /> */}
+        />
         <Trash2 size={20} className="text-red-500" onClick={() => deleteData(row.id)}/>
       </div>
     ),
@@ -368,11 +368,11 @@ export const qualificationColumns = (onExpand, expandedRowId, deleteData) => [
     label: "Actions",
     render: (value, row) => (
       <div className="flex items-center space-x-2">
-        {/* <Pencil
+        <Pencil
           size={20}
           className="text-Tertiary"
           onClick={() => onExpand(row.id, "editable")}
-        /> */}
+        />
         <Trash2 size={20} className="text-red-500" onClick={() => deleteData(row.id)}/>
       </div>
     ),

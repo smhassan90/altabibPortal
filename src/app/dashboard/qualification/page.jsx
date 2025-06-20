@@ -130,6 +130,8 @@ const page = () => {
           loader={loader}
           mode={mode}
           tableName="Qualification"
+          functionData={qualification}
+          setterFunctionData={setQualification}
         />
       </div>
       {deleteModalVisible && (

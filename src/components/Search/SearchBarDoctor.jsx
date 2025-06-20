@@ -82,6 +82,7 @@ const SearchBarDoctor = ({doctors, setDoctors, clinicId, setClinicId, searchDoct
       qualification: [],
       doctorClinic: [
         {
+          id: 1,
           clinicId: "",
           charges: "",
           startTime: "",
@@ -111,9 +112,17 @@ const SearchBarDoctor = ({doctors, setDoctors, clinicId, setClinicId, searchDoct
         clinicIds: clinicIds,
         qualificationIds: data.qualification,
         specializationIds: data.specialization,
-        doctorClinics: data.doctorClinic,
+        doctorClinics: data.doctorClinic.map(clinic=>{
+          return{
+            clinicId: clinic.clinicId,
+            charges: clinic.charges,
+            startTime: clinic.startTime,
+            endTime: clinic.endTime,
+            updateDate: clinic.updateDate,
+          }
+        }),
       };
-
+      console.log(payload,"payload")
       const response = await Axios({
         ...summary.addOrUpdateDoctor,
         data: payload,
@@ -135,6 +144,16 @@ const SearchBarDoctor = ({doctors, setDoctors, clinicId, setClinicId, searchDoct
       AxiosError(error);
     } finally {
       setLoader(false);
+      setDoctorClinics([
+        {
+          id: 1,
+          clinicId: "",
+          charges: "",
+          startTime: "",
+          endTime: "",
+          updateDate: dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+        },
+      ])
     }
   };
 

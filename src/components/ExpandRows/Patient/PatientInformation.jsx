@@ -252,7 +252,7 @@ const PatientInformation = ({
             />
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-ratio2 mt-ratio2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-ratio2 mt-ratio2 pb-ratio2 border-b border-border">
             <ReadOnlyTextAreaWithLabel
               label={"Prescription"}
               value={patient.prescription}
@@ -262,20 +262,22 @@ const PatientInformation = ({
               value={patient.diagnosis}
             />
           </div>
-
+          <h2 className="text-text text-medium 2xl:text-large font-semibold mt-ratio2">
+            Treatment Information
+          </h2>
           {/* Treatments */}
-          <div className="border-t border-border mt-ratio2 pt-ratio2">
+          <div className="mt-ratio2">
             {patient?.treatments?.length > 0 ? (
               <div className="grid grid-cols-1 gap-4">
                 {patient?.treatments?.map((record, index) => (
-                  <div key={index} className="grid grid-cols-3 gap-ratio2">
+                  <div key={index} className="grid grid-cols-2 gap-ratio2">
                     <ReadOnlyInputWithLabel
                       label={"Treatment Name"}
-                      value={record?.treatment}
+                      value={record?.name}
                     />
                     <ReadOnlyTextAreaWithLabel
                       label={"Treatment Description"}
-                      value={record?.description}
+                      value={record?.detail}
                     />
                   </div>
                 ))}

@@ -21,6 +21,7 @@ import PatientInformation from "../ExpandRows/Patient/PatientInformation";
 import PatientExpandRow from "../ExpandRows/Patient";
 import ClinicExpandRow from "../ExpandRows/Clinic";
 import DoctorExpandRow from "../ExpandRows/Doctor";
+import QualificationExpandRow from "../ExpandRows/Qualification";
 
 export function TableRow({
   data,
@@ -33,7 +34,9 @@ export function TableRow({
   errors,
   control,
   mode,
-  tableName
+  tableName,
+  functionData,
+  setterFunctionData
 }) {
   const [selectedStatus, setSelectedStatus] = useState("All Status");
   const inputcss = "h-[28px] px-2 border-b-1 border-gray-300 outline-none";
@@ -104,6 +107,17 @@ export function TableRow({
               data={data} 
               mode={mode} 
               setExpandedRow={setExpandedRow} 
+            />
+          </td>
+          )}
+          {tableName === "Qualification" && (
+          <td colSpan={columns.length} className="">
+            <QualificationExpandRow
+              data={data} 
+              mode={mode} 
+              setExpandedRow={setExpandedRow}
+              functionData={functionData}
+              setterFunctionData={setterFunctionData}
             />
           </td>
           )}

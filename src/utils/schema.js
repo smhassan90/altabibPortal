@@ -73,6 +73,9 @@ export const addDoctorSchema = z.object({
     .min(1, { message: "Qualification is required" }),
   doctorClinic: z.array(
       z.object({
+        id: z.coerce
+          .string(),
+          // .min(1, { message: "Clinic ID is required" }),
         clinicId: z.coerce
           .string()
           .min(1, { message: "Clinic Name is required" }),

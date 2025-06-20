@@ -22,12 +22,13 @@ const AddDoctorClinic = ({
     if (!isEdit) {
       console.log("hello")
       if (fields.length === 0) {
-        append({ clinicId: "", charges: "", startTime: "", endTime: "" });
+        append({ id : "", clinicId: "", charges: "", startTime: "", endTime: "" });
       }
     }
   }, [fields.length, append]);
 
   const addMoreClinics = () => {
+    console.log(doctorClinics.length,"doctorClinics.length")
     setDoctorClinics([
       ...doctorClinics,
       {
@@ -38,13 +39,16 @@ const AddDoctorClinic = ({
         charges: "",
       },
     ]);
-    append({ clinicId: "", charges: "", startTime: "", endTime: "" });
+    append({ id : doctorClinics.length + 1, clinicId: "", charges: "", startTime: "", endTime: "" });
   };
 
-  const removeClinics = (clinic) => {
+  const removeClinics = (clinic, index) => {
+    console.log(clinic,"clinic")
+    console.log(index,"index")
     if (doctorClinics.length > 1) {
-      setDoctorClinics(doctorClinics.filter((item) => item.id !== clinic?.id));
-      remove(clinic.clinicId);
+      // setDoctorClinics(doctorClinics.filter((item) => item.id !== clinic?.id));
+      setDoctorClinics(doctorClinics.filter((_, i) => i !== index));
+      remove(index);
     }
   };
   return (
@@ -189,7 +193,7 @@ const AddDoctorClinic = ({
           </div>
           {doctorClinics.length > 1 && (
             <Trash2
-              onClick={() => removeClinics(clinic)}
+              onClick={() => removeClinics(clinic,index)}
               size={20}
               className="text-red-500"
             />

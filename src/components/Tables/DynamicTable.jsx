@@ -18,7 +18,9 @@ export function DynamicTable({
   errors,
   loader,
   mode,
-  tableName
+  tableName,
+  functionData,
+  setterFunctionData
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortConfig, setSortConfig] = useState(null);
@@ -113,6 +115,8 @@ export function DynamicTable({
                   errors={errors}
                   mode={mode}
                   tableName={tableName}
+                  functionData={functionData}
+                  setterFunctionData={setterFunctionData}
                 />
               </>
             ))}

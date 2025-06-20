@@ -1,8 +1,8 @@
 import React from "react";
 
-export const ReadOnlyInputWithLabel = ({ label, value }) => {
+export const ReadOnlyInputWithLabel = ({ label, value, className }) => {
   return (
-    <div className="flex flex-col animate-fade-in-up">
+    <div className={`flex flex-col animate-fade-in-up ${className}`}>
       <label className="text-small 2xl:text-medium text-text mb-1">
         {label}
       </label>
@@ -16,9 +16,9 @@ export const ReadOnlyInputWithLabel = ({ label, value }) => {
   );
 };
 
-export const ReadOnlyTextAreaWithLabel = ({ label, value }) => {
+export const ReadOnlyTextAreaWithLabel = ({ label, value, className }) => {
   return (
-    <div className="flex flex-col animate-fade-in-up">
+    <div className={`flex flex-col animate-fade-in-up ${className}`}>
       <label className="text-small 2xl:text-medium text-text mb-1">
         {label}
       </label>
