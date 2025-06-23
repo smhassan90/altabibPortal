@@ -39,14 +39,14 @@ export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
       </div>
     ),
   },
-  { 
-    key: "patientName", 
-    label: "Patient" 
+  {
+    key: "patientName",
+    label: "Patient",
   },
-  { 
+  {
     key: "age",
-    label: "Age", 
-    sortable: true 
+    label: "Age",
+    sortable: true,
   },
   {
     key: "visitDate",
@@ -58,13 +58,13 @@ export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
       </div>
     ),
   },
-  { 
-    key: "clinicName", 
-    label: "Clinic" 
+  {
+    key: "clinicName",
+    label: "Clinic",
   },
-  { 
+  {
     key: "doctorName",
-    label: "Doctor" 
+    label: "Doctor",
   },
   {
     key: "status",
@@ -93,35 +93,38 @@ export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
     key: "actions",
     label: "Actions",
     render: (value, row) => {
-      console.log(row)
-      return(
-      <div className="flex space-x-2">
-        {row?.status == 0 ? (
-          <div className="flex items-center space-x-2">
-            {/* <EditButton className={"!px-2 !py-2"} onClick={() => onExpand(row.id)}> */}
-            <Eye
-              size={20}
-              className="text-secondary"
-              onClick={() => onExpand(row.id, "readable")}
-            />
-            {/* {user.type == 3 || user.type == 4 && <Pencil */}
-            {dayjs(row.visitDate).format("YYYY-MM-DD") == dayjs().format("YYYY-MM-DD") && <Pencil
-              size={20}
-              className="text-Tertiary"
-              onClick={() => onExpand(row.id, "editable")}
-            />}
-          </div>
-        ) : (
-          <div className="flex items-center space-x-2">
-            <Eye
-              size={20}
-              className="text-secondary"
-              onClick={() => onExpand(row.id, "readable")}
-            />
-          </div>
-        )}
-      </div>
-    )},
+      console.log(row);
+      return (
+        <div className="flex space-x-2">
+          {row?.status == 0 ? (
+            <div className="flex items-center space-x-2">
+              {/* <EditButton className={"!px-2 !py-2"} onClick={() => onExpand(row.id)}> */}
+              <Eye
+                size={20}
+                className="text-secondary"
+                onClick={() => onExpand(row.id, "readable")}
+              />
+              {dayjs(row.visitDate).format("YYYY-MM-DD") == dayjs().format("YYYY-MM-DD") &&
+                (user.type == 3 || user.type == 4) && (
+                  <Pencil
+                    size={20}
+                    className="text-Tertiary"
+                    onClick={() => onExpand(row.id, "editable")}
+                  />
+                )}
+            </div>
+          ) : (
+            <div className="flex items-center space-x-2">
+              <Eye
+                size={20}
+                className="text-secondary"
+                onClick={() => onExpand(row.id, "readable")}
+              />
+            </div>
+          )}
+        </div>
+      );
+    },
   },
 ];
 
@@ -130,13 +133,13 @@ export const clinicColumns = (onExpand, expandedRowId, deleteData) => [
     key: "id",
     label: "ID",
   },
-  { 
-    key: "name", 
-    label: "Clinic Name" 
+  {
+    key: "name",
+    label: "Clinic Name",
   },
-  { 
+  {
     key: "address",
-    label: "Address" 
+    label: "Address",
   },
   {
     key: "LatLong",
@@ -159,7 +162,7 @@ export const clinicColumns = (onExpand, expandedRowId, deleteData) => [
             className="text-Tertiary"
             onClick={() => onExpand(row.id, "editable")}
           />
-          <Trash2 
+          <Trash2
             size={20}
             className="text-red-500"
             onClick={() => deleteData(row.id)}
@@ -190,13 +193,13 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
       </div>
     ),
   },
-  { 
+  {
     key: "name",
-    label: "Doctor" 
+    label: "Doctor",
   },
-  { 
-    key: "gender", 
-    label: "Gender", 
+  {
+    key: "gender",
+    label: "Gender",
     sortable: true,
     render: (value) => (
       <div className="flex items-center justify-between capitalize">
@@ -204,23 +207,31 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
       </div>
     ),
   },
-  { 
-    key: "age", 
-    label: "Age", 
-    sortable: true 
+  {
+    key: "age",
+    label: "Age",
+    sortable: true,
   },
   {
     key: "specialization",
     label: "Specialization",
     render: (specialization) => {
-      if (!specialization || !Array.isArray(specialization) || specialization.length === 0) {
+      if (
+        !specialization ||
+        !Array.isArray(specialization) ||
+        specialization.length === 0
+      ) {
         return "-";
       }
       const colors = ["blue", "green", "red", "orange", "purple"];
       return (
         <div className="flex flex-col gap-1">
           {specialization.map((item, index) => (
-            <Tag color={item.colorCode || colors[index % colors.length]} key={index} className="w-fit">
+            <Tag
+              color={item.colorCode || colors[index % colors.length]}
+              key={index}
+              className="w-fit"
+            >
               {item.name}
             </Tag>
           ))}
@@ -233,14 +244,22 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
     label: "Qualification",
     type: [4, 5],
     render: (qualification) => {
-      if (!qualification || !Array.isArray(qualification) || qualification.length === 0) {
+      if (
+        !qualification ||
+        !Array.isArray(qualification) ||
+        qualification.length === 0
+      ) {
         return "-";
       }
       const colors = ["blue", "green", "red", "orange", "purple"];
       return (
         <div className="flex flex-col gap-1">
           {qualification.map((item, index) => (
-            <Tag color={item.colorCode || colors[index % colors.length]} key={index} className="w-fit">
+            <Tag
+              color={item.colorCode || colors[index % colors.length]}
+              key={index}
+              className="w-fit"
+            >
               {item.name}
             </Tag>
           ))}
@@ -258,11 +277,13 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
           className="text-secondary"
           onClick={() => onExpand(row.id, "readable")}
         />
-        {user.type == 5 && <Pencil
-          size={20}
-          className="text-Tertiary"
-          onClick={() => onExpand(row.id, "editable")}
-        />}
+        {user.type == 5 && (
+          <Pencil
+            size={20}
+            className="text-Tertiary"
+            onClick={() => onExpand(row.id, "editable")}
+          />
+        )}
         {/* {user.type == 5 && <Trash2 
           size={20} 
           className="text-red-500" 
@@ -310,8 +331,8 @@ export const patientColumns = (onExpand, expandedRowId, deleteData) => [
   //         className="text-Tertiary"
   //         onClick={() => onExpand(row.id, "editable")}
   //       />
-  //       {/* <Trash2 
-  //         size={20} 
+  //       {/* <Trash2
+  //         size={20}
   //         className="text-red-500"
   //         onClick={() => deleteData(row.id)}
   //       /> */}
@@ -325,9 +346,9 @@ export const specializationColumns = (onExpand, expandedRowId, deleteData) => [
     key: "id",
     label: "ID",
   },
-  { 
-    key: "name", 
-    label: "Specialization" 
+  {
+    key: "name",
+    label: "Specialization",
   },
   {
     key: "colorCode",
@@ -343,7 +364,11 @@ export const specializationColumns = (onExpand, expandedRowId, deleteData) => [
           className="text-Tertiary"
           onClick={() => onExpand(row.id, "editable")}
         />
-        <Trash2 size={20} className="text-red-500" onClick={() => deleteData(row.id)}/>
+        <Trash2
+          size={20}
+          className="text-red-500"
+          onClick={() => deleteData(row.id)}
+        />
       </div>
     ),
   },
@@ -354,9 +379,9 @@ export const qualificationColumns = (onExpand, expandedRowId, deleteData) => [
     key: "id",
     label: "ID",
   },
-  { 
-    key: "name", 
-    label: "Qualification" 
+  {
+    key: "name",
+    label: "Qualification",
   },
   {
     key: "colorCode",
@@ -372,7 +397,11 @@ export const qualificationColumns = (onExpand, expandedRowId, deleteData) => [
           className="text-Tertiary"
           onClick={() => onExpand(row.id, "editable")}
         />
-        <Trash2 size={20} className="text-red-500" onClick={() => deleteData(row.id)}/>
+        <Trash2
+          size={20}
+          className="text-red-500"
+          onClick={() => deleteData(row.id)}
+        />
       </div>
     ),
   },
