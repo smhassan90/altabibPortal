@@ -6,7 +6,7 @@ import DateInput from "../Inputs/DateInput";
 import AddButton from "@/utils/buttons/AddButton";
 import FormModal from "../Modals/FormModal";
 import { appointmentFields, doctorFields } from "@/utils/formField/formFIelds";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addAppointmentSchema, addDoctorSchema } from "@/utils/schema";
 import {
@@ -91,6 +91,11 @@ const SearchBarDoctor = ({doctors, setDoctors, clinicId, setClinicId, searchDoct
         },
       ],
     },
+  });
+
+  const { remove } = useFieldArray({
+    control,
+    name: "doctorClinic",
   });
 
   const onSubmit = async (data) => {
@@ -181,6 +186,18 @@ const SearchBarDoctor = ({doctors, setDoctors, clinicId, setClinicId, searchDoct
   const onChange = (e) => {
     setNewPatientCheck(e.target.checked);
   };
+
+  const removeClinics = (clinic, index) => {
+    console.log(clinic, "clinic");
+    console.log(index, "index");
+    if (doctorClinics.length > 1) {
+      // setDoctorClinics(doctorClinics.filter((item) => item.id !== clinic?.id));
+      setDoctorClinics(doctorClinics.filter((_, i) => i !== index));
+      remove(index);
+    }
+  };
+
+
   return (
     <div className="flex flex-col md:flex-row gap-2 mt-ratio2">
       <SearchInput 
@@ -224,6 +241,7 @@ const SearchBarDoctor = ({doctors, setDoctors, clinicId, setClinicId, searchDoct
           specialization={specialization}
           loader={loader}
           handleReset={handleReset}
+          removeClinics={removeClinics}
         />
       )}
     </div>

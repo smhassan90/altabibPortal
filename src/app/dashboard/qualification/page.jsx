@@ -112,7 +112,10 @@ const page = () => {
     <>
       <div className="mt-ratio2">
         <h2>Qualification Management</h2>
-        <SearchBarQualification />
+        <SearchBarQualification 
+          qualification={qualification}
+          setQualification={setQualification}
+        />
         <DynamicTable
           data={qualification}
           columns={qualificationColumns(

@@ -18,7 +18,7 @@ import qs from "qs";
 import { Select } from "antd";
 
 
-const SearchBarQualification = () => {
+const SearchBarQualification = ({qualification, setQualification}) => {
   const [openModal, setOpenModal] = useState(false);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -58,10 +58,11 @@ const SearchBarQualification = () => {
         },
       });
       if (response?.data?.status == 200) {
+        console.log(response?.data?.data,"response?.data?.data")
         toast.success("Qualification Add Successfully");
-        // const newSpecialization = [...specialization];
-        // newSpecialization.push(response?.data?.data);
-        // setSpecialization(newSpecialization);
+        const newQualification = [...qualification];
+        newQualification.push(response?.data?.data);
+        setQualification(newQualification);
         setOpenModal(false);
         handleReset();
       }

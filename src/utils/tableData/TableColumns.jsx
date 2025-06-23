@@ -217,7 +217,6 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
         return "-";
       }
       const colors = ["blue", "green", "red", "orange", "purple"];
-      console.log(specialization,"specialization")
       return (
         <div className="flex flex-col gap-1">
           {specialization.map((item, index) => (
@@ -264,10 +263,10 @@ export const doctorColumns = (onExpand, expandedRowId, deleteData, user) => [
           className="text-Tertiary"
           onClick={() => onExpand(row.id, "editable")}
         />}
-        {user.type == 5 && <Trash2 
+        {/* {user.type == 5 && <Trash2 
           size={20} 
           className="text-red-500" 
-          onClick={() => deleteData(row.id)}/>}
+          onClick={() => deleteData(row.id)}/>} */}
       </div>
     ),
   },

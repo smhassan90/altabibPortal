@@ -117,7 +117,10 @@ const page = () => {
     <>
       <div className="mt-ratio2">
         <h2>Specialization Management</h2>
-        <SearchBarSpecialization />
+        <SearchBarSpecialization 
+          specialization={specialization}
+          setSpecialization={setSpecialization}
+        />
         <DynamicTable
           data={specialization}
           columns={specializationColumns(handleExpand, expandedRow, deleteSpecialization)}

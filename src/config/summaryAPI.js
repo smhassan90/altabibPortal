@@ -1,5 +1,5 @@
 import axios from "axios";
-// export const baseURL = "http://192.168.18.21:8080/tabib";
+// export const baseURL = "http://192.168.18.127:8080/tabib";
 export const baseURL = "http://66.135.60.203:8080/tabib";
 // export const baseURL = "http://192.168.18.6:8080/tabib";
 
@@ -128,6 +128,10 @@ export const summary = {
   },
   getPatientHistory:{
     url: "/getPatientHistory",
+    method: "get",
+  },
+  deleteDoctorClinic:{
+    url: "/deleteDoctorClinic",
     method: "get",
   }
 };

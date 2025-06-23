@@ -210,7 +210,9 @@ export const addQualificationSchema = z.object({
     .min(1, "Qualification Name is required"),
   color: z.coerce
     .string()
-    .min(1, "Color Code is required"),
+    .regex(/^#.{6}$/, {
+      message: "Color must start with '#' followed by exactly 6 characters",
+    }),
 });
 
 
@@ -220,7 +222,9 @@ export const addSpecializationSchema = z.object({
     .min(1, "Specialization Name is required"),
   color: z.coerce
     .string()
-    .min(1, "Color Code is required"),
+    .regex(/^#.{6}$/, {
+      message: "Color must start with '#' followed by exactly 6 characters",
+    }),
 });
 
 

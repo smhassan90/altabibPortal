@@ -3,6 +3,10 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import AccordianButton from "@/utils/buttons/AccordianButton";
+import {
+  ReadOnlyInputWithLabel,
+  ReadOnlyTextAreaWithLabel,
+} from "@/components/Inputs/ReadableInputs";
 
 const PatientHistory = ({ patientHistory }) => {
   const [openAccordion, setOpenAccordion] = useState(null);
@@ -48,97 +52,56 @@ const PatientHistory = ({ patientHistory }) => {
                     : "max-h-0 opacity-0 -translate-y-2 scale-95"
                 }`}
               >
-                {/* First Row - 3 Inputs */}
-                <div className="px-ratio1 py-ratio2 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                  <div className="flex flex-col">
-                    <label className="mb-2 font-medium text-gray-700">
-                      Blood Pressure:
-                    </label>
-                    <input
-                      type="text"
-                      readOnly
-                      value={record.bloodPressure || "Not Found"}
-                      className="bg-gray-100 border border-gray-300 rounded px-3 py-2 focus:outline-none hover:border-orange-400 focus:border-orange-500"
-                    />
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label className="mb-2 font-medium text-gray-700">
-                      Weight:
-                    </label>
-                    <input
-                      type="text"
-                      readOnly
-                      value={record.weight || "Not Found"}
-                      className="bg-gray-100 border border-gray-300 rounded px-3 py-2 focus:outline-none hover:border-orange-400 focus:border-orange-500"
-                    />
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label className="mb-2 font-medium text-gray-700">
-                      FollowUp Date:
-                    </label>
-                    <input
-                      type="text"
-                      readOnly
-                      value={record.followupDate || "Not Found"}
-                      className="bg-gray-100 border border-gray-300 rounded px-3 py-2 focus:outline-none hover:border-orange-400 focus:border-orange-500"
-                    />
-                  </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-ratio2 mt-ratio2 px-ratio2">
+                  <ReadOnlyInputWithLabel
+                    label={"Blood Pressure"}
+                    value={record.bloodPressure}
+                  />
+                  <ReadOnlyInputWithLabel
+                    label={"Weight"}
+                    value={record.weight}
+                  />
+                  <ReadOnlyInputWithLabel
+                    label={"FollowUp Date"}
+                    value={record.followupDate}
+                  />
                 </div>
 
-                {/* Second Row */}
-                <div className="px-ratio1 py-ratio2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="flex flex-col">
-                    <label className="mb-2 font-medium text-gray-700">
-                      Prescription:
-                    </label>
-                    <input
-                      type="text"
-                      readOnly
-                      value={record.prescription || "Not Found"}
-                      className="bg-gray-100 border border-gray-300 rounded px-3 py-2 focus:outline-none hover:border-orange-400 focus:border-orange-500"
-                    />
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label className="mb-2 font-medium text-gray-700">
-                      Diagnosis:
-                    </label>
-                    <input
-                      type="text"
-                      readOnly
-                      value={record.diagnosis || "Not Found"}
-                      className="bg-gray-100 border border-gray-300 rounded px-3 py-2 focus:outline-none hover:border-orange-400 focus:border-orange-500"
-                    />
-                  </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-ratio2 mt-ratio2 pb-ratio2 border-b border-border px-ratio2">
+                  <ReadOnlyTextAreaWithLabel
+                    label={"Prescription"}
+                    value={record.prescription}
+                  />
+                  <ReadOnlyTextAreaWithLabel
+                    label={"Diagnosis"}
+                    value={record.diagnosis}
+                  />
                 </div>
 
-                {/* Third Row */}
-                <div className="px-ratio1 py-ratio2 grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="flex flex-col">
-                    <label className="mb-2 font-medium text-gray-700">
-                      Treatment Name:
-                    </label>
-                    <input
-                      type="text"
-                      readOnly
-                      value={record.bloodPressure}
-                      className="bg-gray-100 border border-gray-300 rounded px-3 py-2 focus:outline-none hover:border-orange-400 focus:border-orange-500"
-                    />
-                  </div>
-
-                  <div className="flex flex-col">
-                    <label className="mb-2 font-medium text-gray-700">
-                      Description:
-                    </label>
-                    <input
-                      type="text"
-                      readOnly
-                      value={record.bloodPressure}
-                      className="bg-gray-100 border border-gray-300 rounded px-3 py-2 focus:outline-none hover:border-orange-400 focus:border-orange-500"
-                    />
-                  </div>
+                <div className="py-ratio2">
+                  {record?.treatments?.length > 0 ? (
+                    <div className="grid grid-cols-1 gap-4">
+                      {record?.treatments?.map((rec, index) => (
+                        <div
+                          key={index}
+                          className="grid grid-cols-2 gap-ratio2"
+                        >
+                          <ReadOnlyInputWithLabel
+                            label={"Treatment Name"}
+                            value={rec?.name}
+                          />
+                          <ReadOnlyTextAreaWithLabel
+                            label={"Treatment Description"}
+                            value={rec?.detail}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-medium text-text text-center">
+                      No Treatments
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

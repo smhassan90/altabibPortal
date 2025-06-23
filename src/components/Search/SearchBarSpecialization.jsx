@@ -27,7 +27,7 @@ import { AxiosError } from "@/utils/axiosError";
 import dayjs from "dayjs";
 import qs from "qs";
 import { Select } from "antd";
-const SearchBarSpecialization = () => {
+const SearchBarSpecialization = ({specialization, setSpecialization}) => {
   const [openModal, setOpenModal] = useState(false);
   const [newPatientCheck, setNewPatientCheck] = useState(false);
   const [loader, setLoader] = useState(false);
@@ -68,9 +68,9 @@ const SearchBarSpecialization = () => {
       });
       if (response?.data?.status == 200) {
         toast.success("specialization Add Successfully");
-        // const newSpecialization = [...specialization];
-        // newSpecialization.push(response?.data?.data);
-        // setSpecialization(newSpecialization);
+        const newSpecialization = [...specialization];
+        newSpecialization.push(response?.data?.data);
+        setSpecialization(newSpecialization);
         setOpenModal(false);
         handleReset();
       }

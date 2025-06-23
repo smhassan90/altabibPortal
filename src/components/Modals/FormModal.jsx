@@ -44,7 +44,8 @@ const FormModal = ({
   qualification,
   specialization,
   checked,
-  setChecked
+  setChecked,
+  removeClinics
 }) => {
   const handleClose = () => {
     setOpen(false);
@@ -256,6 +257,7 @@ const FormModal = ({
             control={control}
             errors={errors}
             clinics={clinics}
+            removeClinics={removeClinics}
           />
         )}
         <div className="flex justify-end gap-2 mt-4">

@@ -12,23 +12,33 @@ const AddDoctorClinic = ({
   errors,
   clinics,
   isEdit = false,
+  // setDeleteModalVisible,
+  removeClinics,
 }) => {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "doctorClinic",
   });
 
+  console.log(doctorClinics, "doctorClinics");
+  console.log(fields, "fields");
+
   useEffect(() => {
     if (!isEdit) {
-      console.log("hello")
       if (fields.length === 0) {
-        append({ id : "", clinicId: "", charges: "", startTime: "", endTime: "" });
+        append({
+          id: "",
+          clinicId: "",
+          charges: "",
+          startTime: "",
+          endTime: "",
+        });
       }
     }
   }, [fields.length, append]);
 
   const addMoreClinics = () => {
-    console.log(doctorClinics.length,"doctorClinics.length")
+    console.log(doctorClinics.length, "doctorClinics.length");
     setDoctorClinics([
       ...doctorClinics,
       {
@@ -39,25 +49,33 @@ const AddDoctorClinic = ({
         charges: "",
       },
     ]);
-    append({ id : doctorClinics.length + 1, clinicId: "", charges: "", startTime: "", endTime: "" });
+    append({
+      id: doctorClinics.length + 1,
+      clinicId: "",
+      charges: "",
+      startTime: "",
+      endTime: "",
+    });
   };
 
-  const removeClinics = (clinic, index) => {
-    console.log(clinic,"clinic")
-    console.log(index,"index")
-    if (doctorClinics.length > 1) {
-      // setDoctorClinics(doctorClinics.filter((item) => item.id !== clinic?.id));
-      setDoctorClinics(doctorClinics.filter((_, i) => i !== index));
-      remove(index);
-    }
-  };
+  // const removeClinics = (clinic, index) => {
+  //   console.log(clinic, "clinic");
+  //   console.log(index, "index");
+  //   if (doctorClinics.length > 1) {
+  //     // setDoctorClinics(doctorClinics.filter((item) => item.id !== clinic?.id));
+  //     setDoctorClinics(doctorClinics.filter((_, i) => i !== index));
+  //     remove(index);
+  //   }
+  // };
   return (
     <div className="mt-ratio2">
       {doctorClinics.map((clinic, index) => (
         <div className="flex justify-between gap-ratio2 mt-ratio2 pb-ratio2 border-b border-border">
           <div
             key={index}
-            className={`w-full grid ${isEdit ? "grid-cols-4" : "grid-cols-2"} gap-ratio2`}
+            className={`w-full grid ${
+              isEdit ? "grid-cols-4" : "grid-cols-2"
+            } gap-ratio2`}
           >
             <div className={`relative w-full`}>
               <label
@@ -70,7 +88,6 @@ const AddDoctorClinic = ({
                 control={control}
                 name={`doctorClinic.${index}.clinicId`}
                 render={({ field: controllerField }) => {
-                  console.log(controllerField);
                   return (
                     <Select
                       options={clinics}
@@ -193,7 +210,10 @@ const AddDoctorClinic = ({
           </div>
           {doctorClinics.length > 1 && (
             <Trash2
-              onClick={() => removeClinics(clinic,index)}
+              onClick={() => {
+                removeClinics(clinic, index);
+                // isEdit && setDeleteModalVisible(true)
+              }}
               size={20}
               className="text-red-500"
             />

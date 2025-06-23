@@ -345,7 +345,6 @@ const MultipleSelectInputsWithUnderLine = ({
         control={control}
         name={name}
         render={({ field: controllerField }) => {
-          console.log(controllerField)
           return (
             <Select
               mode="multiple"
@@ -399,7 +398,6 @@ const SelectInputsWithUnderLine = ({
           control={control}
           name={name}
           render={({ field: controllerField }) => {
-            console.log(controllerField)
             return(
             <Select
               options={options}
@@ -568,117 +566,6 @@ const MultipleSelectInputs = ({
     </div>
   );
 };
-
-// const SingleSelectInputs = ({
-//   label,
-//   input,
-//   type,
-//   register,
-//   errors,
-//   name,
-//   options,
-//   control,
-//   className,
-//   setValue,
-//   labelClassName,
-// }) => {
-//   const handleChange = (value) => {
-//     console.log(`selected ${value}`);
-//   };
-//   const option = useMemo(() => {
-//     return options?.map((item) => ({
-//       value: item.id,
-//       label: item.name,
-//     }));
-//   }, [options]);
-
-//   return (
-//     // <div className={`relative w-full mb-3 ${className}`}>
-//     //   {label && (
-//     //     <label
-//     //       className={`block text-small 2xl:text-medium mb-2 text-text`}
-//     //       htmlFor="grid-password"
-//     //     >
-//     //       {label}&nbsp;:
-//     //     </label>
-//     //   )}
-//     //   <Controller
-//     //     control={control}
-//     //     name={name}
-//     //     render={({ field: controllerField }) => {
-//     //       return (
-//     //         <Select
-//     //           options={option}
-//     //           className="!h-[40px] placeholder:!text-gray w-full flex-2"
-//     //           placeholder={input}
-//     //           status={errors[name] ? "error" : ""}
-//     //           value={controllerField.value ? controllerField.value : undefined}
-//     //           onChange={(value, option) => {
-//     //             controllerField.onChange(value);
-//     //             if (name === "patientId") {
-//     //               setValue("patientName", option.label);
-//     //             } else if (name === "doctorId") {
-//     //               setValue("doctorName", option.label);
-//     //             } else if (name === "clinicId") {
-//     //               setValue("clinicName", option.label);
-//     //             }
-//     //           }}
-//     //         />
-//     //       );
-//     //     }}
-//     //   />
-//     //   {errors[name] && (
-//     //     <span className="text-red-500 text-xs mt-1">
-//     //       {errors[name]?.message}
-//     //     </span>
-//     //   )}
-//     // </div>
-//     <div className={`relative w-full mb-3 ${className}`}>
-//        {label && (
-//     <label
-//       className={`block text-small bg-red 3xl:text-medium mt-2 text-text`}
-//       htmlFor="grid-password"
-//     >
-//       {label}&nbsp;:
-//     </label>
-//   )}
-//   <Controller
-//     control={control}
-//     name={name}
-//     render={({ field: controllerField }) => {
-//       return (
-//         <Select
-//           options={option}
-//           className="!h-[40px] placeholder:!text-gray w-full flex-2"
-//           placeholder={input}
-//           status={errors[name] ? "error" : ""}
-//           value={controllerField.value ? controllerField.value : undefined}
-//           onChange={(value, option) => {
-//             controllerField.onChange(value);
-//             if (name === "patientId") {
-//               setValue("patientName", option.label);
-//             } else if (name === "doctorId") {
-//               setValue("doctorName", option.label);
-//             } else if (name === "clinicId") {
-//               setValue("clinicName", option.label);
-//             }
-//           }}
-//         />
-//       );
-//     }}
-//   />
-
- 
-
-//   {errors[name] && (
-//     <span className="text-red-500 text-xs mt-1">
-//       {errors[name]?.message}
-//     </span>
-//   )}
-// </div>
-
-//   );
-// };
 
 
 const SingleSelectInputs = ({

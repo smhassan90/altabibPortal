@@ -10,7 +10,7 @@ const DoctorExpandRow = ({ data, mode, setExpandedRow, fetchAppointment }) => {
   const [loader, setLoader] = useState(false);
   const { TOKEN } = useContext(AppContext);
   const { patientId } = data;
-  console.log(patientHistory, "patientHistory");
+  // console.log(patientHistory, "patientHistory");
   return (
     <>
       <div className="mx-ratio2 px-ratio2 py-ratio2 bg-Bluish text-small text-gray-700">

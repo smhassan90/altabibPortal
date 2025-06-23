@@ -27,24 +27,27 @@ const Login = () => {
   } = useForm({
     resolver: zodResolver(loginSchema),
   });
-  const [type,setType] = useState(5)
+  const [type, setType] = useState(5);
   const [loader, setLoader] = useState(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(logout())
+    dispatch(logout());
   }, [dispatch]);
   const router = useRouter();
   const onSubmit = async (data) => {
     try {
       setLoader(true);
-      const response = await axios.get(`${baseURL}/login?username=${data.username}&password=${data.password}&UUID=${dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")}&type=${type}`)
+      const response = await axios.get(
+        `${baseURL}/login?username=${data.username}&password=${
+          data.password
+        }&UUID=${dayjs(new Date()).format("YYYY-MM-DD HH:mm:ss")}&type=${type}`
+      );
       if (response.data.status == "200") {
-        toast.success("Login Successfully")
+        toast.success("Login Successfully");
         dispatch(login(response.data.data.loginStatus));
         router.push("/dashboard");
-      }
-      else{
-        toast.error("Failed Request")
+      } else {
+        toast.error("Failed Request");
       }
     } catch (error) {
       console.log(error);
@@ -54,8 +57,7 @@ const Login = () => {
     }
   };
   return (
-    <div 
-  className="w-screen h-screen bg-cover bg-center bg-blend-overlay bg-[#0066a1] flex items-center justify-center">
+    <div className="w-screen h-screen bg-cover bg-center bg-blend-overlay bg-[#0066a1] flex items-center justify-center">
       <div className="flex content-center items-center justify-center top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 absolute w-full lg:w-5/12 px-4">
         <div className="bg-white relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
           <div className="rounded-t text-center mb-0 px-6 py-6">
@@ -78,7 +80,13 @@ const Login = () => {
                 placeholder="Select Type"
                 allowClear={true}
                 className="w-full !mb-3 !h-[40px]"
-                onChange={(value)=>setType(value)}
+                onChange={(value) => {
+                  if (value === undefined) {
+                    setType("5")
+                  } else {
+                    setType(value)
+                  }
+                }}
               >
                 <Option key="4" value="4">
                   As a Clinic
@@ -89,7 +97,7 @@ const Login = () => {
               </Select>
               <AddButton>Log in</AddButton>
 
-              <div className="w-1/2">
+              {/* <div className="w-1/2">
                 <a
                   href="#pablo"
                   // onClick={(e) => e.preventDefault()}
@@ -97,7 +105,7 @@ const Login = () => {
                 >
                   <small>Forgot password?</small>
                 </a>
-              </div>
+              </div> */}
             </form>
           </div>
         </div>
