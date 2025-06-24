@@ -10,6 +10,7 @@ tomorrow.setDate(tomorrow.getDate() + 1);
 export const loginSchema = z.object({
   username: z.string().min(1, "User Name is required"),
   password: z.string().min(1, "Password is required"),
+  userType: z.string().min(1, "User type is required"),
 });
 
 

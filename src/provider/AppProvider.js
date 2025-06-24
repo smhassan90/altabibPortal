@@ -45,7 +45,7 @@ const AppProvider = ({ children }) => {
     setAppointmentId(0);
     setVisitDate(dayjs().format("YYYY-MM-DD"));
   };
-  const fetchAllSummaryData = useCallback(async () => {
+  const fetchAllSummaryData = useCallback(async (token) => {
     setLoading(true)
     try {
       const [
@@ -57,23 +57,23 @@ const AppProvider = ({ children }) => {
       ] = await Promise.all([
         Axios({
           ...summary.getSummaryDoctors,
-          params: { token: TOKEN },
+          params: { token: token },
         }),
         Axios({
           ...summary.getSummaryClinics,
-          params: { token: TOKEN },
+          params: { token: token },
         }),
         Axios({
           ...summary.getSummaryAppointment,
-          params: { token: TOKEN },
+          params: { token: token },
         }),
         Axios({
           ...summary.getSummaryPatients,
-          params: { token: TOKEN },
+          params: { token: token },
         }),
         Axios({
           ...summary.getSummaryEarnings,
-          params: { token: TOKEN },
+          params: { token: token },
         }),
       ]);
       setDoctorSummary(doctorsRes.data);

@@ -16,8 +16,8 @@ const SummaryCard = () => {
   console.log(patientSummary,"patientSummary")
   console.log(appointmentSummary,"appointmentSummary")
   useEffect(()=>{
-    fetchAllSummaryData()
-  },[])
+    user && fetchAllSummaryData(user.token)
+  },[user])
   const data = [
     {
       icon: clinic,
