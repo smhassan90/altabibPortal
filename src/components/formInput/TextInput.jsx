@@ -49,12 +49,14 @@ const TextInputs = ({
   control,
   disabled,
   className,
+  classNamelabel,
+  classNameInput
 }) => {
   return (
     <div className={`relative w-full mb-3 ${className}`}>
       {label && (
         <label
-          className="block text-small 2xl:text-medium mb-2 text-text"
+          className={`block text-small 2xl:text-medium mb-2 text-text ${classNamelabel}`}
           htmlFor="grid-password"
         >
           {label}
@@ -67,7 +69,7 @@ const TextInputs = ({
           <Input
             type={type}
             placeholder={input}
-            className="!h-[40px] placeholder:!text-gray"
+            className={`!h-[40px] placeholder:!text-gray ${classNameInput}`}
             status={errors[name] ? "error" : ""}
             value={controllerField.value}
             onChange={controllerField.onChange}
@@ -94,12 +96,14 @@ const PasswordInputs = ({
   control,
   disabled,
   className,
+  classNamelabel,
+  classNameInput
 }) => {
   return (
     <div className={`relative w-full mb-3 ${className}`}>
       {label && (
         <label
-          className="block text-small 2xl:text-medium mb-2 text-text"
+          className={`block text-small 2xl:text-medium mb-2 text-text ${classNamelabel}`}
           htmlFor="grid-password"
         >
           {label}
@@ -112,7 +116,7 @@ const PasswordInputs = ({
           <Input.Password
             type={type}
             placeholder={input}
-            className="!h-[40px] placeholder:!text-gray"
+            className={`!h-[40px] placeholder:!text-gray ${classNameInput}`}
             status={errors[name] ? "error" : ""}
             value={controllerField.value}
             onChange={controllerField.onChange}
@@ -430,7 +434,8 @@ const SelectInputs = ({
   errors,
   name,
   options,
-  className,
+  classNamelabel,
+  className
 }) => {
   const handleChange = (value) => {
     console.log(`selected ${value}`);
@@ -439,7 +444,7 @@ const SelectInputs = ({
     <div className={`relative w-full mb-3`}>
       {label && (
         <label
-          className="block text-small 2xl:text-medium mb-2 text-text"
+          className={`block text-small 2xl:text-medium mb-2 text-text ${classNamelabel}`}
           htmlFor="grid-password"
         >
           {label}
