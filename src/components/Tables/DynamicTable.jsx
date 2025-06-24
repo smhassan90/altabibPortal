@@ -101,9 +101,8 @@ export function DynamicTable({
           />
           <tbody className="bg-white divide-y divide-gray-200">
             {paginatedData?.map((row, index) => (
-              <>
                 <TableRow
-                  key={row}
+                  key={index}
                   data={row}
                   columns={columns}
                   index={index}
@@ -118,7 +117,6 @@ export function DynamicTable({
                   functionData={functionData}
                   setterFunctionData={setterFunctionData}
                 />
-              </>
             ))}
           </tbody>
         </table>

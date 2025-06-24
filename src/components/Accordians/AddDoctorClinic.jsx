@@ -70,9 +70,8 @@ const AddDoctorClinic = ({
   return (
     <div className="mt-ratio2">
       {doctorClinics.map((clinic, index) => (
-        <div className="flex justify-between gap-ratio2 mt-ratio2 pb-ratio2 border-b border-border">
+        <div key={index} className="flex justify-between gap-ratio2 mt-ratio2 pb-ratio2 border-b border-border">
           <div
-            key={index}
             className={`w-full grid ${
               isEdit ? "grid-cols-4" : "grid-cols-2"
             } gap-ratio2`}

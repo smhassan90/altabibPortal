@@ -10,11 +10,6 @@ import clinic from '../../assets/icons/clinic.svg';
 import { AppContext } from "@/provider/AppProvider";
 const SummaryCard = () => {
   const {user, doctorSummary, clinicSummary, earningSummary, patientSummary, appointmentSummary, fetchAllSummaryData} = useContext(AppContext)
-  console.log(doctorSummary,"doctorSummary")
-  console.log(clinicSummary,"clinicSummary")
-  console.log(earningSummary,"earningSummary")
-  console.log(patientSummary,"patientSummary")
-  console.log(appointmentSummary,"appointmentSummary")
   useEffect(()=>{
     user && fetchAllSummaryData(user.token)
   },[user])

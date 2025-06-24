@@ -57,7 +57,9 @@ const SearchBarAppointment = ({
       fetchDoctorDropdown();
       fetchPatients();
     }
-    fetchTreatmentDropdown();
+    if (user.type == 4 || user.type == 3) {
+      fetchTreatmentDropdown();
+    }
   }, []);
 
   const sortedTreatment = treatmentBank?.map((treatment) => ({

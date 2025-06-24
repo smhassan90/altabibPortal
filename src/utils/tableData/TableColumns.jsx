@@ -93,7 +93,6 @@ export const AppoitmentColumns = (onExpand, expandedRowId, user) => [
     key: "actions",
     label: "Actions",
     render: (value, row) => {
-      console.log(row);
       return (
         <div className="flex space-x-2">
           {row?.status == 0 ? (
@@ -143,14 +142,14 @@ export const clinicColumns = (onExpand, expandedRowId, deleteData) => [
   },
   {
     key: "LatLong",
-    label: "Latitude",
-    render: (value, row) => <div>{value.split(",")[0]}</div>,
+    label: `Latitude   Longitude`,
+    render: (value, row) => <div>{value.split(",")[0]}&nbsp;&nbsp;&nbsp;{value.split(",")[1]}</div>,
   },
-  {
-    key: "LatLong",
-    label: "Longitude",
-    render: (value, row) => <div>{value.split(",")[1]}</div>,
-  },
+  // {
+  //   key: "LatLong",
+  //   label: "Longitude",
+  //   render: (value, row) => <div>{value.split(",")[1]}</div>,
+  // },
   {
     key: "actions",
     label: "Actions",

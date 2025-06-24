@@ -40,7 +40,6 @@ const SearchBarPatient = ({
     fetchDoctorDropdown();
     fetchPatients();
   }, []);
-  console.log(doctors, "doctors");
   const sortedDoctor = doctors.map((doctor) => ({
     label: doctor.name,
     value: doctor.id,

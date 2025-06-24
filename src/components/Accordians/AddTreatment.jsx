@@ -48,9 +48,8 @@ const AddTreatment = ({
   return (
     <div className="mt-ratio2">
       {treatments.map((treatment, index) => (
-        <div className="flex justify-between gap-ratio2 mt-ratio2">
+        <div key={index} className="flex justify-between gap-ratio2 mt-ratio2">
           <div
-            key={index}
             className="w-full grid grid-cols-1 sm:grid-cols-2 gap-ratio2"
           >
             <div className={`relative w-full`}>

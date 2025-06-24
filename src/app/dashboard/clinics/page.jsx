@@ -23,7 +23,6 @@ const page = () => {
   const [mode, setMode] = useState("");
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   const [deleteId, setDeleteId] = useState("");
-  console.log(searchClinic,"searchClinic")
   const {
     register,
     handleSubmit,

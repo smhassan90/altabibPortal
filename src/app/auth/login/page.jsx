@@ -127,7 +127,7 @@ import { loginFields } from "@/utils/formField/authFields";
 import { loginSchema } from "@/utils/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
-import logo from "@/assets/icons/clinic.svg";
+import logo from "@/assets/img/adaptive-icon.png";
 import React, { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import Spinner from "@/components/Spinner/Spinner";
@@ -191,6 +191,9 @@ const Login = () => {
     <div className="h-full min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-md w-full space-y-8 bg-white rounded-xl shadow-md overflow-hidden p-8 login-container transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
         <div className="text-center">
+          <div className="flex justify-center">
+            <Image src={logo} width={100} height={100} className="h-30 w-30" alt="logo"/>
+          </div>
           <h2 className="mt-ratio2 text-3xl font-bold text-text">LOGIN</h2>
           <p className="mt-2 text-sm text-gray-600">
             Please sign in to access your account
